@@ -51,6 +51,7 @@ activePage: pomodoro
   <button class="btn btn-secondary" onclick="resetPom()">Reset</button>
   <button class="btn btn-secondary" onclick="skipPom()">Skip</button>
 </div>
+<div style="margin-top:1rem;font-size:0.75rem;color:var(--hint);">Press <kbd style="background:var(--surface2);border:1px solid var(--border2);border-radius:4px;padding:1px 6px;font-family:'DM Mono',monospace;font-size:0.72rem;">Space</kbd> to start or pause</div>
 
 <hr class="divider">
 
@@ -192,4 +193,27 @@ function updateStats() {
     : mins+'m';
   document.getElementById('statStreak').textContent = streak;
 }
+
+// Tab title
+function updateTabTitle() {
+  if (running && remaining > 0) {
+    const m = Math.floor(remaining/60);
+    const s = remaining%60;
+    const t = String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+    document.title = t + ' – Timerrapp';
+  } else {
+    document.title = 'Pomodoro Timer — Free Online Pomodoro Clock | Timerrapp';
+  }
+}
+setInterval(updateTabTitle, 1000);
+
+// Space to Start/Pause
+document.addEventListener('keydown', function(e) {
+  if (e.code !== 'Space') return;
+  const tag = document.activeElement.tagName.toLowerCase();
+  if (tag === 'input' || tag === 'textarea' || tag === 'select') return;
+  e.preventDefault();
+  togglePom();
+});
+
 </script>
