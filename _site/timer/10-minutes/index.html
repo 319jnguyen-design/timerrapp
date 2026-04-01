@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>10 Minutes Timer — Free Online Countdown | Timerrapp</title>
+<meta name="description" content="Free online 10 Minutes timer. Starts instantly in your browser. No download needed — just click Start.">
+<link rel="canonical" href="https://timerrapp.com/timer/10-minutes/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400&family=DM+Sans:wght@300;400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0a0f;
+  --surface: #13131a;
+  --surface2: #1c1c26;
+  --border: rgba(255,255,255,0.08);
+  --border2: rgba(255,255,255,0.14);
+  --text: #f0ede8;
+  --muted: rgba(240,237,232,0.45);
+  --hint: rgba(240,237,232,0.2);
+  --accent: #c8a96e;
+  --danger: #e05c5c;
+  --success: #5ce0a0;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+  z-index: 0;
+}
+header {
+  position: relative; z-index: 10;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.25rem 2.5rem;
+  border-bottom: 1px solid var(--border);
+  background: rgba(10,10,15,0.85);
+  backdrop-filter: blur(12px);
+}
+.logo {
+  font-family: 'Instrument Serif', serif;
+  font-size: 1.4rem;
+  color: var(--text);
+  text-decoration: none;
+}
+.logo span { color: var(--accent); font-style: italic; }
+nav { display: flex; gap: 4px; }
+nav a {
+  color: var(--muted);
+  text-decoration: none;
+  padding: 6px 14px;
+  border-radius: 100px;
+  font-size: 0.85rem;
+  border: 1px solid transparent;
+  transition: all 0.2s;
+}
+nav a:hover { color: var(--text); border-color: var(--border2); }
+nav a.active { color: var(--text); background: var(--surface2); border-color: var(--border2); }
+main {
+  position: relative; z-index: 1;
+  flex: 1;
+  max-width: 680px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 3rem 2rem 5rem;
+  text-align: center;
+}
+.page-title {
+  font-family: 'Instrument Serif', serif;
+  font-size: 2.4rem;
+  font-weight: 400;
+  margin-bottom: 0.4rem;
+}
+.page-subtitle {
+  color: var(--muted);
+  font-size: 0.95rem;
+  margin-bottom: 2.5rem;
+}
+/* Buttons */
+.btn {
+  padding: 0.75rem 1.8rem;
+  border-radius: 10px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.95rem;
+  cursor: pointer;
+  font-weight: 500;
+  border: none;
+  transition: opacity 0.2s, border-color 0.2s;
+}
+.btn-primary { background: var(--accent); color: #0a0a0f; }
+.btn-primary:hover { opacity: 0.85; }
+.btn-secondary { background: transparent; border: 1px solid var(--border2); color: var(--text); }
+.btn-secondary:hover { border-color: rgba(255,255,255,0.3); }
+.btn-danger { background: transparent; border: 1px solid var(--danger); color: var(--danger); }
+/* Inputs */
+.input-field {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  color: var(--text);
+  padding: 0.75rem 1rem;
+  font-family: 'DM Mono', monospace;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s;
+  text-align: center;
+}
+.input-field:focus { border-color: var(--accent); }
+.field-label {
+  display: block;
+  font-size: 0.72rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 6px;
+  text-align: center;
+}
+/* Sound picker */
+.sound-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 1.25rem 0;
+  flex-wrap: wrap;
+}
+.sound-row label { font-size: 0.8rem; color: var(--muted); }
+.sound-select {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  color: var(--text);
+  padding: 6px 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.85rem;
+  outline: none;
+  cursor: pointer;
+}
+.sound-select:focus { border-color: var(--accent); }
+.sound-select option { background: var(--surface2); }
+.btn-test {
+  padding: 6px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--border2);
+  background: transparent;
+  color: var(--muted);
+  font-size: 0.8rem;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  transition: all 0.15s;
+}
+.btn-test:hover { border-color: var(--accent); color: var(--accent); }
+/* Chips */
+.chips { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 1.5rem; }
+.chip {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 5px 16px;
+  font-size: 0.82rem;
+  color: var(--muted);
+  cursor: pointer;
+  font-family: 'DM Mono', monospace;
+  transition: all 0.15s;
+}
+.chip:hover { border-color: var(--accent); color: var(--accent); }
+/* Control row */
+.controls { display: flex; gap: 10px; justify-content: center; margin-top: 1.5rem; flex-wrap: wrap; }
+/* Divider */
+.divider { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+/* Section label */
+.section-label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--hint);
+  margin-bottom: 1rem;
+}
+footer {
+  position: relative; z-index: 1;
+  text-align: center;
+  padding: 1.5rem;
+  font-size: 0.78rem;
+  color: var(--hint);
+  border-top: 1px solid var(--border);
+}
+footer a { color: var(--hint); text-decoration: none; }
+footer a:hover { color: var(--accent); }
+@media (max-width: 520px) {
+  header { padding: 1rem 1.25rem; }
+  nav a { padding: 5px 10px; font-size: 0.78rem; }
+  main { padding: 2rem 1.25rem 3rem; }
+  .page-title { font-size: 2rem; }
+}
+
+/* Shared sound engine */
+</style>
+</head>
+<body>
+<header>
+  <a href="/" class="logo">Timerr<span>app</span></a>
+  <nav>
+    <a href="/" >Clock</a>
+    <a href="/alarm/" >Alarm</a>
+    <a href="/timer/" class="active">Timer</a>
+    <a href="/stopwatch/" >Stopwatch</a>
+    <a href="/pomodoro/" >Pomodoro</a>
+  </nav>
+</header>
+<main>
+  
+<h1 style="font-family:'Instrument Serif',serif; font-size:2.5rem; font-weight:400; margin-bottom:0.5rem;">10 Minutes Timer</h1>
+<p style="color:var(--muted); margin-bottom:2.5rem;">A free online 10 Minutes countdown timer. Click Start and keep this tab open.</p>
+
+<div style="text-align:center; padding:2rem 0;">
+  <div style="position:relative; display:inline-block;">
+    <svg width="200" height="200" viewBox="0 0 200 200" style="transform:rotate(-90deg)">
+      <circle fill="none" stroke="var(--surface2)" stroke-width="4" cx="100" cy="100" r="92"/>
+      <circle fill="none" stroke="var(--accent)" stroke-width="4" stroke-linecap="round"
+        cx="100" cy="100" r="92" stroke-dasharray="578.1" stroke-dashoffset="0"
+        id="timerRing" style="transition:stroke-dashoffset 1s linear, stroke 0.3s;"/>
+    </svg>
+    <div style="position:absolute; top:0; left:0; width:200px; height:200px; display:flex; align-items:center; justify-content:center;">
+      <div style="font-family:'DM Mono',monospace; font-size:2.2rem; font-weight:300;" id="timerDisplay">10 Minutes</div>
+    </div>
+  </div>
+  <div style="margin-top:2rem; display:flex; gap:10px; justify-content:center;">
+    <button onclick="toggleTimer()" id="startBtn" style="padding:0.7rem 1.8rem; border-radius:10px; border:none; background:var(--accent); color:#0a0a0f; font-weight:500; cursor:pointer; font-family:'DM Sans',sans-serif;">Start</button>
+    <button onclick="resetTimer()" style="padding:0.7rem 1.4rem; border-radius:10px; border:1px solid var(--border2); background:transparent; color:var(--text); cursor:pointer; font-family:'DM Sans',sans-serif;">Reset</button>
+  </div>
+</div>
+
+<div style="margin-top:3rem; padding-top:2rem; border-top:1px solid var(--border);">
+  <h2 style="font-size:0.75rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted); margin-bottom:1rem; font-weight:400;">Other timers</h2>
+  <div style="display:flex; flex-wrap:wrap; gap:8px;">
+    
+    
+    <a href="/timer/1-minute/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">1 Minute</a>
+    
+    
+    
+    <a href="/timer/2-minutes/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">2 Minutes</a>
+    
+    
+    
+    <a href="/timer/3-minutes/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">3 Minutes</a>
+    
+    
+    
+    <a href="/timer/4-minutes/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">4 Minutes</a>
+    
+    
+    
+    <a href="/timer/5-minutes/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">5 Minutes</a>
+    
+    
+    
+    <a href="/timer/6-minutes/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">6 Minutes</a>
+    
+    
+    
+    <a href="/timer/7-minutes/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">7 Minutes</a>
+    
+    
+    
+    <a href="/timer/8-minutes/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">8 Minutes</a>
+    
+    
+    
+    <a href="/timer/9-minutes/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">9 Minutes</a>
+    
+    
+    
+    
+    
+    <a href="/timer/11-minutes/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">11 Minutes</a>
+    
+    
+    
+    <a href="/timer/12-minutes/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">12 Minutes</a>
+    
+    
+    
+    <a href="/timer/13-minutes/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">13 Minutes</a>
+    
+    
+    
+    <a href="/timer/14-minutes/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">14 Minutes</a>
+    
+    
+    
+    <a href="/timer/15-minutes/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">15 Minutes</a>
+    
+    
+    
+    <a href="/timer/20-minutes/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">20 Minutes</a>
+    
+    
+    
+    <a href="/timer/25-minutes/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">25 Minutes</a>
+    
+    
+    
+    <a href="/timer/30-minutes/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">30 Minutes</a>
+    
+    
+    
+    <a href="/timer/35-minutes/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">35 Minutes</a>
+    
+    
+    
+    <a href="/timer/40-minutes/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">40 Minutes</a>
+    
+    
+    
+    <a href="/timer/45-minutes/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">45 Minutes</a>
+    
+    
+    
+    <a href="/timer/50-minutes/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">50 Minutes</a>
+    
+    
+    
+    <a href="/timer/55-minutes/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">55 Minutes</a>
+    
+    
+    
+    <a href="/timer/1-hour/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">1 Hour</a>
+    
+    
+    
+    <a href="/timer/90-minutes/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">90 Minutes</a>
+    
+    
+    
+    <a href="/timer/2-hours/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">2 Hours</a>
+    
+    
+  </div>
+</div>
+
+<script>
+const TOTAL = 600;
+const CIRC = 578.1;
+let remaining = TOTAL, running = false, interval = null;
+
+function toggleTimer() {
+  if (!running) {
+    running = true;
+    document.getElementById('startBtn').textContent = 'Pause';
+    interval = setInterval(() => {
+      remaining--;
+      updateDisplay(remaining);
+      if (remaining <= 0) {
+        running = false; clearInterval(interval);
+        document.getElementById('startBtn').textContent = 'Start';
+        fireAlarm();
+      }
+    }, 1000);
+  } else {
+    running = false; clearInterval(interval);
+    document.getElementById('startBtn').textContent = 'Resume';
+  }
+}
+
+function resetTimer() {
+  running = false; clearInterval(interval);
+  remaining = TOTAL;
+  document.getElementById('startBtn').textContent = 'Start';
+  document.getElementById('timerDisplay').textContent = '10 Minutes';
+  document.getElementById('timerRing').style.strokeDashoffset = 0;
+  document.getElementById('timerRing').style.stroke = 'var(--accent)';
+}
+
+function updateDisplay(secs) {
+  const h = Math.floor(secs/3600);
+  const m = Math.floor((secs%3600)/60);
+  const s = secs%60;
+  document.getElementById('timerDisplay').textContent =
+    (h > 0 ? String(h).padStart(2,'0')+':' : '') +
+    String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+  document.getElementById('timerRing').style.strokeDashoffset = CIRC * (1 - secs/TOTAL);
+  document.getElementById('timerRing').style.stroke = secs <= 10 ? '#e05c5c' : 'var(--accent)';
+}
+
+function fireAlarm() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    function beep() {
+      const o = ctx.createOscillator(), g = ctx.createGain();
+      o.connect(g); g.connect(ctx.destination);
+      o.frequency.value = 880; o.type = 'sine';
+      g.gain.setValueAtTime(0.3, ctx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.5);
+      o.start(ctx.currentTime); o.stop(ctx.currentTime + 0.5);
+    }
+    beep(); let c = 0;
+    const i = setInterval(() => { if(++c >= 5) clearInterval(i); else beep(); }, 1000);
+  } catch(e) {}
+}
+</script>
+</main>
+<footer>
+  <p>© 2026 Timerrapp.com &nbsp;·&nbsp; <a href="/about/">About</a></p>
+</footer>
+<script>
+function playSound(type) {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const t = ctx.currentTime;
+    if (type === 'beep') {
+      tone(ctx, 880, t, 0.5, 'sine');
+    } else if (type === 'digital') {
+      tone(ctx, 1047, t, 0.15, 'square');
+      tone(ctx, 1047, t+0.2, 0.15, 'square');
+      tone(ctx, 1047, t+0.4, 0.15, 'square');
+    } else if (type === 'bells') {
+      tone(ctx, 1318, t, 0.6, 'sine');
+      tone(ctx, 1568, t+0.15, 0.6, 'sine');
+      tone(ctx, 2093, t+0.3, 0.8, 'sine');
+    } else if (type === 'chime') {
+      [523, 659, 784, 1047].forEach((f, i) => tone(ctx, f, t + i*0.18, 0.5, 'sine'));
+    } else if (type === 'alarm') {
+      for (let i = 0; i < 6; i++) {
+        tone(ctx, i%2===0 ? 880 : 1100, t + i*0.18, 0.16, 'sawtooth');
+      }
+    }
+  } catch(e) {}
+}
+function tone(ctx, freq, start, dur, type) {
+  const o = ctx.createOscillator();
+  const g = ctx.createGain();
+  o.connect(g); g.connect(ctx.destination);
+  o.frequency.value = freq; o.type = type;
+  g.gain.setValueAtTime(0.25, start);
+  g.gain.exponentialRampToValueAtTime(0.001, start + dur);
+  o.start(start); o.stop(start + dur);
+}
+</script>
+</body>
+</html>

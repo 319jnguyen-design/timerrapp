@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Set Alarm for 9:00 PM — Online Alarm Clock | Timerrapp</title>
+<meta name="description" content="Set a free online alarm for 9:00 PM. Works in your browser, no download needed. Your alarm will ring right on this page.">
+<link rel="canonical" href="https://timerrapp.com/alarm/9-00-pm/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400&family=DM+Sans:wght@300;400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0a0f;
+  --surface: #13131a;
+  --surface2: #1c1c26;
+  --border: rgba(255,255,255,0.08);
+  --border2: rgba(255,255,255,0.14);
+  --text: #f0ede8;
+  --muted: rgba(240,237,232,0.45);
+  --hint: rgba(240,237,232,0.2);
+  --accent: #c8a96e;
+  --danger: #e05c5c;
+  --success: #5ce0a0;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+  z-index: 0;
+}
+header {
+  position: relative; z-index: 10;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.25rem 2.5rem;
+  border-bottom: 1px solid var(--border);
+  background: rgba(10,10,15,0.85);
+  backdrop-filter: blur(12px);
+}
+.logo {
+  font-family: 'Instrument Serif', serif;
+  font-size: 1.4rem;
+  color: var(--text);
+  text-decoration: none;
+}
+.logo span { color: var(--accent); font-style: italic; }
+nav { display: flex; gap: 4px; }
+nav a {
+  color: var(--muted);
+  text-decoration: none;
+  padding: 6px 14px;
+  border-radius: 100px;
+  font-size: 0.85rem;
+  border: 1px solid transparent;
+  transition: all 0.2s;
+}
+nav a:hover { color: var(--text); border-color: var(--border2); }
+nav a.active { color: var(--text); background: var(--surface2); border-color: var(--border2); }
+main {
+  position: relative; z-index: 1;
+  flex: 1;
+  max-width: 680px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 3rem 2rem 5rem;
+  text-align: center;
+}
+.page-title {
+  font-family: 'Instrument Serif', serif;
+  font-size: 2.4rem;
+  font-weight: 400;
+  margin-bottom: 0.4rem;
+}
+.page-subtitle {
+  color: var(--muted);
+  font-size: 0.95rem;
+  margin-bottom: 2.5rem;
+}
+/* Buttons */
+.btn {
+  padding: 0.75rem 1.8rem;
+  border-radius: 10px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.95rem;
+  cursor: pointer;
+  font-weight: 500;
+  border: none;
+  transition: opacity 0.2s, border-color 0.2s;
+}
+.btn-primary { background: var(--accent); color: #0a0a0f; }
+.btn-primary:hover { opacity: 0.85; }
+.btn-secondary { background: transparent; border: 1px solid var(--border2); color: var(--text); }
+.btn-secondary:hover { border-color: rgba(255,255,255,0.3); }
+.btn-danger { background: transparent; border: 1px solid var(--danger); color: var(--danger); }
+/* Inputs */
+.input-field {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  color: var(--text);
+  padding: 0.75rem 1rem;
+  font-family: 'DM Mono', monospace;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s;
+  text-align: center;
+}
+.input-field:focus { border-color: var(--accent); }
+.field-label {
+  display: block;
+  font-size: 0.72rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 6px;
+  text-align: center;
+}
+/* Sound picker */
+.sound-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 1.25rem 0;
+  flex-wrap: wrap;
+}
+.sound-row label { font-size: 0.8rem; color: var(--muted); }
+.sound-select {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  color: var(--text);
+  padding: 6px 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.85rem;
+  outline: none;
+  cursor: pointer;
+}
+.sound-select:focus { border-color: var(--accent); }
+.sound-select option { background: var(--surface2); }
+.btn-test {
+  padding: 6px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--border2);
+  background: transparent;
+  color: var(--muted);
+  font-size: 0.8rem;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  transition: all 0.15s;
+}
+.btn-test:hover { border-color: var(--accent); color: var(--accent); }
+/* Chips */
+.chips { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 1.5rem; }
+.chip {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 5px 16px;
+  font-size: 0.82rem;
+  color: var(--muted);
+  cursor: pointer;
+  font-family: 'DM Mono', monospace;
+  transition: all 0.15s;
+}
+.chip:hover { border-color: var(--accent); color: var(--accent); }
+/* Control row */
+.controls { display: flex; gap: 10px; justify-content: center; margin-top: 1.5rem; flex-wrap: wrap; }
+/* Divider */
+.divider { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+/* Section label */
+.section-label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--hint);
+  margin-bottom: 1rem;
+}
+footer {
+  position: relative; z-index: 1;
+  text-align: center;
+  padding: 1.5rem;
+  font-size: 0.78rem;
+  color: var(--hint);
+  border-top: 1px solid var(--border);
+}
+footer a { color: var(--hint); text-decoration: none; }
+footer a:hover { color: var(--accent); }
+@media (max-width: 520px) {
+  header { padding: 1rem 1.25rem; }
+  nav a { padding: 5px 10px; font-size: 0.78rem; }
+  main { padding: 2rem 1.25rem 3rem; }
+  .page-title { font-size: 2rem; }
+}
+
+/* Shared sound engine */
+</style>
+</head>
+<body>
+<header>
+  <a href="/" class="logo">Timerr<span>app</span></a>
+  <nav>
+    <a href="/" >Clock</a>
+    <a href="/alarm/" class="active">Alarm</a>
+    <a href="/timer/" >Timer</a>
+    <a href="/stopwatch/" >Stopwatch</a>
+    <a href="/pomodoro/" >Pomodoro</a>
+  </nav>
+</header>
+<main>
+  
+<h1 style="font-family:'Instrument Serif',serif; font-size:2.5rem; font-weight:400; margin-bottom:0.5rem;">Set Alarm for 9:00 PM</h1>
+<p style="color:var(--muted); margin-bottom:2.5rem;">Your browser will alert you at 9:00 PM. Keep this tab open.</p>
+
+<div style="text-align:center; padding:2rem 0;">
+  <div style="font-family:'DM Mono',monospace; font-size:clamp(3rem,10vw,6rem); font-weight:300; letter-spacing:-0.02em;" id="countdown">--:--:--</div>
+  <div style="color:var(--muted); font-size:0.9rem; margin-top:1rem;" id="status">Alarm set for 9:00 PM</div>
+  <div style="margin-top:2rem; display:flex; gap:10px; justify-content:center;">
+    <button onclick="startAlarm()" id="startBtn" style="padding:0.7rem 1.8rem; border-radius:10px; border:none; background:var(--accent); color:#0a0a0f; font-weight:500; cursor:pointer; font-family:'DM Sans',sans-serif;">Activate Alarm</button>
+    <button onclick="cancelAlarm()" style="padding:0.7rem 1.4rem; border-radius:10px; border:1px solid var(--border2); background:transparent; color:var(--text); cursor:pointer; font-family:'DM Sans',sans-serif;">Cancel</button>
+  </div>
+</div>
+
+<div style="margin-top:3rem; padding-top:2rem; border-top:1px solid var(--border);">
+  <h2 style="font-size:0.75rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted); margin-bottom:1rem; font-weight:400;">Other alarm times</h2>
+  <div style="display:flex; flex-wrap:wrap; gap:8px;">
+    
+    
+    <a href="/alarm/5-00-am/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">5:00 AM</a>
+    
+    
+    
+    <a href="/alarm/5-15-am/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">5:15 AM</a>
+    
+    
+    
+    <a href="/alarm/5-30-am/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">5:30 AM</a>
+    
+    
+    
+    <a href="/alarm/5-45-am/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">5:45 AM</a>
+    
+    
+    
+    <a href="/alarm/6-00-am/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">6:00 AM</a>
+    
+    
+    
+    <a href="/alarm/6-15-am/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">6:15 AM</a>
+    
+    
+    
+    <a href="/alarm/6-30-am/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">6:30 AM</a>
+    
+    
+    
+    <a href="/alarm/6-45-am/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">6:45 AM</a>
+    
+    
+    
+    <a href="/alarm/7-00-am/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">7:00 AM</a>
+    
+    
+    
+    <a href="/alarm/7-15-am/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">7:15 AM</a>
+    
+    
+    
+    <a href="/alarm/7-30-am/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">7:30 AM</a>
+    
+    
+    
+    <a href="/alarm/7-45-am/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">7:45 AM</a>
+    
+    
+    
+    <a href="/alarm/8-00-am/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">8:00 AM</a>
+    
+    
+    
+    <a href="/alarm/8-15-am/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">8:15 AM</a>
+    
+    
+    
+    <a href="/alarm/8-30-am/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">8:30 AM</a>
+    
+    
+    
+    <a href="/alarm/8-45-am/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">8:45 AM</a>
+    
+    
+    
+    <a href="/alarm/9-00-am/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">9:00 AM</a>
+    
+    
+    
+    <a href="/alarm/9-15-am/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">9:15 AM</a>
+    
+    
+    
+    <a href="/alarm/9-30-am/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">9:30 AM</a>
+    
+    
+    
+    <a href="/alarm/9-45-am/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">9:45 AM</a>
+    
+    
+    
+    <a href="/alarm/10-00-am/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">10:00 AM</a>
+    
+    
+    
+    <a href="/alarm/10-15-am/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">10:15 AM</a>
+    
+    
+    
+    <a href="/alarm/10-30-am/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">10:30 AM</a>
+    
+    
+    
+    <a href="/alarm/10-45-am/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">10:45 AM</a>
+    
+    
+    
+    <a href="/alarm/11-00-am/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">11:00 AM</a>
+    
+    
+    
+    <a href="/alarm/11-15-am/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">11:15 AM</a>
+    
+    
+    
+    <a href="/alarm/11-30-am/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">11:30 AM</a>
+    
+    
+    
+    <a href="/alarm/11-45-am/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">11:45 AM</a>
+    
+    
+    
+    <a href="/alarm/12-00-pm/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">12:00 PM</a>
+    
+    
+    
+    <a href="/alarm/12-15-pm/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">12:15 PM</a>
+    
+    
+    
+    <a href="/alarm/12-30-pm/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">12:30 PM</a>
+    
+    
+    
+    <a href="/alarm/12-45-pm/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">12:45 PM</a>
+    
+    
+    
+    <a href="/alarm/1-00-pm/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">1:00 PM</a>
+    
+    
+    
+    <a href="/alarm/1-15-pm/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">1:15 PM</a>
+    
+    
+    
+    <a href="/alarm/1-30-pm/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">1:30 PM</a>
+    
+    
+    
+    <a href="/alarm/1-45-pm/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">1:45 PM</a>
+    
+    
+    
+    <a href="/alarm/2-00-pm/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">2:00 PM</a>
+    
+    
+    
+    <a href="/alarm/2-15-pm/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">2:15 PM</a>
+    
+    
+    
+    <a href="/alarm/2-30-pm/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">2:30 PM</a>
+    
+    
+    
+    <a href="/alarm/2-45-pm/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">2:45 PM</a>
+    
+    
+    
+    <a href="/alarm/3-00-pm/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">3:00 PM</a>
+    
+    
+    
+    <a href="/alarm/3-15-pm/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">3:15 PM</a>
+    
+    
+    
+    <a href="/alarm/3-30-pm/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">3:30 PM</a>
+    
+    
+    
+    <a href="/alarm/3-45-pm/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">3:45 PM</a>
+    
+    
+    
+    <a href="/alarm/4-00-pm/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">4:00 PM</a>
+    
+    
+    
+    <a href="/alarm/4-15-pm/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">4:15 PM</a>
+    
+    
+    
+    <a href="/alarm/4-30-pm/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">4:30 PM</a>
+    
+    
+    
+    <a href="/alarm/4-45-pm/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">4:45 PM</a>
+    
+    
+    
+    <a href="/alarm/5-00-pm/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">5:00 PM</a>
+    
+    
+    
+    <a href="/alarm/5-15-pm/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">5:15 PM</a>
+    
+    
+    
+    <a href="/alarm/5-30-pm/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">5:30 PM</a>
+    
+    
+    
+    <a href="/alarm/5-45-pm/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">5:45 PM</a>
+    
+    
+    
+    <a href="/alarm/6-00-pm/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">6:00 PM</a>
+    
+    
+    
+    <a href="/alarm/6-15-pm/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">6:15 PM</a>
+    
+    
+    
+    <a href="/alarm/6-30-pm/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">6:30 PM</a>
+    
+    
+    
+    <a href="/alarm/6-45-pm/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">6:45 PM</a>
+    
+    
+    
+    <a href="/alarm/7-00-pm/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">7:00 PM</a>
+    
+    
+    
+    <a href="/alarm/7-15-pm/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">7:15 PM</a>
+    
+    
+    
+    <a href="/alarm/7-30-pm/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">7:30 PM</a>
+    
+    
+    
+    <a href="/alarm/7-45-pm/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">7:45 PM</a>
+    
+    
+    
+    <a href="/alarm/8-00-pm/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">8:00 PM</a>
+    
+    
+    
+    <a href="/alarm/8-15-pm/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">8:15 PM</a>
+    
+    
+    
+    <a href="/alarm/8-30-pm/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">8:30 PM</a>
+    
+    
+    
+    <a href="/alarm/8-45-pm/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">8:45 PM</a>
+    
+    
+    
+    
+    
+    <a href="/alarm/9-15-pm/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">9:15 PM</a>
+    
+    
+    
+    <a href="/alarm/9-30-pm/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">9:30 PM</a>
+    
+    
+    
+    <a href="/alarm/9-45-pm/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">9:45 PM</a>
+    
+    
+    
+    <a href="/alarm/10-00-pm/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">10:00 PM</a>
+    
+    
+    
+    <a href="/alarm/10-30-pm/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">10:30 PM</a>
+    
+    
+    
+    <a href="/alarm/11-00-pm/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">11:00 PM</a>
+    
+    
+  </div>
+</div>
+
+<script>
+const ALARM_H = 21;
+const ALARM_M = 0;
+let active = false;
+let ringInterval = null;
+
+function startAlarm() {
+  active = true;
+  document.getElementById('startBtn').textContent = 'Alarm Active ✓';
+  document.getElementById('startBtn').style.opacity = '0.6';
+  document.getElementById('startBtn').style.cursor = 'default';
+  tick();
+}
+
+function cancelAlarm() {
+  active = false;
+  clearInterval(ringInterval);
+  document.getElementById('status').textContent = 'Alarm cancelled.';
+  document.getElementById('countdown').textContent = '--:--:--';
+  document.getElementById('startBtn').textContent = 'Activate Alarm';
+  document.getElementById('startBtn').style.opacity = '1';
+  document.getElementById('startBtn').style.cursor = 'pointer';
+}
+
+function tick() {
+  if (!active) return;
+  const now = new Date();
+  let target = new Date();
+  target.setHours(ALARM_H, ALARM_M, 0, 0);
+  if (target <= now) target.setDate(target.getDate() + 1);
+  const diff = target - now;
+  const h = Math.floor(diff / 3600000);
+  const m = Math.floor((diff % 3600000) / 60000);
+  const s = Math.floor((diff % 60000) / 1000);
+  document.getElementById('countdown').textContent =
+    String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+  document.getElementById('status').textContent = 'Time until alarm fires';
+  if (h === 0 && m === 0 && s === 0) { fireAlarm(); return; }
+  setTimeout(tick, 1000);
+}
+
+function fireAlarm() {
+  document.getElementById('status').textContent = '🔔 Alarm ringing!';
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    function beep() {
+      const o = ctx.createOscillator(), g = ctx.createGain();
+      o.connect(g); g.connect(ctx.destination);
+      o.frequency.value = 880; o.type = 'sine';
+      g.gain.setValueAtTime(0.3, ctx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.5);
+      o.start(ctx.currentTime); o.stop(ctx.currentTime + 0.5);
+    }
+    beep();
+    ringInterval = setInterval(beep, 1000);
+    setTimeout(() => clearInterval(ringInterval), 30000);
+  } catch(e) {}
+}
+</script>
+</main>
+<footer>
+  <p>© 2026 Timerrapp.com &nbsp;·&nbsp; <a href="/about/">About</a></p>
+</footer>
+<script>
+function playSound(type) {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const t = ctx.currentTime;
+    if (type === 'beep') {
+      tone(ctx, 880, t, 0.5, 'sine');
+    } else if (type === 'digital') {
+      tone(ctx, 1047, t, 0.15, 'square');
+      tone(ctx, 1047, t+0.2, 0.15, 'square');
+      tone(ctx, 1047, t+0.4, 0.15, 'square');
+    } else if (type === 'bells') {
+      tone(ctx, 1318, t, 0.6, 'sine');
+      tone(ctx, 1568, t+0.15, 0.6, 'sine');
+      tone(ctx, 2093, t+0.3, 0.8, 'sine');
+    } else if (type === 'chime') {
+      [523, 659, 784, 1047].forEach((f, i) => tone(ctx, f, t + i*0.18, 0.5, 'sine'));
+    } else if (type === 'alarm') {
+      for (let i = 0; i < 6; i++) {
+        tone(ctx, i%2===0 ? 880 : 1100, t + i*0.18, 0.16, 'sawtooth');
+      }
+    }
+  } catch(e) {}
+}
+function tone(ctx, freq, start, dur, type) {
+  const o = ctx.createOscillator();
+  const g = ctx.createGain();
+  o.connect(g); g.connect(ctx.destination);
+  o.frequency.value = freq; o.type = type;
+  g.gain.setValueAtTime(0.25, start);
+  g.gain.exponentialRampToValueAtTime(0.001, start + dur);
+  o.start(start); o.stop(start + dur);
+}
+</script>
+</body>
+</html>

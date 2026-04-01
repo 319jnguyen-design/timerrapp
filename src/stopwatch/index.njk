@@ -1,0 +1,94 @@
+---
+layout: base.njk
+title: "Online Stopwatch — Free Stopwatch Timer | Timerrapp"
+description: "Free online stopwatch with lap times. Tracks time to the millisecond. No download needed — works right in your browser."
+activePage: stopwatch
+---
+
+<h1 class="page-title">Stopwatch</h1>
+<p class="page-subtitle">Millisecond precision with lap tracking.</p>
+
+<div style="font-family:'DM Mono',monospace;font-size:clamp(3rem,12vw,6rem);font-weight:300;letter-spacing:-0.02em;margin-bottom:0.5rem;" id="swDisplay">00:00.000</div>
+
+<div style="font-size:0.78rem;color:var(--muted);margin-bottom:2rem;min-height:1.2em;" id="swLapTime"></div>
+
+<div class="controls" style="margin-top:0;">
+  <button class="btn btn-primary" id="swStartBtn" onclick="toggleSW()">Start</button>
+  <button class="btn btn-secondary" id="swLapBtn" onclick="lapSW()" disabled style="opacity:0.4;">Lap</button>
+  <button class="btn btn-secondary" onclick="resetSW()">Reset</button>
+</div>
+
+<div id="swLaps" style="margin-top:2rem;width:100%;"></div>
+
+<script>
+let swStart = 0, swElapsed = 0, swRunning = false, swIv = null;
+let laps = [], lapElapseds = [];
+
+function fmt(ms) {
+  const min = Math.floor(ms/60000);
+  const sec = Math.floor((ms%60000)/1000);
+  const ms3 = ms%1000;
+  return String(min).padStart(2,'0')+':'+String(sec).padStart(2,'0')+'.'+String(ms3).padStart(3,'0');
+}
+
+function toggleSW() {
+  if (!swRunning) {
+    swStart = Date.now() - swElapsed;
+    swRunning = true;
+    document.getElementById('swStartBtn').textContent = 'Pause';
+    document.getElementById('swLapBtn').disabled = false;
+    document.getElementById('swLapBtn').style.opacity = '1';
+    swIv = setInterval(() => {
+      swElapsed = Date.now() - swStart;
+      document.getElementById('swDisplay').textContent = fmt(swElapsed);
+      if (laps.length > 0) {
+        const lapCurrent = swElapsed - lapElapseds[lapElapseds.length-1];
+        document.getElementById('swLapTime').textContent = 'Current lap: ' + fmt(lapCurrent);
+      }
+    }, 33);
+  } else {
+    swRunning = false;
+    swElapsed = Date.now() - swStart;
+    clearInterval(swIv);
+    document.getElementById('swStartBtn').textContent = 'Resume';
+  }
+}
+
+function lapSW() {
+  const total = Date.now() - swStart;
+  const prev = lapElapseds.length > 0 ? lapElapseds[lapElapseds.length-1] : 0;
+  lapElapseds.push(total);
+  laps.push(total - prev);
+  renderLaps();
+}
+
+function resetSW() {
+  clearInterval(swIv);
+  swRunning = false; swElapsed = 0; laps = []; lapElapseds = [];
+  document.getElementById('swDisplay').textContent = '00:00.000';
+  document.getElementById('swLapTime').textContent = '';
+  document.getElementById('swStartBtn').textContent = 'Start';
+  document.getElementById('swLapBtn').disabled = true;
+  document.getElementById('swLapBtn').style.opacity = '0.4';
+  document.getElementById('swLaps').innerHTML = '';
+}
+
+function renderLaps() {
+  const fastest = laps.length > 1 ? Math.min(...laps) : -1;
+  const slowest = laps.length > 1 ? Math.max(...laps) : -1;
+  document.getElementById('swLaps').innerHTML = `
+    <div style="display:grid;grid-template-columns:auto 1fr 1fr;gap:0;width:100%;border-top:1px solid var(--border);">
+      <div style="font-size:0.7rem;color:var(--hint);text-transform:uppercase;letter-spacing:0.08em;padding:8px 0;border-bottom:1px solid var(--border);">Lap</div>
+      <div style="font-size:0.7rem;color:var(--hint);text-transform:uppercase;letter-spacing:0.08em;padding:8px 0;border-bottom:1px solid var(--border);text-align:center;">Lap time</div>
+      <div style="font-size:0.7rem;color:var(--hint);text-transform:uppercase;letter-spacing:0.08em;padding:8px 0;border-bottom:1px solid var(--border);text-align:center;">Overall</div>
+      ${[...laps].reverse().map((t,ri) => {
+        const i = laps.length-1-ri;
+        const color = t===fastest ? 'var(--success)' : t===slowest ? 'var(--danger)' : 'var(--text)';
+        return `
+          <div style="font-size:0.78rem;color:var(--hint);padding:10px 0;border-bottom:1px solid var(--border);">#${i+1}</div>
+          <div style="font-family:'DM Mono',monospace;font-size:0.95rem;color:${color};padding:10px 0;border-bottom:1px solid var(--border);text-align:center;">${fmt(t)}</div>
+          <div style="font-family:'DM Mono',monospace;font-size:0.95rem;color:var(--muted);padding:10px 0;border-bottom:1px solid var(--border);text-align:center;">${fmt(lapElapseds[i])}</div>`;
+      }).join('')}
+    </div>`;
+}
+</script>

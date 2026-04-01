@@ -1,0 +1,200 @@
+---
+layout: base.njk
+title: "Online Alarm Clock — Free Alarm | Timerrapp"
+description: "Free online alarm clock. Set an alarm for any time and get alerted right in your browser. No download needed."
+activePage: alarm
+---
+
+<h1 class="page-title">Alarm Clock</h1>
+<p class="page-subtitle">Set an alarm and get alerted right in your browser.</p>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+  <div>
+    <label class="field-label">Time</label>
+    <input type="time" id="alarmTime" value="07:00" class="input-field" style="color-scheme:dark;">
+  </div>
+  <div>
+    <label class="field-label">Label</label>
+    <input type="text" id="alarmLabel" placeholder="Wake up..." class="input-field" style="font-family:'DM Sans',sans-serif;">
+  </div>
+</div>
+
+<div class="sound-row">
+  <label>Sound</label>
+  <select id="alarmSound" class="sound-select">
+    <option value="bells">Bells</option>
+    <option value="chime">Chime</option>
+    <option value="beep" selected>Beep</option>
+    <option value="digital">Digital</option>
+    <option value="alarm">Alarm</option>
+  </select>
+  <button class="btn-test" onclick="playSound(document.getElementById('alarmSound').value)">▶ Test</button>
+</div>
+
+<button onclick="addAlarm()" class="btn btn-primary" style="width:100%;margin-top:4px;">Set Alarm</button>
+
+<div id="alarmList" style="margin-top:1.5rem;"></div>
+
+<hr class="divider">
+<div class="section-label">Popular alarm times</div>
+<div class="chips" id="quickChips"></div>
+
+<!-- Alarm modal -->
+<div id="alarmModal" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.85);align-items:center;justify-content:center;">
+  <div style="background:var(--surface);border:1px solid var(--accent);border-radius:16px;padding:2.5rem 2rem;text-align:center;max-width:340px;width:90%;animation:fadeUp 0.3s ease;">
+    <div id="modalIcon" style="font-size:2.5rem;margin-bottom:1rem;">🔔</div>
+    <div style="font-family:'Instrument Serif',serif;font-size:1.8rem;margin-bottom:0.4rem;" id="modalTitle">Alarm</div>
+    <div style="font-family:'DM Mono',monospace;font-size:2.2rem;font-weight:300;color:var(--accent);margin-bottom:0.5rem;" id="modalTime">--:--</div>
+    <div style="font-size:0.85rem;color:var(--muted);margin-bottom:2rem;" id="modalLabel"></div>
+    <button onclick="dismissModal()" class="btn btn-primary" style="width:100%;padding:0.9rem;">Dismiss</button>
+  </div>
+</div>
+
+<style>
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(20px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+@keyframes bellRing {
+  0%,100% { transform:rotate(-15deg); }
+  50%     { transform:rotate(15deg); }
+}
+#modalIcon { display:inline-block; }
+#alarmModal.show { display:flex !important; }
+#alarmModal.ringing #modalIcon { animation:bellRing 0.4s ease infinite; }
+</style>
+
+<script>
+let alarms = JSON.parse(localStorage.getItem('tc_alarms') || '[]');
+let ringInterval = null;
+let audioCtx = null;
+
+const quickTimes = [
+  {label:'5:00 AM',h:5,m:0},{label:'5:30 AM',h:5,m:30},
+  {label:'6:00 AM',h:6,m:0},{label:'6:30 AM',h:6,m:30},
+  {label:'7:00 AM',h:7,m:0},{label:'7:30 AM',h:7,m:30},
+  {label:'8:00 AM',h:8,m:0},{label:'8:30 AM',h:8,m:30},
+  {label:'9:00 AM',h:9,m:0},{label:'10:00 AM',h:10,m:0}
+];
+const chips = document.getElementById('quickChips');
+quickTimes.forEach(t => {
+  const c = document.createElement('div');
+  c.className = 'chip';
+  c.textContent = t.label;
+  c.onclick = () => {
+    document.getElementById('alarmTime').value = String(t.h).padStart(2,'0')+':'+String(t.m).padStart(2,'0');
+    document.getElementById('alarmLabel').value = 'Wake up';
+    addAlarm();
+  };
+  chips.appendChild(c);
+});
+
+function addAlarm() {
+  const val = document.getElementById('alarmTime').value;
+  if (!val) return;
+  const label = document.getElementById('alarmLabel').value || 'Alarm';
+  const sound = document.getElementById('alarmSound').value;
+  const [h, m] = val.split(':').map(Number);
+  const ampm = h >= 12 ? 'PM' : 'AM';
+  const h12 = h % 12 || 12;
+  const display = String(h12).padStart(2,'0')+':'+String(m).padStart(2,'0')+' '+ampm;
+  alarms.push({ h, m, label, sound, active:true, id:Date.now(), display });
+  localStorage.setItem('tc_alarms', JSON.stringify(alarms));
+  renderAlarms();
+  document.getElementById('alarmLabel').value = '';
+}
+
+function renderAlarms() {
+  const list = document.getElementById('alarmList');
+  if (!alarms.length) {
+    list.innerHTML = '<div style="padding:2.5rem;color:var(--muted);font-size:0.9rem;border:1px dashed var(--border);border-radius:12px;text-align:center;">No alarms set yet</div>';
+    return;
+  }
+  list.innerHTML = alarms.map((al,i) => `
+    <div style="display:flex;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid ${al.active ? 'var(--accent)' : 'var(--border)'};border-radius:12px;padding:1rem 1.25rem;margin-bottom:10px;">
+      <div style="text-align:left;">
+        <div style="font-family:'DM Mono',monospace;font-size:1.6rem;font-weight:300;">${al.display}</div>
+        <div style="font-size:0.78rem;color:var(--muted);margin-top:2px;">${al.label} · ${al.sound}</div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <div onclick="toggleAlarm(${i})" style="width:40px;height:22px;border-radius:100px;border:1px solid ${al.active ? 'var(--accent)' : 'var(--border2)'};background:${al.active ? 'var(--accent)' : 'transparent'};cursor:pointer;position:relative;transition:all 0.2s;">
+          <div style="position:absolute;top:2px;${al.active ? 'right:2px' : 'left:2px'};width:16px;height:16px;border-radius:50%;background:${al.active ? '#0a0a0f' : 'var(--muted)'};transition:all 0.2s;"></div>
+        </div>
+        <button onclick="deleteAlarm(${i})" class="btn btn-danger" style="padding:5px 12px;font-size:0.8rem;">Delete</button>
+      </div>
+    </div>`).join('');
+}
+
+function toggleAlarm(i) {
+  alarms[i].active = !alarms[i].active;
+  localStorage.setItem('tc_alarms', JSON.stringify(alarms));
+  renderAlarms();
+}
+function deleteAlarm(i) {
+  alarms.splice(i,1);
+  localStorage.setItem('tc_alarms', JSON.stringify(alarms));
+  renderAlarms();
+}
+
+function checkAlarms() {
+  const now = new Date();
+  const h = now.getHours(), m = now.getMinutes(), s = now.getSeconds();
+  if (s !== 0) return;
+  alarms.forEach(al => {
+    if (al.active && al.h === h && al.m === m) fireAlarm(al);
+  });
+}
+
+function fireAlarm(al) {
+  document.getElementById('modalTitle').textContent = al.label;
+  document.getElementById('modalTime').textContent = al.display;
+  document.getElementById('modalLabel').textContent = 'Your alarm is ringing!';
+  const modal = document.getElementById('alarmModal');
+  modal.classList.add('show','ringing');
+  startLoopingSound(al.sound || 'beep');
+}
+
+function dismissModal() {
+  const modal = document.getElementById('alarmModal');
+  modal.classList.remove('show','ringing');
+  stopLoopingSound();
+}
+
+function startLoopingSound(sound) {
+  stopLoopingSound();
+  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  function fireNote() {
+    const freqs = {
+      beep:[880], digital:[1047,1047,1047],
+      bells:[1318,1568,2093], chime:[523,659,784,1047],
+      alarm:[880,1100,880,1100,880,1100]
+    };
+    const gaps = {
+      beep:[0], digital:[0,0.2,0.4],
+      bells:[0,0.15,0.3], chime:[0,0.18,0.36,0.54],
+      alarm:[0,0.18,0.36,0.54,0.72,0.90]
+    };
+    const t = audioCtx.currentTime;
+    (freqs[sound]||freqs.beep).forEach((f,i) => {
+      const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+      o.connect(g); g.connect(audioCtx.destination);
+      o.frequency.value = f; o.type = 'sine';
+      const st = t+(gaps[sound]||[0])[i];
+      g.gain.setValueAtTime(0.3, st);
+      g.gain.exponentialRampToValueAtTime(0.001, st+0.6);
+      o.start(st); o.stop(st+0.6);
+    });
+  }
+  fireNote();
+  ringInterval = setInterval(fireNote, 2000);
+}
+
+function stopLoopingSound() {
+  clearInterval(ringInterval);
+  ringInterval = null;
+  if (audioCtx) { audioCtx.close(); audioCtx = null; }
+}
+
+setInterval(checkAlarms, 1000);
+renderAlarms();
+</script>
