@@ -97,7 +97,7 @@ function updateClock() {
   document.getElementById('clockTZ').textContent =
     Intl.DateTimeFormat().resolvedOptions().timeZone;
   const icon = document.getElementById('skyicon');
-  if (h >= 6 && h < 20) drawSun(icon); else drawMoon(icon);
+  if (h >= 6 && h < 18) drawSun(icon); else drawMoon(icon);
 }
 setInterval(updateClock, 1000);
 updateClock();
