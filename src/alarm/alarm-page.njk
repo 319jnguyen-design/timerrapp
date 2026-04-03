@@ -11,24 +11,24 @@ eleventyComputed:
 activePage: alarm
 ---
 
-<h1 style="font-family:'Instrument Serif',serif; font-size:2.5rem; font-weight:400; margin-bottom:0.5rem;">Set Alarm for {{ alarm.time }}</h1>
-<p style="color:var(--muted); margin-bottom:2.5rem;">Your browser will alert you at {{ alarm.time }}. Keep this tab open.</p>
+<h1 style="font-family:var(--font-heading);font-size:2.5rem;font-weight:400;margin-bottom:0.5rem;">Set Alarm for {{ alarm.time }}</h1>
+<p style="color:var(--muted);margin-bottom:2.5rem;font-family:var(--font-body);">Your browser will alert you at {{ alarm.time }}. Keep this tab open.</p>
 
-<div style="text-align:center; padding:2rem 0;">
-  <div style="font-family:'DM Mono',monospace; font-size:clamp(3rem,10vw,6rem); font-weight:300; letter-spacing:-0.02em;" id="countdown">--:--:--</div>
-  <div style="color:var(--muted); font-size:0.9rem; margin-top:1rem;" id="status">Alarm set for {{ alarm.time }}</div>
-  <div style="margin-top:2rem; display:flex; gap:10px; justify-content:center;">
-    <button onclick="startAlarm()" id="startBtn" style="padding:0.7rem 1.8rem; border-radius:10px; border:none; background:var(--accent); color:#0a0a0f; font-weight:500; cursor:pointer; font-family:'DM Sans',sans-serif;">Activate Alarm</button>
-    <button onclick="cancelAlarm()" style="padding:0.7rem 1.4rem; border-radius:10px; border:1px solid var(--border2); background:transparent; color:var(--text); cursor:pointer; font-family:'DM Sans',sans-serif;">Cancel</button>
+<div style="text-align:center;padding:2rem 0;">
+  <div style="font-family:var(--font-mono);font-size:clamp(3rem,10vw,6rem);font-weight:300;letter-spacing:-0.02em;" id="countdown">--:--:--</div>
+  <div style="color:var(--muted);font-size:0.9rem;margin-top:1rem;font-family:var(--font-body);" id="status">Alarm set for {{ alarm.time }}</div>
+  <div style="margin-top:2rem;display:flex;gap:10px;justify-content:center;">
+    <button onclick="startAlarm()" id="startBtn" class="btn btn-primary">Activate Alarm</button>
+    <button onclick="cancelAlarm()" class="btn btn-secondary">Cancel</button>
   </div>
 </div>
 
-<div style="margin-top:3rem; padding-top:2rem; border-top:1px solid var(--border);">
-  <h2 style="font-size:0.75rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted); margin-bottom:1rem; font-weight:400;">Other alarm times</h2>
-  <div style="display:flex; flex-wrap:wrap; gap:8px;">
+<div style="margin-top:3rem;padding-top:2rem;border-top:1px solid var(--border);">
+  <h2 style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:1rem;font-weight:400;font-family:var(--font-body);">Other alarm times</h2>
+  <div style="display:flex;flex-wrap:wrap;gap:8px;">
     {% for a in alarms %}
     {% if a.slug != alarm.slug %}
-    <a href="/alarm/{{ a.slug }}/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">{{ a.time }}</a>
+    <a href="/alarm/{{ a.slug }}/" class="chip" style="text-decoration:none;">{{ a.time }}</a>
     {% endif %}
     {% endfor %}
   </div>
@@ -63,15 +63,15 @@ function tick() {
   const now = new Date();
   let target = new Date();
   target.setHours(ALARM_H, ALARM_M, 0, 0);
-  if (target <= now) target.setDate(target.getDate() + 1);
+  if (target <= now) target.setDate(target.getDate()+1);
   const diff = target - now;
-  const h = Math.floor(diff / 3600000);
-  const m = Math.floor((diff % 3600000) / 60000);
-  const s = Math.floor((diff % 60000) / 1000);
+  const h = Math.floor(diff/3600000);
+  const m = Math.floor((diff%3600000)/60000);
+  const s = Math.floor((diff%60000)/1000);
   document.getElementById('countdown').textContent =
-    String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+    String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
   document.getElementById('status').textContent = 'Time until alarm fires';
-  if (h === 0 && m === 0 && s === 0) { fireAlarm(); return; }
+  if (h===0 && m===0 && s===0) { fireAlarm(); return; }
   setTimeout(tick, 1000);
 }
 
@@ -83,9 +83,9 @@ function fireAlarm() {
       const o = ctx.createOscillator(), g = ctx.createGain();
       o.connect(g); g.connect(ctx.destination);
       o.frequency.value = 880; o.type = 'sine';
-      g.gain.setValueAtTime(0.3, ctx.currentTime);
-      g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.5);
-      o.start(ctx.currentTime); o.stop(ctx.currentTime + 0.5);
+      g.gain.setValueAtTime(0.3,ctx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.5);
+      o.start(ctx.currentTime); o.stop(ctx.currentTime+0.5);
     }
     beep();
     ringInterval = setInterval(beep, 1000);

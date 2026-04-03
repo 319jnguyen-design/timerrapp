@@ -25,13 +25,13 @@ activePage: pomodoro
     <circle id="pomDot" cx="110" cy="14" r="5" fill="var(--accent)" style="transition:fill 0.4s;"/>
   </svg>
   <div style="position:absolute;top:0;left:0;width:220px;height:220px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;">
-    <div style="font-family:'DM Mono',monospace;font-size:2.8rem;font-weight:300;letter-spacing:-0.02em;" id="pomDisplay">25:00</div>
-    <div style="font-size:0.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;" id="pomMode">Focus Time</div>
+    <div style="font-family:var(--font-mono);font-size:2.8rem;font-weight:300;letter-spacing:-0.02em;" id="pomDisplay">25:00</div>
+    <div style="font-size:0.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;font-family:var(--font-body);" id="pomMode">Focus Time</div>
   </div>
 </div>
 
-<div style="font-size:0.85rem;color:var(--muted);margin-bottom:1.5rem;">
-  Session <span id="pomSession" style="color:var(--accent);font-family:'DM Mono',monospace;">1</span> of 4
+<div style="font-size:0.85rem;color:var(--muted);margin-bottom:1.5rem;font-family:var(--font-body);">
+  Session <span id="pomSession" style="color:var(--accent);font-family:var(--font-mono);">1</span> of 4
 </div>
 
 <div class="sound-row">
@@ -51,29 +51,29 @@ activePage: pomodoro
   <button class="btn btn-secondary" onclick="resetPom()">Reset</button>
   <button class="btn btn-secondary" onclick="skipPom()">Skip</button>
 </div>
-<div class="desktop-only" style="margin-top:0.75rem;font-size:0.75rem;color:var(--hint);">Press <kbd style="background:var(--surface2);border:1px solid var(--border2);border-radius:4px;padding:1px 6px;font-family:'DM Mono',monospace;font-size:0.72rem;">Space</kbd> to start or pause</div>
+<div class="desktop-only" style="margin-top:0.75rem;font-size:0.75rem;color:var(--hint);">Press <kbd style="background:var(--surface2);border:1px solid var(--border2);border-radius:4px;padding:1px 6px;font-family:var(--font-mono);font-size:0.72rem;">Space</kbd> to start or pause</div>
 
 <hr class="divider">
 
 <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:2rem;">
-  <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1rem;">
-    <div style="font-size:0.7rem;color:var(--hint);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;">Completed</div>
-    <div style="font-family:'DM Mono',monospace;font-size:1.8rem;font-weight:300;color:var(--accent);" id="statCompleted">0</div>
+  <div class="glass" style="padding:1rem;">
+    <div style="font-size:0.7rem;color:var(--hint);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;font-family:var(--font-body);">Completed</div>
+    <div style="font-family:var(--font-mono);font-size:1.8rem;font-weight:300;color:var(--accent);" id="statCompleted">0</div>
   </div>
-  <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1rem;">
-    <div style="font-size:0.7rem;color:var(--hint);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;">Focus time</div>
-    <div style="font-family:'DM Mono',monospace;font-size:1.8rem;font-weight:300;color:var(--accent);" id="statTime">0m</div>
+  <div class="glass" style="padding:1rem;">
+    <div style="font-size:0.7rem;color:var(--hint);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;font-family:var(--font-body);">Focus time</div>
+    <div style="font-family:var(--font-mono);font-size:1.8rem;font-weight:300;color:var(--accent);" id="statTime">0m</div>
   </div>
-  <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1rem;">
-    <div style="font-size:0.7rem;color:var(--hint);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;">Streak</div>
-    <div style="font-family:'DM Mono',monospace;font-size:1.8rem;font-weight:300;color:var(--accent);" id="statStreak">0</div>
+  <div class="glass" style="padding:1rem;">
+    <div style="font-size:0.7rem;color:var(--hint);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;font-family:var(--font-body);">Streak</div>
+    <div style="font-family:var(--font-mono);font-size:1.8rem;font-weight:300;color:var(--accent);" id="statStreak">0</div>
   </div>
 </div>
 
-<div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.5rem;text-align:left;">
-  <div style="font-family:'Instrument Serif',serif;font-size:1.2rem;margin-bottom:0.75rem;">What is the Pomodoro Technique?</div>
-  <p style="color:var(--muted);font-size:0.88rem;line-height:1.7;margin-bottom:0.75rem;">Developed by Francesco Cirillo, the Pomodoro Technique breaks work into 25-minute focused intervals separated by short 5-minute breaks.</p>
-  <p style="color:var(--muted);font-size:0.88rem;line-height:1.7;">After 4 sessions, take a longer 15-minute break. This trains your brain to focus deeply and helps you understand how long tasks actually take.</p>
+<div class="glass" style="padding:1.5rem;text-align:left;">
+  <div style="font-family:var(--font-heading);font-size:1.2rem;margin-bottom:0.75rem;">What is the Pomodoro Technique?</div>
+  <p style="color:var(--muted);font-size:0.88rem;line-height:1.7;margin-bottom:0.75rem;font-family:var(--font-body);">Developed by Francesco Cirillo, the Pomodoro Technique breaks work into 25-minute focused intervals separated by short 5-minute breaks.</p>
+  <p style="color:var(--muted);font-size:0.88rem;line-height:1.7;font-family:var(--font-body);">After 4 sessions, take a longer 15-minute break. This trains your brain to focus deeply and helps you understand how long tasks actually take.</p>
 </div>
 
 <script>
@@ -105,23 +105,15 @@ function setMode(mode) {
   ['focus','short','long'].forEach(m => {
     const id = 'btn'+m.charAt(0).toUpperCase()+m.slice(1);
     const btn = document.getElementById(id);
-    if (m === mode) {
-      btn.className = 'btn btn-primary';
-      btn.style.padding = '6px 20px';
-      btn.style.fontSize = '0.85rem';
-    } else {
-      btn.className = 'btn btn-secondary';
-      btn.style.padding = '6px 20px';
-      btn.style.fontSize = '0.85rem';
-    }
+    btn.className = m === mode ? 'btn btn-primary' : 'btn btn-secondary';
+    btn.style.padding = '6px 20px';
+    btn.style.fontSize = '0.85rem';
   });
 }
 
 function updateDisplay(secs) {
-  const m = Math.floor(secs/60);
-  const s = secs%60;
-  document.getElementById('pomDisplay').textContent =
-    String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+  const m = Math.floor(secs/60), s = secs%60;
+  document.getElementById('pomDisplay').textContent = String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
   const pct = total > 0 ? secs/total : 1;
   const offset = CIRC*(1-pct);
   document.getElementById('pomRing').style.strokeDashoffset = offset;
@@ -145,15 +137,12 @@ function togglePom() {
         document.getElementById('pomStartBtn').textContent = 'Start';
         playSound(document.getElementById('pomSound').value);
         if (currentMode === 'focus') {
-          completed++;
-          streak++;
+          completed++; streak++;
           session = session >= 4 ? 1 : session+1;
           document.getElementById('pomSession').textContent = session;
           updateStats();
           setMode(session === 1 ? 'long' : 'short');
-        } else {
-          setMode('focus');
-        }
+        } else { setMode('focus'); }
       }
     }, 1000);
   } else {
@@ -174,40 +163,31 @@ function resetPom() {
 
 function skipPom() {
   running = false; clearInterval(iv);
-  remaining = 0;
-  updateDisplay(0);
+  remaining = 0; updateDisplay(0);
   if (currentMode === 'focus') {
     session = session >= 4 ? 1 : session+1;
     document.getElementById('pomSession').textContent = session;
     setMode(session === 1 ? 'long' : 'short');
-  } else {
-    setMode('focus');
-  }
+  } else { setMode('focus'); }
 }
 
 function updateStats() {
   document.getElementById('statCompleted').textContent = completed;
   const mins = Math.floor(totalFocusSeconds/60);
-  document.getElementById('statTime').textContent = mins >= 60
-    ? Math.floor(mins/60)+'h '+( mins%60)+'m'
-    : mins+'m';
+  document.getElementById('statTime').textContent = mins >= 60 ? Math.floor(mins/60)+'h '+(mins%60)+'m' : mins+'m';
   document.getElementById('statStreak').textContent = streak;
 }
 
-// Tab title
 function updateTabTitle() {
   if (running && remaining > 0) {
-    const m = Math.floor(remaining/60);
-    const s = remaining%60;
-    const t = String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
-    document.title = t + ' – Timerrapp';
+    const m = Math.floor(remaining/60), s = remaining%60;
+    document.title = String(m).padStart(2,'0')+':'+String(s).padStart(2,'0')+' – Timerrapp';
   } else {
     document.title = 'Pomodoro Timer — Free Online Pomodoro Clock | Timerrapp';
   }
 }
 setInterval(updateTabTitle, 1000);
 
-// Space to Start/Pause
 document.addEventListener('keydown', function(e) {
   if (e.code !== 'Space') return;
   const tag = document.activeElement.tagName.toLowerCase();
@@ -215,5 +195,4 @@ document.addEventListener('keydown', function(e) {
   e.preventDefault();
   togglePom();
 });
-
 </script>

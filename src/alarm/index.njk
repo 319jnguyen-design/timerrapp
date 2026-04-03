@@ -11,11 +11,11 @@ activePage: alarm
 <div style="display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:12px;">
   <div>
     <label class="field-label">Time</label>
-    <input type="time" id="alarmTime" value="07:00" class="input-field" style="color-scheme:dark;width: 100%;max-width:100%;">
+    <input type="time" id="alarmTime" value="07:00" class="input-field" style="color-scheme:dark;width:100%;max-width:100%;">
   </div>
   <div>
     <label class="field-label">Label</label>
-    <input type="text" id="alarmLabel" placeholder="Wake up..." class="input-field" style="font-family:'DM Sans',sans-serif;">
+    <input type="text" id="alarmLabel" placeholder="Wake up..." class="input-field" style="font-family:var(--font-body);">
   </div>
 </div>
 
@@ -41,24 +41,18 @@ activePage: alarm
 
 <!-- Alarm modal -->
 <div id="alarmModal" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.85);align-items:center;justify-content:center;">
-  <div style="background:var(--surface);border:1px solid var(--accent);border-radius:16px;padding:2.5rem 2rem;text-align:center;max-width:340px;width:90%;animation:fadeUp 0.3s ease;">
+  <div id="modalBox" style="background:var(--surface);border:1px solid var(--accent);border-radius:16px;padding:2.5rem 2rem;text-align:center;max-width:340px;width:90%;animation:fadeUp 0.3s ease;">
     <div id="modalIcon" style="font-size:2.5rem;margin-bottom:1rem;">🔔</div>
-    <div style="font-family:'Instrument Serif',serif;font-size:1.8rem;margin-bottom:0.4rem;" id="modalTitle">Alarm</div>
-    <div style="font-family:'DM Mono',monospace;font-size:2.2rem;font-weight:300;color:var(--accent);margin-bottom:0.5rem;" id="modalTime">--:--</div>
-    <div style="font-size:0.85rem;color:var(--muted);margin-bottom:2rem;" id="modalLabel"></div>
+    <div style="font-family:var(--font-heading);font-size:1.8rem;margin-bottom:0.4rem;" id="modalTitle">Alarm</div>
+    <div style="font-family:var(--font-mono);font-size:2.2rem;font-weight:300;color:var(--accent);margin-bottom:0.5rem;" id="modalTime">--:--</div>
+    <div style="font-size:0.85rem;color:var(--muted);margin-bottom:2rem;font-family:var(--font-body);" id="modalLabel"></div>
     <button onclick="dismissModal()" class="btn btn-primary" style="width:100%;padding:0.9rem;">Dismiss</button>
   </div>
 </div>
 
 <style>
-@keyframes fadeUp {
-  from { opacity:0; transform:translateY(20px); }
-  to   { opacity:1; transform:translateY(0); }
-}
-@keyframes bellRing {
-  0%,100% { transform:rotate(-15deg); }
-  50%     { transform:rotate(15deg); }
-}
+@keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+@keyframes bellRing { 0%,100%{transform:rotate(-15deg)} 50%{transform:rotate(15deg)} }
 #modalIcon { display:inline-block; }
 #alarmModal.show { display:flex !important; }
 #alarmModal.ringing #modalIcon { animation:bellRing 0.4s ease infinite; }
@@ -107,14 +101,14 @@ function addAlarm() {
 function renderAlarms() {
   const list = document.getElementById('alarmList');
   if (!alarms.length) {
-    list.innerHTML = '<div style="padding:2.5rem;color:var(--muted);font-size:0.9rem;border:1px dashed var(--border);border-radius:12px;text-align:center;">No alarms set yet</div>';
+    list.innerHTML = '<div style="padding:2.5rem;color:var(--muted);font-size:0.9rem;border:1px dashed var(--border);border-radius:12px;text-align:center;font-family:var(--font-body);">No alarms set yet</div>';
     return;
   }
   list.innerHTML = alarms.map((al,i) => `
     <div style="display:flex;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid ${al.active ? 'var(--accent)' : 'var(--border)'};border-radius:12px;padding:1rem 1.25rem;margin-bottom:10px;">
       <div style="text-align:left;">
-        <div style="font-family:'DM Mono',monospace;font-size:1.6rem;font-weight:300;">${al.display}</div>
-        <div style="font-size:0.78rem;color:var(--muted);margin-top:2px;">${al.label} · ${al.sound}</div>
+        <div style="font-family:var(--font-mono);font-size:1.6rem;font-weight:300;">${al.display}</div>
+        <div style="font-size:0.78rem;color:var(--muted);margin-top:2px;font-family:var(--font-body);">${al.label} · ${al.sound}</div>
       </div>
       <div style="display:flex;gap:8px;align-items:center;">
         <div onclick="toggleAlarm(${i})" style="width:40px;height:22px;border-radius:100px;border:1px solid ${al.active ? 'var(--accent)' : 'var(--border2)'};background:${al.active ? 'var(--accent)' : 'transparent'};cursor:pointer;position:relative;transition:all 0.2s;">
@@ -125,38 +119,32 @@ function renderAlarms() {
     </div>`).join('');
 }
 
-function toggleAlarm(i) {
-  alarms[i].active = !alarms[i].active;
-  localStorage.setItem('tc_alarms', JSON.stringify(alarms));
-  renderAlarms();
-}
-function deleteAlarm(i) {
-  alarms.splice(i,1);
-  localStorage.setItem('tc_alarms', JSON.stringify(alarms));
-  renderAlarms();
-}
+function toggleAlarm(i) { alarms[i].active = !alarms[i].active; localStorage.setItem('tc_alarms',JSON.stringify(alarms)); renderAlarms(); }
+function deleteAlarm(i) { alarms.splice(i,1); localStorage.setItem('tc_alarms',JSON.stringify(alarms)); renderAlarms(); }
 
 function checkAlarms() {
   const now = new Date();
   const h = now.getHours(), m = now.getMinutes(), s = now.getSeconds();
   if (s !== 0) return;
-  alarms.forEach(al => {
-    if (al.active && al.h === h && al.m === m) fireAlarm(al);
-  });
+  alarms.forEach(al => { if (al.active && al.h === h && al.m === m) fireAlarm(al); });
 }
 
 function fireAlarm(al) {
+  const theme = document.documentElement.getAttribute('data-theme');
+  const box = document.getElementById('modalBox');
+  if (theme === 'kawaii') {
+    box.style.border = '3.5px solid #000';
+    box.style.boxShadow = '5px 5px 0px #000';
+  }
   document.getElementById('modalTitle').textContent = al.label;
   document.getElementById('modalTime').textContent = al.display;
   document.getElementById('modalLabel').textContent = 'Your alarm is ringing!';
-  const modal = document.getElementById('alarmModal');
-  modal.classList.add('show','ringing');
+  document.getElementById('alarmModal').classList.add('show','ringing');
   startLoopingSound(al.sound || 'beep');
 }
 
 function dismissModal() {
-  const modal = document.getElementById('alarmModal');
-  modal.classList.remove('show','ringing');
+  document.getElementById('alarmModal').classList.remove('show','ringing');
   stopLoopingSound();
 }
 
@@ -164,24 +152,15 @@ function startLoopingSound(sound) {
   stopLoopingSound();
   audioCtx = new (window.AudioContext || window.webkitAudioContext)();
   function fireNote() {
-    const freqs = {
-      beep:[880], digital:[1047,1047,1047],
-      bells:[1318,1568,2093], chime:[523,659,784,1047],
-      alarm:[880,1100,880,1100,880,1100]
-    };
-    const gaps = {
-      beep:[0], digital:[0,0.2,0.4],
-      bells:[0,0.15,0.3], chime:[0,0.18,0.36,0.54],
-      alarm:[0,0.18,0.36,0.54,0.72,0.90]
-    };
+    const freqs = { beep:[880], digital:[1047,1047,1047], bells:[1318,1568,2093], chime:[523,659,784,1047], alarm:[880,1100,880,1100,880,1100] };
+    const gaps = { beep:[0], digital:[0,0.2,0.4], bells:[0,0.15,0.3], chime:[0,0.18,0.36,0.54], alarm:[0,0.18,0.36,0.54,0.72,0.90] };
     const t = audioCtx.currentTime;
     (freqs[sound]||freqs.beep).forEach((f,i) => {
       const o = audioCtx.createOscillator(), g = audioCtx.createGain();
       o.connect(g); g.connect(audioCtx.destination);
       o.frequency.value = f; o.type = 'sine';
       const st = t+(gaps[sound]||[0])[i];
-      g.gain.setValueAtTime(0.3, st);
-      g.gain.exponentialRampToValueAtTime(0.001, st+0.6);
+      g.gain.setValueAtTime(0.3,st); g.gain.exponentialRampToValueAtTime(0.001,st+0.6);
       o.start(st); o.stop(st+0.6);
     });
   }
@@ -190,8 +169,7 @@ function startLoopingSound(sound) {
 }
 
 function stopLoopingSound() {
-  clearInterval(ringInterval);
-  ringInterval = null;
+  clearInterval(ringInterval); ringInterval = null;
   if (audioCtx) { audioCtx.close(); audioCtx = null; }
 }
 

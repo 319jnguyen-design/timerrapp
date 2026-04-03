@@ -8,16 +8,16 @@ activePage: stopwatch
 <h1 class="page-title">Stopwatch</h1>
 <p class="page-subtitle">Millisecond precision with lap tracking.</p>
 
-<div style="font-family:'DM Mono',monospace;font-size:clamp(3rem,12vw,6rem);font-weight:300;letter-spacing:-0.02em;margin-bottom:0.5rem;" id="swDisplay">00:00.000</div>
+<div style="font-family:var(--font-mono);font-size:clamp(3rem,12vw,6rem);font-weight:300;letter-spacing:-0.02em;margin-bottom:0.5rem;" id="swDisplay">00:00.000</div>
 
-<div style="font-size:0.78rem;color:var(--muted);margin-bottom:2rem;min-height:1.2em;" id="swLapTime"></div>
+<div style="font-size:0.78rem;color:var(--muted);margin-bottom:2rem;min-height:1.2em;font-family:var(--font-body);" id="swLapTime"></div>
 
 <div class="controls" style="margin-top:0;">
   <button class="btn btn-primary" id="swStartBtn" onclick="toggleSW()">Start</button>
   <button class="btn btn-secondary" id="swLapBtn" onclick="lapSW()" disabled style="opacity:0.4;">Lap</button>
   <button class="btn btn-secondary" onclick="resetSW()">Reset</button>
 </div>
-<div class="desktop-only" style="margin-top:0.75rem;font-size:0.75rem;color:var(--hint);">Press <kbd style="background:var(--surface2);border:1px solid var(--border2);border-radius:4px;padding:1px 6px;font-family:'DM Mono',monospace;font-size:0.72rem;">Space</kbd> to start or pause</div>
+<div class="desktop-only" style="margin-top:0.75rem;font-size:0.75rem;color:var(--hint);">Press <kbd style="background:var(--surface2);border:1px solid var(--border2);border-radius:4px;padding:1px 6px;font-family:var(--font-mono);font-size:0.72rem;">Space</kbd> to start or pause</div>
 
 <div id="swLaps" style="margin-top:2rem;width:100%;"></div>
 
@@ -34,32 +34,32 @@ function fmt(ms) {
 
 function toggleSW() {
   if (!swRunning) {
-    swStart = Date.now() - swElapsed;
+    swStart = Date.now()-swElapsed;
     swRunning = true;
     document.getElementById('swStartBtn').textContent = 'Pause';
     document.getElementById('swLapBtn').disabled = false;
     document.getElementById('swLapBtn').style.opacity = '1';
     swIv = setInterval(() => {
-      swElapsed = Date.now() - swStart;
+      swElapsed = Date.now()-swStart;
       document.getElementById('swDisplay').textContent = fmt(swElapsed);
       if (laps.length > 0) {
-        const lapCurrent = swElapsed - lapElapseds[lapElapseds.length-1];
-        document.getElementById('swLapTime').textContent = 'Current lap: ' + fmt(lapCurrent);
+        const lapCurrent = swElapsed-lapElapseds[lapElapseds.length-1];
+        document.getElementById('swLapTime').textContent = 'Current lap: '+fmt(lapCurrent);
       }
     }, 33);
   } else {
     swRunning = false;
-    swElapsed = Date.now() - swStart;
+    swElapsed = Date.now()-swStart;
     clearInterval(swIv);
     document.getElementById('swStartBtn').textContent = 'Resume';
   }
 }
 
 function lapSW() {
-  const total = Date.now() - swStart;
+  const total = Date.now()-swStart;
   const prev = lapElapseds.length > 0 ? lapElapseds[lapElapseds.length-1] : 0;
   lapElapseds.push(total);
-  laps.push(total - prev);
+  laps.push(total-prev);
   renderLaps();
 }
 
@@ -79,31 +79,25 @@ function renderLaps() {
   const slowest = laps.length > 1 ? Math.max(...laps) : -1;
   document.getElementById('swLaps').innerHTML = `
     <div style="display:grid;grid-template-columns:auto 1fr 1fr;gap:0;width:100%;border-top:1px solid var(--border);">
-      <div style="font-size:0.7rem;color:var(--hint);text-transform:uppercase;letter-spacing:0.08em;padding:8px 0;border-bottom:1px solid var(--border);">Lap</div>
-      <div style="font-size:0.7rem;color:var(--hint);text-transform:uppercase;letter-spacing:0.08em;padding:8px 0;border-bottom:1px solid var(--border);text-align:center;">Lap time</div>
-      <div style="font-size:0.7rem;color:var(--hint);text-transform:uppercase;letter-spacing:0.08em;padding:8px 0;border-bottom:1px solid var(--border);text-align:center;">Overall</div>
+      <div style="font-size:0.7rem;color:var(--hint);text-transform:uppercase;letter-spacing:0.08em;padding:8px 0;border-bottom:1px solid var(--border);font-family:var(--font-body);">Lap</div>
+      <div style="font-size:0.7rem;color:var(--hint);text-transform:uppercase;letter-spacing:0.08em;padding:8px 0;border-bottom:1px solid var(--border);text-align:center;font-family:var(--font-body);">Lap time</div>
+      <div style="font-size:0.7rem;color:var(--hint);text-transform:uppercase;letter-spacing:0.08em;padding:8px 0;border-bottom:1px solid var(--border);text-align:center;font-family:var(--font-body);">Overall</div>
       ${[...laps].reverse().map((t,ri) => {
         const i = laps.length-1-ri;
         const color = t===fastest ? 'var(--success)' : t===slowest ? 'var(--danger)' : 'var(--text)';
         return `
-          <div style="font-size:0.78rem;color:var(--hint);padding:10px 0;border-bottom:1px solid var(--border);">#${i+1}</div>
-          <div style="font-family:'DM Mono',monospace;font-size:0.95rem;color:${color};padding:10px 0;border-bottom:1px solid var(--border);text-align:center;">${fmt(t)}</div>
-          <div style="font-family:'DM Mono',monospace;font-size:0.95rem;color:var(--muted);padding:10px 0;border-bottom:1px solid var(--border);text-align:center;">${fmt(lapElapseds[i])}</div>`;
+          <div style="font-size:0.78rem;color:var(--hint);padding:10px 0;border-bottom:1px solid var(--border);font-family:var(--font-body);">#${i+1}</div>
+          <div style="font-family:var(--font-mono);font-size:0.95rem;color:${color};padding:10px 0;border-bottom:1px solid var(--border);text-align:center;">${fmt(t)}</div>
+          <div style="font-family:var(--font-mono);font-size:0.95rem;color:var(--muted);padding:10px 0;border-bottom:1px solid var(--border);text-align:center;">${fmt(lapElapseds[i])}</div>`;
       }).join('')}
     </div>`;
 }
 
-// Tab title
 function updateTabTitle() {
-  if (swRunning) {
-    document.title = fmt(swElapsed) + ' – Timerrapp';
-  } else {
-    document.title = 'Online Stopwatch — Free Stopwatch Timer | Timerrapp';
-  }
+  document.title = swRunning ? fmt(swElapsed)+' – Timerrapp' : 'Online Stopwatch — Free Stopwatch Timer | Timerrapp';
 }
 setInterval(updateTabTitle, 100);
 
-// Space to Start/Pause
 document.addEventListener('keydown', function(e) {
   if (e.code !== 'Space') return;
   const tag = document.activeElement.tagName.toLowerCase();

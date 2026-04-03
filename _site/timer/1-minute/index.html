@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,10 +13,20 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400&family=DM+Sans:wght@300;400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400&family=DM+Sans:wght@300;400;500&family=Instrument+Serif:ital@0;1&family=Nunito:wght@400;600;700;800;900&family=Nunito+Sans:wght@400;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+  <script>
+    (function() {
+      var t = localStorage.getItem('timerr_theme') || 'kawaii';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+
   <style>
-    :root {
+    /* ===================== DARK THEME (default) ===================== */
+    :root,
+    [data-theme="dark"] {
       --bg: #0a0a0f;
       --surface: #13131a;
       --surface2: #1c1c26;
@@ -28,28 +38,77 @@
       --accent: #c8a96e;
       --danger: #e05c5c;
       --success: #5ce0a0;
+      --bg-image: url('/assets/mountain-1.webp');
+      --bg-image-opacity: 0.2;
+      --header-bg: rgba(10,10,15,0.4);
+      --glass-bg: rgba(255,255,255,0.05);
+      --glass-border: rgba(96,96,96,0.1);
+      --font-heading: 'Instrument Serif', serif;
+      --font-body: 'DM Sans', sans-serif;
+      --font-mono: 'DM Mono', monospace;
+      --btn-radius: 10px;
+      --btn-border: none;
+      --btn-shadow: none;
+      --logo-style: italic;
+      --icon-lib: phosphor;
     }
+
+    /* ===================== KAWAII THEME ===================== */
+    [data-theme="kawaii"] {
+      --bg: #e8e0f5;
+      --surface: #f2eefb;
+      --surface2: #ede6f8;
+      --border: rgba(100,80,160,0.15);
+      --border2: rgba(100,80,160,0.25);
+      --text: #1a1a2e;
+      --muted: #4a3c6e;
+      --hint: #6a5a9a;
+      --accent: #e8602c;
+      --accent-hover: #f07040;
+      --accent-active: #c94e1e;
+      --danger: #e05c5c;
+      --success: #7ecec8;
+      --bg-image: url('/assets/fun-mtn.webp');
+      --bg-image-opacity: 0.35;
+      --header-bg: rgba(232,224,245,0.7);
+      --glass-bg: rgba(255,255,255,0.55);
+      --glass-border: rgba(0,0,0,1);
+      --font-heading: 'Nunito', sans-serif;
+      --font-body: 'Nunito Sans', sans-serif;
+      --font-mono: 'Space Mono', monospace;
+      --btn-radius: 10px;
+      --btn-border: 3.5px solid #000000;
+      --btn-shadow: 4px 4px 0px #000000;
+      --logo-style: normal;
+      --icon-lib: lucide;
+    }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
+
     body {
       background: var(--bg);
       color: var(--text);
-      font-family: 'DM Sans', sans-serif;
+      font-family: var(--font-body);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      transition: background 0.3s, color 0.3s;
     }
+
     body::before {
       content: '';
       position: fixed; inset: 0;
-      background-image: url('/assets/mountain-1.webp');
+      background-image: var(--bg-image);
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
-      opacity: 0.2;
+      opacity: var(--bg-image-opacity);
       pointer-events: none;
       z-index: 0;
+      transition: opacity 0.3s, background-image 0.3s;
     }
-    body::after {
+
+    [data-theme="dark"] body::after {
       content: '';
       position: fixed; inset: 0;
       background-image:
@@ -59,24 +118,40 @@
       pointer-events: none;
       z-index: 0;
     }
+
+    /* ===================== HEADER ===================== */
     header {
       position: relative; z-index: 10;
       display: flex; align-items: center; justify-content: space-between;
       padding: 1.25rem 2.5rem;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-      background: rgba(10,10,15,0.4);
+      border-bottom: 1px solid var(--border);
+      background: var(--header-bg);
+      box-shadow: 0 1px 0 rgba(255,255,255,0.05), 0 4px 24px rgba(0,0,0,0.1);
+      transition: background 0.3s;
+    }
+    [data-theme="dark"] header {
       backdrop-filter: blur(24px);
       -webkit-backdrop-filter: blur(24px);
-      box-shadow: 0 1px 0 rgba(255,255,255,0.05), 0 4px 24px rgba(0,0,0,0.4);
     }
+    [data-theme="kawaii"] header {
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      border-bottom: 2.5px solid #000;
+      box-shadow: 0 3px 0 #000;
+    }
+
     .logo {
-      font-family: 'Instrument Serif', serif;
+      font-family: var(--font-heading);
       font-size: 1.85rem;
       color: var(--text);
       text-decoration: none;
+      transition: color 0.3s;
     }
-    .logo span { color: var(--accent); font-style: italic; }
-    nav { display: flex; gap: 4px; }
+    [data-theme="dark"] .logo span { color: var(--accent); font-style: italic; }
+    [data-theme="kawaii"] .logo { font-weight: 800; }
+    [data-theme="kawaii"] .logo span { color: var(--accent); font-style: normal; font-weight: 900; }
+
+    nav { display: flex; gap: 4px; align-items: center; }
     nav a {
       color: var(--muted);
       text-decoration: none;
@@ -85,21 +160,115 @@
       font-size: 0.85rem;
       border: 1px solid transparent;
       transition: all 0.2s;
+      font-family: var(--font-body);
     }
-    nav a:hover {
+    [data-theme="dark"] nav a:hover,
+    [data-theme="dark"] nav a.active {
       color: var(--text);
-      background: rgba(255,255,255,0.07);
+      background: var(--glass-bg);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
-      border-color: rgba(255,255,255,0.12);
+      border-color: var(--border2);
     }
-    nav a.active {
+    [data-theme="kawaii"] nav a:hover,
+    [data-theme="kawaii"] nav a.active {
       color: var(--text);
-      background: rgba(255,255,255,0.07);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-color: rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.85);
+      border: 1px solid #000;
+      box-shadow: 2px 2px 0px #000;
+      backdrop-filter: none;
     }
+
+    /* ===================== SKIN SWITCHER ===================== */
+    .skin-btn {
+      border-radius: 100px;
+      padding: 6px 12px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      font-family: var(--font-body);
+      display: flex; align-items: center; gap: 6px;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    [data-theme="dark"] .skin-btn {
+      background: var(--glass-bg);
+      border: 1px solid var(--border2);
+      color: var(--muted);
+    }
+    [data-theme="dark"] .skin-btn:hover { color: var(--text); border-color: var(--accent); }
+    [data-theme="kawaii"] .skin-btn {
+      border: 2.5px solid #000;
+      box-shadow: 2px 2px 0px #000;
+      background: rgba(255,255,255,0.85);
+      color: #000;
+      font-weight: 700;
+    }
+    [data-theme="kawaii"] .skin-btn:hover {
+      background: var(--accent);
+      transform: translate(-1px,-1px);
+      box-shadow: 3px 3px 0px #000;
+    }
+    [data-theme="kawaii"] .skin-btn:hover i{
+      color: #000 !important;
+    }
+
+    .skin-menu {
+      display: none;
+      position: absolute;
+      top: calc(100% + 10px);
+      right: 0;
+      background: var(--surface);
+      border: 1px solid var(--border2);
+      border-radius: 14px;
+      padding: 8px;
+      min-width: 180px;
+      z-index: 100;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    }
+    [data-theme="kawaii"] .skin-menu {
+      border: 3px solid #000;
+      box-shadow: 4px 4px 0px #000;
+      border-radius: 14px;
+    }
+    .skin-menu.open { display: block; }
+
+    .skin-option { 
+      display: flex; align-items: center; gap: 10px;
+      padding: 9px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      color: var(--text);
+      font-family: var(--font-body);
+      transition: background 0.15s;
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+    }
+    .skin-option:hover { background: var(--surface2); }
+    .skin-option.active {
+      color: var(--accent);
+      font-weight: 700;
+      background: var(--surface2);
+    }
+    .skin-option .check {
+      margin-left: auto;
+      opacity: 0;
+      font-size: 14px;
+      color: var(--accent);
+    }
+    .skin-option.active .check { opacity: 1; }
+    .skin-swatch {
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      border: 2px solid var(--border2);
+      flex-shrink: 0;
+    }
+    [data-theme="kawaii"] .skin-option:hover { background: rgba(232,96,44,0.1); }
+    [data-theme="kawaii"] .skin-option.active { color: var(--accent); background: rgba(232,96,44,0.08); }
+
+    /* ===================== MAIN ===================== */
     main {
       position: relative; z-index: 1;
       flex: 1;
@@ -109,57 +278,104 @@
       padding: 3rem 2rem 5rem;
       text-align: center;
     }
+
     .page-title {
-      font-family: 'Instrument Serif', serif;
+      font-family: var(--font-heading);
       font-size: 2.4rem;
       font-weight: 400;
       margin-bottom: 0.4rem;
+      color: var(--text);
     }
+    [data-theme="kawaii"] .page-title { font-weight: 900; }
+
     .page-subtitle {
       color: var(--muted);
       font-size: 0.95rem;
       margin-bottom: 2.5rem;
+      font-family: var(--font-body);
     }
-    /* Buttons */
+
+    /* ===================== BUTTONS ===================== */
     .btn {
       padding: 0.9rem 2.2rem;
-      border-radius: 12px;
-      font-family: 'DM Sans', sans-serif;
+      border-radius: var(--btn-radius);
+      font-family: var(--font-body);
       font-size: 1.05rem;
       cursor: pointer;
       font-weight: 500;
-      border: none;
-      transition: opacity 0.2s, border-color 0.2s;
+      transition: all 0.15s;
       min-width: 120px;
+      display: inline-block;
     }
-    .btn-primary { background: var(--accent); color: #0a0a0f; }
-    .btn-primary:hover { opacity: 0.85; }
-    .btn-secondary {
+
+    /* Dark theme buttons */
+    [data-theme="dark"] .btn-primary {
+      background: var(--accent);
+      color: #0a0a0f;
+      border: none;
+    }
+    [data-theme="dark"] .btn-primary:hover { opacity: 0.85; }
+    [data-theme="dark"] .btn-secondary {
       background: rgba(255,255,255,0.05);
       backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
       border: 1px solid rgba(96,96,96,0.1);
       color: var(--text);
     }
-    .btn-secondary:hover { background: rgba(255,255,255,0.09); }
-    .btn-danger { background: transparent; border: 1px solid var(--danger); color: var(--danger); }
-    /* Inputs */
+    [data-theme="dark"] .btn-secondary:hover { background: rgba(255,255,255,0.09); }
+    [data-theme="dark"] .btn-danger { background: transparent; border: 1px solid var(--danger); color: var(--danger); }
+
+    /* Kawaii theme buttons */
+    [data-theme="kawaii"] .btn-primary,
+    [data-theme="kawaii"] .btn-secondary,
+    [data-theme="kawaii"] .btn-danger {
+      background: var(--accent);
+      color: #000000 !important;
+      -webkit-text-fill-color: #000000;
+      border: 3.5px solid #000000;
+      box-shadow: 4px 4px 0px #000000;
+      font-weight: 800;
+      font-family: var(--font-body);
+    }
+    [data-theme="kawaii"] .btn-primary:hover,
+    [data-theme="kawaii"] .btn-secondary:hover {
+      background: var(--accent-hover);
+      transform: translate(-1px, -1px);
+      box-shadow: 5px 5px 0px #000000;
+    }
+    [data-theme="kawaii"] .btn-primary:active,
+    [data-theme="kawaii"] .btn-secondary:active {
+      background: var(--accent-active);
+      transform: translate(3px, 3px);
+      box-shadow: 1px 1px 0px #000000;
+    }
+    [data-theme="kawaii"] .btn-danger {
+      background: #ffb3b3;
+    }
+
+    /* ===================== INPUTS ===================== */
     .input-field {
       width: 100%;
-      max-width: 100%;
-      box-sizing: border-box;
       background: var(--surface);
       border: 1px solid var(--border2);
       border-radius: 10px;
       color: var(--text);
       padding: 0.75rem 1rem;
-      font-family: 'DM Mono', monospace;
+      font-family: var(--font-mono);
       font-size: 1rem;
       outline: none;
       transition: border-color 0.2s;
       text-align: center;
     }
     .input-field:focus { border-color: var(--accent); }
+    [data-theme="kawaii"] .input-field {
+      border: 2.5px solid #000;
+      background: rgba(255,255,255,0.7);
+      color: #1a1a2e;
+      font-family: var(--font-mono);
+      border-radius: 10px;
+    }
+    [data-theme="kawaii"] .input-field:focus { border-color: var(--accent); box-shadow: 3px 3px 0px #000; }
+
     .field-label {
       display: block;
       font-size: 0.72rem;
@@ -168,30 +384,34 @@
       letter-spacing: 0.08em;
       margin-bottom: 6px;
       text-align: center;
+      font-family: var(--font-body);
     }
-    /* Sound picker */
+
+    /* ===================== SOUND ROW ===================== */
     .sound-row {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      margin: 1.25rem 0;
-      flex-wrap: wrap;
+      display: flex; align-items: center; justify-content: center;
+      gap: 10px; margin: 1.25rem 0; flex-wrap: wrap;
     }
-    .sound-row label { font-size: 0.8rem; color: var(--muted); }
+    .sound-row label { font-size: 0.8rem; color: var(--muted); font-family: var(--font-body); }
+
     .sound-select {
       background: var(--surface);
       border: 1px solid var(--border2);
       border-radius: 8px;
       color: var(--text);
       padding: 6px 12px;
-      font-family: 'DM Sans', sans-serif;
+      font-family: var(--font-body);
       font-size: 0.85rem;
       outline: none;
       cursor: pointer;
     }
-    .sound-select:focus { border-color: var(--accent); }
-    .sound-select option { background: var(--surface2); }
+    [data-theme="kawaii"] .sound-select {
+      border: 2.5px solid #000;
+      background: rgba(255,255,255,0.7);
+      color: #1a1a2e;
+      border-radius: 8px;
+    }
+
     .btn-test {
       padding: 6px 14px;
       border-radius: 8px;
@@ -200,11 +420,20 @@
       color: var(--muted);
       font-size: 0.8rem;
       cursor: pointer;
-      font-family: 'DM Sans', sans-serif;
+      font-family: var(--font-body);
       transition: all 0.15s;
     }
     .btn-test:hover { border-color: var(--accent); color: var(--accent); }
-    /* Chips */
+    [data-theme="kawaii"] .btn-test {
+      border: 2.5px solid #000;
+      color: #000;
+      background: rgba(255,255,255,0.5);
+      border-radius: 8px;
+      font-weight: 700;
+    }
+    [data-theme="kawaii"] .btn-test:hover { background: var(--accent); box-shadow: 2px 2px 0px #000; }
+
+    /* ===================== CHIPS ===================== */
     .chips { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 1.5rem; }
     .chip {
       background: var(--surface);
@@ -214,31 +443,57 @@
       font-size: 0.82rem;
       color: var(--muted);
       cursor: pointer;
-      font-family: 'DM Mono', monospace;
+      font-family: var(--font-mono);
       transition: all 0.15s;
     }
     .chip:hover { border-color: var(--accent); color: var(--accent); }
+    [data-theme="kawaii"] .chip {
+      background: rgba(255,255,255,0.7);
+      border: 2.5px solid #000;
+      border-radius: 10px;
+      color: #000;
+      font-weight: 700;
+      box-shadow: 2px 2px 0px #000;
+    }
+    [data-theme="kawaii"] .chip:hover {
+      background: var(--accent);
+      transform: translate(-1px, -1px);
+      box-shadow: 3px 3px 0px #000;
+      color: #000;
+    }
+
+    /* ===================== GLASS CARDS ===================== */
     .glass {
-      background: rgba(255,255,255,0.05);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(96,96,96,0.1);
       border-radius: 16px;
       transition: background 0.2s, border-color 0.2s;
     }
-    .glass:hover { background: rgba(255,255,255,0.09); }
-    /* Control row */
-    .controls { display: flex; gap: 10px; justify-content: center; margin-top: 1.5rem; flex-wrap: wrap; }
-    /* Divider */
-    .divider { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
-    /* Section label */
-    .section-label {
-      font-size: 0.72rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--hint);
-      margin-bottom: 1rem;
+    [data-theme="dark"] .glass {
+      background: var(--glass-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--glass-border);
     }
+    [data-theme="dark"] .glass:hover { background: rgba(255,255,255,0.09); }
+    [data-theme="kawaii"] .glass {
+      background: rgba(255,255,255,0.75);
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      border: 2.5px solid #000;
+      box-shadow: 3px 3px 0px #000;
+      border-radius: 16px;
+    }
+    [data-theme="kawaii"] .glass:hover {
+      background: rgba(255,255,255,0.95);
+      transform: translate(-1px, -1px);
+      box-shadow: 4px 4px 0px #000;
+    }
+
+    /* ===================== MISC ===================== */
+    .controls { display: flex; gap: 10px; justify-content: center; margin-top: 1.5rem; flex-wrap: wrap; }
+    .divider { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+    .section-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--hint); margin-bottom: 1rem; font-family: var(--font-body); }
+
+    /* ===================== FOOTER ===================== */
     footer {
       position: relative; z-index: 1;
       text-align: center;
@@ -246,18 +501,17 @@
       font-size: 0.78rem;
       color: var(--hint);
       border-top: 1px solid var(--border);
+      font-family: var(--font-body);
     }
     footer a { color: var(--hint); text-decoration: none; }
     footer a:hover { color: var(--accent); }
+
+    /* ===================== RESPONSIVE ===================== */
     * { max-width: 100%; }
     body { overflow-x: hidden; }
+
     @media (max-width: 600px) {
-      header {
-        padding: 0.9rem 1rem;
-        flex-direction: column;
-        align-items: center;
-        gap: 0.6rem;
-      }
+      header { padding: 0.9rem 1rem; flex-direction: column; align-items: center; gap: 0.6rem; }
       .desktop-only { display: none; }
       nav {
         width: 100%;
@@ -265,9 +519,12 @@
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
         padding-bottom: 2px;
+        flex-wrap: nowrap;
       }
       nav::-webkit-scrollbar { display: none; }
       nav a { padding: 4px 10px; font-size: 0.75rem; white-space: nowrap; }
+      .skin-btn { padding: 4px 10px; font-size: 0.75rem; white-space: nowrap; }
+      .skin-menu { right: auto; left: 0; }
       main { padding: 2rem 1rem 3rem; }
       .page-title { font-size: 1.8rem; }
       .controls { gap: 8px; }
@@ -289,135 +546,156 @@
       <a href="/stopwatch/" >Stopwatch</a>
       <a href="/pomodoro/" >Pomodoro</a>
       <a href="/world-clock/" >World Clock</a>
+
+      <!-- Skin Switcher -->
+      <div style="position:relative;">
+        <button class="skin-btn" onclick="toggleSkinMenu()" id="skinBtn">
+          <i class="ph-fill ph-checkerboard" style="font-size:16px;color:var(--accent);"></i>
+          <span>Style</span>
+        </button>
+        <div class="skin-menu" id="skinMenu">
+          <button class="skin-option" onclick="setSkin('kawaii')" id="opt-kawaii">
+            <span class="skin-swatch" style="background:#e8e0f5;border-color:#b0a5cc;"></span>
+            Style 1
+            <i class="ph-bold ph-check check"></i>
+          </button>
+          <button class="skin-option" onclick="setSkin('dark')" id="opt-dark">
+            <span class="skin-swatch" style="background:#0a0a0f;"></span>
+            Style 2
+            <i class="ph-bold ph-check check"></i>
+          </button>
+        </div>
+      </div>
     </nav>
   </header>
+
   <main>
     
-<h1 style="font-family:'Instrument Serif',serif; font-size:2.5rem; font-weight:400; margin-bottom:0.5rem;">1 Minute Timer</h1>
-<p style="color:var(--muted); margin-bottom:2.5rem;">A free online 1 Minute countdown timer. Click Start and keep this tab open.</p>
+<h1 style="font-family:var(--font-heading);font-size:2.5rem;font-weight:400;margin-bottom:0.5rem;">1 Minute Timer</h1>
+<p style="color:var(--muted);margin-bottom:2.5rem;font-family:var(--font-body);">A free online 1 Minute countdown timer. Click Start and keep this tab open.</p>
 
-<div style="text-align:center; padding:2rem 0;">
-  <div style="position:relative; display:inline-block;">
+<div style="text-align:center;padding:2rem 0;">
+  <div style="position:relative;display:inline-block;">
     <svg width="200" height="200" viewBox="0 0 200 200" style="transform:rotate(-90deg)">
       <circle fill="none" stroke="var(--surface2)" stroke-width="4" cx="100" cy="100" r="92"/>
       <circle fill="none" stroke="var(--accent)" stroke-width="4" stroke-linecap="round"
         cx="100" cy="100" r="92" stroke-dasharray="578.1" stroke-dashoffset="0"
-        id="timerRing" style="transition:stroke-dashoffset 1s linear, stroke 0.3s;"/>
+        id="timerRing" style="transition:stroke-dashoffset 1s linear,stroke 0.3s;"/>
     </svg>
-    <div style="position:absolute; top:0; left:0; width:200px; height:200px; display:flex; align-items:center; justify-content:center;">
-      <div style="font-family:'DM Mono',monospace; font-size:2.2rem; font-weight:300;" id="timerDisplay">1 Minute</div>
+    <div style="position:absolute;top:0;left:0;width:200px;height:200px;display:flex;align-items:center;justify-content:center;">
+      <div style="font-family:var(--font-mono);font-size:2.2rem;font-weight:300;" id="timerDisplay">1 Minute</div>
     </div>
   </div>
-  <div style="margin-top:2rem; display:flex; gap:10px; justify-content:center;">
-    <button onclick="toggleTimer()" id="startBtn" style="padding:0.7rem 1.8rem; border-radius:10px; border:none; background:var(--accent); color:#0a0a0f; font-weight:500; cursor:pointer; font-family:'DM Sans',sans-serif;">Start</button>
-    <button onclick="resetTimer()" style="padding:0.7rem 1.4rem; border-radius:10px; border:1px solid var(--border2); background:transparent; color:var(--text); cursor:pointer; font-family:'DM Sans',sans-serif;">Reset</button>
+  <div style="margin-top:2rem;display:flex;gap:10px;justify-content:center;">
+    <button onclick="toggleTimer()" id="startBtn" class="btn btn-primary">Start</button>
+    <button onclick="resetTimer()" class="btn btn-secondary">Reset</button>
   </div>
 </div>
 
-<div style="margin-top:3rem; padding-top:2rem; border-top:1px solid var(--border);">
-  <h2 style="font-size:0.75rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--muted); margin-bottom:1rem; font-weight:400;">Other timers</h2>
-  <div style="display:flex; flex-wrap:wrap; gap:8px;">
+<div style="margin-top:3rem;padding-top:2rem;border-top:1px solid var(--border);">
+  <h2 style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:1rem;font-weight:400;font-family:var(--font-body);">Other timers</h2>
+  <div style="display:flex;flex-wrap:wrap;gap:8px;">
     
     
     
     
-    <a href="/timer/2-minutes/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">2 Minutes</a>
+    <a href="/timer/2-minutes/" class="chip" style="text-decoration:none;">2 Minutes</a>
     
     
     
-    <a href="/timer/3-minutes/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">3 Minutes</a>
+    <a href="/timer/3-minutes/" class="chip" style="text-decoration:none;">3 Minutes</a>
     
     
     
-    <a href="/timer/4-minutes/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">4 Minutes</a>
+    <a href="/timer/4-minutes/" class="chip" style="text-decoration:none;">4 Minutes</a>
     
     
     
-    <a href="/timer/5-minutes/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">5 Minutes</a>
+    <a href="/timer/5-minutes/" class="chip" style="text-decoration:none;">5 Minutes</a>
     
     
     
-    <a href="/timer/6-minutes/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">6 Minutes</a>
+    <a href="/timer/6-minutes/" class="chip" style="text-decoration:none;">6 Minutes</a>
     
     
     
-    <a href="/timer/7-minutes/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">7 Minutes</a>
+    <a href="/timer/7-minutes/" class="chip" style="text-decoration:none;">7 Minutes</a>
     
     
     
-    <a href="/timer/8-minutes/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">8 Minutes</a>
+    <a href="/timer/8-minutes/" class="chip" style="text-decoration:none;">8 Minutes</a>
     
     
     
-    <a href="/timer/9-minutes/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">9 Minutes</a>
+    <a href="/timer/9-minutes/" class="chip" style="text-decoration:none;">9 Minutes</a>
     
     
     
-    <a href="/timer/10-minutes/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">10 Minutes</a>
+    <a href="/timer/10-minutes/" class="chip" style="text-decoration:none;">10 Minutes</a>
     
     
     
-    <a href="/timer/11-minutes/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">11 Minutes</a>
+    <a href="/timer/11-minutes/" class="chip" style="text-decoration:none;">11 Minutes</a>
     
     
     
-    <a href="/timer/12-minutes/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">12 Minutes</a>
+    <a href="/timer/12-minutes/" class="chip" style="text-decoration:none;">12 Minutes</a>
     
     
     
-    <a href="/timer/13-minutes/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">13 Minutes</a>
+    <a href="/timer/13-minutes/" class="chip" style="text-decoration:none;">13 Minutes</a>
     
     
     
-    <a href="/timer/14-minutes/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">14 Minutes</a>
+    <a href="/timer/14-minutes/" class="chip" style="text-decoration:none;">14 Minutes</a>
     
     
     
-    <a href="/timer/15-minutes/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">15 Minutes</a>
+    <a href="/timer/15-minutes/" class="chip" style="text-decoration:none;">15 Minutes</a>
     
     
     
-    <a href="/timer/20-minutes/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">20 Minutes</a>
+    <a href="/timer/20-minutes/" class="chip" style="text-decoration:none;">20 Minutes</a>
     
     
     
-    <a href="/timer/25-minutes/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">25 Minutes</a>
+    <a href="/timer/25-minutes/" class="chip" style="text-decoration:none;">25 Minutes</a>
     
     
     
-    <a href="/timer/30-minutes/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">30 Minutes</a>
+    <a href="/timer/30-minutes/" class="chip" style="text-decoration:none;">30 Minutes</a>
     
     
     
-    <a href="/timer/35-minutes/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">35 Minutes</a>
+    <a href="/timer/35-minutes/" class="chip" style="text-decoration:none;">35 Minutes</a>
     
     
     
-    <a href="/timer/40-minutes/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">40 Minutes</a>
+    <a href="/timer/40-minutes/" class="chip" style="text-decoration:none;">40 Minutes</a>
     
     
     
-    <a href="/timer/45-minutes/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">45 Minutes</a>
+    <a href="/timer/45-minutes/" class="chip" style="text-decoration:none;">45 Minutes</a>
     
     
     
-    <a href="/timer/50-minutes/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">50 Minutes</a>
+    <a href="/timer/50-minutes/" class="chip" style="text-decoration:none;">50 Minutes</a>
     
     
     
-    <a href="/timer/55-minutes/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">55 Minutes</a>
+    <a href="/timer/55-minutes/" class="chip" style="text-decoration:none;">55 Minutes</a>
     
     
     
-    <a href="/timer/1-hour/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">1 Hour</a>
+    <a href="/timer/1-hour/" class="chip" style="text-decoration:none;">1 Hour</a>
     
     
     
-    <a href="/timer/90-minutes/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">90 Minutes</a>
+    <a href="/timer/90-minutes/" class="chip" style="text-decoration:none;">90 Minutes</a>
     
     
     
-    <a href="/timer/2-hours/" style="background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:5px 14px; font-size:0.82rem; color:var(--muted); text-decoration:none; font-family:'DM Mono',monospace;" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">2 Hours</a>
+    <a href="/timer/2-hours/" class="chip" style="text-decoration:none;">2 Hours</a>
     
     
   </div>
@@ -457,14 +735,12 @@ function resetTimer() {
 }
 
 function updateDisplay(secs) {
-  const h = Math.floor(secs/3600);
-  const m = Math.floor((secs%3600)/60);
-  const s = secs%60;
+  const h = Math.floor(secs/3600), m = Math.floor((secs%3600)/60), s = secs%60;
   document.getElementById('timerDisplay').textContent =
     (h > 0 ? String(h).padStart(2,'0')+':' : '') +
     String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
-  document.getElementById('timerRing').style.strokeDashoffset = CIRC * (1 - secs/TOTAL);
-  document.getElementById('timerRing').style.stroke = secs <= 10 ? '#e05c5c' : 'var(--accent)';
+  document.getElementById('timerRing').style.strokeDashoffset = CIRC*(1-secs/TOTAL);
+  document.getElementById('timerRing').style.stroke = secs <= 10 ? 'var(--danger)' : 'var(--accent)';
 }
 
 function fireAlarm() {
@@ -475,19 +751,46 @@ function fireAlarm() {
       o.connect(g); g.connect(ctx.destination);
       o.frequency.value = 880; o.type = 'sine';
       g.gain.setValueAtTime(0.3, ctx.currentTime);
-      g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.5);
-      o.start(ctx.currentTime); o.stop(ctx.currentTime + 0.5);
+      g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime+0.5);
+      o.start(ctx.currentTime); o.stop(ctx.currentTime+0.5);
     }
     beep(); let c = 0;
     const i = setInterval(() => { if(++c >= 5) clearInterval(i); else beep(); }, 1000);
   } catch(e) {}
 }
 </script>
+
   </main>
+
   <footer>
     <p>© 2026 Timerrapp.com &nbsp;·&nbsp; <a href="/about/">About</a></p>
   </footer>
+
   <script>
+    /* ---- Skin switcher ---- */
+    function toggleSkinMenu() {
+      document.getElementById('skinMenu').classList.toggle('open');
+    }
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.skin-btn') && !e.target.closest('.skin-menu')) {
+        document.getElementById('skinMenu').classList.remove('open');
+      }
+    });
+    function setSkin(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+      localStorage.setItem('timerr_theme', theme);
+      document.getElementById('skinMenu').classList.remove('open');
+      updateSkinUI(theme);
+    }
+    function updateSkinUI(theme) {
+      document.querySelectorAll('.skin-option').forEach(o => o.classList.remove('active'));
+      var opt = document.getElementById('opt-' + theme);
+      if (opt) opt.classList.add('active');
+    }
+    var currentTheme = localStorage.getItem('timerr_theme') || 'dark';
+    updateSkinUI(currentTheme);
+
+    /* ---- Sound engine ---- */
     function playSound(type) {
       try {
         const ctx = new (window.AudioContext || window.webkitAudioContext)();
