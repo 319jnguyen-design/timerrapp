@@ -263,6 +263,7 @@ body { overflow-x: hidden; }
     align-items: center;
     gap: 0.6rem;
   }
+  .desktop-only { display: none; }
   nav {
     width: 100%;
     overflow-x: auto;
@@ -290,6 +291,7 @@ body { overflow-x: hidden; }
     <a href="/timer/" {% if activePage == 'timer' %}class="active"{% endif %}>Timer</a>
     <a href="/stopwatch/" {% if activePage == 'stopwatch' %}class="active"{% endif %}>Stopwatch</a>
     <a href="/pomodoro/" {% if activePage == 'pomodoro' %}class="active"{% endif %}>Pomodoro</a>
+<a href="/world-clock/" {% if activePage == 'worldclock' %}class="active"{% endif %}>World Clock</a>
   </nav>
 </header>
 <main>

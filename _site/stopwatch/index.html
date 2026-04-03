@@ -263,6 +263,7 @@ body { overflow-x: hidden; }
     align-items: center;
     gap: 0.6rem;
   }
+  .desktop-only { display: none; }
   nav {
     width: 100%;
     overflow-x: auto;
@@ -290,6 +291,7 @@ body { overflow-x: hidden; }
     <a href="/timer/" >Timer</a>
     <a href="/stopwatch/" class="active">Stopwatch</a>
     <a href="/pomodoro/" >Pomodoro</a>
+<a href="/world-clock/" >World Clock</a>
   </nav>
 </header>
 <main>
@@ -306,7 +308,7 @@ body { overflow-x: hidden; }
   <button class="btn btn-secondary" id="swLapBtn" onclick="lapSW()" disabled style="opacity:0.4;">Lap</button>
   <button class="btn btn-secondary" onclick="resetSW()">Reset</button>
 </div>
-<div style="margin-top:1rem;font-size:0.75rem;color:var(--hint);">Press <kbd style="background:var(--surface2);border:1px solid var(--border2);border-radius:4px;padding:1px 6px;font-family:'DM Mono',monospace;font-size:0.72rem;">Space</kbd> to start or pause</div>
+<div class="desktop-only" style="margin-top:0.75rem;font-size:0.75rem;color:var(--hint);">Press <kbd style="background:var(--surface2);border:1px solid var(--border2);border-radius:4px;padding:1px 6px;font-family:'DM Mono',monospace;font-size:0.72rem;">Space</kbd> to start or pause</div>
 
 <div id="swLaps" style="margin-top:2rem;width:100%;"></div>
 
