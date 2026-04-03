@@ -1,115 +1,253 @@
 ---
 layout: base.njk
-title: "Online Clock — Free Digital Clock | Timerrapp"
-description: "Free online clock showing the exact time. Also includes alarm clock, timer, stopwatch and Pomodoro timer. No download needed."
+title: 'Online Clock — Free Digital Clock | Timerrapp'
+description: 'Free online clock showing the exact time. Also includes alarm clock, timer, stopwatch and Pomodoro timer. No download needed.'
 activePage: clock
 ---
 
-<div id="skyicon" style="margin-bottom:1rem;display:flex;justify-content:center;"></div>
+<div
+  id="skyicon"
+  style="margin-bottom: 1rem; display: flex; justify-content: center"
+></div>
 
-<div style="font-family:'DM Mono',monospace;font-size:clamp(4rem,14vw,8rem);font-weight:300;letter-spacing:-0.03em;line-height:1;" id="clockTime">00:00:00</div>
-<div style="font-family:'DM Mono',monospace;font-size:1.3rem;color:var(--accent);margin-top:0.4rem;letter-spacing:0.15em;" id="clockAmPm">AM</div>
-<div style="margin-top:0.75rem;display:flex;align-items:center;justify-content:center;gap:8px;">
-  <span style="font-size:0.75rem;color:var(--muted);">12h</span>
-  <div id="militaryToggle" onclick="toggleMilitary()" style="width:40px;height:22px;border-radius:100px;border:1px solid var(--border2);background:transparent;cursor:pointer;position:relative;transition:all 0.2s;">
-    <div id="militaryDot" style="position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:var(--muted);transition:all 0.2s;"></div>
-  </div>
-  <span style="font-size:0.75rem;color:var(--muted);">24h</span>
+<div
+  style="
+    font-family: 'DM Mono', monospace;
+    font-size: clamp(4rem, 14vw, 8rem);
+    font-weight: 300;
+    letter-spacing: 0.02em;
+    line-height: 1;
+  "
+  id="clockTime"
+>
+  00:00:00
 </div>
-<div style="font-size:0.9rem;color:var(--muted);margin-top:1.5rem;letter-spacing:0.06em;text-transform:uppercase;" id="clockDate"></div>
-<div style="font-size:0.78rem;color:var(--hint);margin-top:0.3rem;" id="clockTZ"></div>
+<div
+  style="
+    font-family: 'DM Mono', monospace;
+    font-size: 1.3rem;
+    color: var(--accent);
+    margin-top: 0.4rem;
+    letter-spacing: 0.15em;
+  "
+  id="clockAmPm"
+>
+  AM
+</div>
+<div
+  style="
+    margin-top: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  "
+>
+  <span style="font-size: 0.75rem; color: var(--muted)">12h</span>
+  <div
+    id="militaryToggle"
+    onclick="toggleMilitary()"
+    style="
+      width: 40px;
+      height: 22px;
+      border-radius: 100px;
+      border: 1px solid var(--border2);
+      background: transparent;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.2s;
+    "
+  >
+    <div
+      id="militaryDot"
+      style="
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: var(--muted);
+        transition: all 0.2s;
+      "
+    ></div>
+  </div>
+  <span style="font-size: 0.75rem; color: var(--muted)">24h</span>
+</div>
+<div
+  style="
+    font-size: 0.9rem;
+    color: var(--muted);
+    margin-top: 1.5rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  "
+  id="clockDate"
+></div>
+<div
+  style="font-size: 0.78rem; color: var(--hint); margin-top: 0.3rem"
+  id="clockTZ"
+></div>
 
-<hr class="divider" style="margin-top:3rem;">
+<hr class="divider" style="margin-top: 3rem" />
 
-<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;margin-top:2rem;">
-
-  <a href="/alarm/" class="glass" style="display:block;padding:1.4rem 1rem;text-decoration:none;text-align:center;">
-    <div style="display:flex;justify-content:center;margin-bottom:10px;">
-      <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="#c8a96e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="14" cy="15" r="9"/><polyline points="14,10 14,15 17,18"/>
-        <line x1="10" y1="3" x2="7" y2="6"/><line x1="18" y1="3" x2="21" y2="6"/>
-      </svg>
+<div
+  class="tool-grid"
+  style="
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    margin-top: 2rem;
+  "
+>
+  <a
+    href="/alarm/"
+    class="glass"
+    style="
+      display: block;
+      padding: 1.4rem 1rem;
+      text-decoration: none;
+      text-align: center;
+    "
+  >
+    <div style="display: flex; justify-content: center; margin-bottom: 10px">
+      <i
+        class="ph-light ph-alarm"
+        style="font-size: 28px; color: var(--text)"
+      ></i>
     </div>
-    <div style="font-weight:500;color:var(--text);font-size:0.9rem;">Alarm Clock</div>
-    <div style="font-size:0.75rem;color:var(--muted);margin-top:3px;">Set a wake-up alarm</div>
+    <div style="font-weight: 500; color: var(--text); font-size: 0.9rem">
+      Alarm
+    </div>
+    <div style="font-size: 0.75rem; color: var(--muted); margin-top: 3px">
+      Wake-up alarm
+    </div>
   </a>
 
-  <a href="/timer/" class="glass" style="display:block;padding:1.4rem 1rem;text-decoration:none;text-align:center;">
-    <div style="display:flex;justify-content:center;margin-bottom:10px;">
-      <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="#c8a96e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="14" cy="16" r="9"/><polyline points="14,11 14,16 18,18"/>
-        <line x1="11" y1="3" x2="17" y2="3"/><line x1="14" y1="3" x2="14" y2="7"/>
-      </svg>
+  <a
+    href="/timer/"
+    class="glass"
+    style="
+      display: block;
+      padding: 1.4rem 1rem;
+      text-decoration: none;
+      text-align: center;
+    "
+  >
+    <div style="display: flex; justify-content: center; margin-bottom: 10px">
+      <i
+        class="ph-light ph-timer"
+        style="font-size: 28px; color: var(--text)"
+      ></i>
     </div>
-    <div style="font-weight:500;color:var(--text);font-size:0.9rem;">Timer</div>
-    <div style="font-size:0.75rem;color:var(--muted);margin-top:3px;">Countdown timer</div>
+    <div style="font-weight: 500; color: var(--text); font-size: 0.9rem">
+      Timer
+    </div>
+    <div style="font-size: 0.75rem; color: var(--muted); margin-top: 3px">
+      Countdown timer
+    </div>
   </a>
 
-  <a href="/stopwatch/" class="glass" style="display:block;padding:1.4rem 1rem;text-decoration:none;text-align:center;">
-    <div style="display:flex;justify-content:center;margin-bottom:10px;">
-      <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="#c8a96e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="14" cy="16" r="9"/><polyline points="14,11 14,16"/>
-        <line x1="11" y1="3" x2="17" y2="3"/><line x1="22" y1="8" x2="24" y2="6"/>
-      </svg>
+  <a
+    href="/stopwatch/"
+    class="glass"
+    style="
+      display: block;
+      padding: 1.4rem 1rem;
+      text-decoration: none;
+      text-align: center;
+    "
+  >
+    <div style="display: flex; justify-content: center; margin-bottom: 10px">
+      <i
+        class="ph-light ph-person-simple-run"
+        style="font-size: 28px; color: var(--text)"
+      ></i>
     </div>
-    <div style="font-weight:500;color:var(--text);font-size:0.9rem;">Stopwatch</div>
-    <div style="font-size:0.75rem;color:var(--muted);margin-top:3px;">Track elapsed time</div>
+    <div style="font-weight: 500; color: var(--text); font-size: 0.9rem">
+      Stopwatch
+    </div>
+    <div style="font-size: 0.75rem; color: var(--muted); margin-top: 3px">
+      Lap Timer
+    </div>
   </a>
 
-  <a href="/pomodoro/" class="glass" style="display:block;padding:1.4rem 1rem;text-decoration:none;text-align:center;">
-    <div style="display:flex;justify-content:center;margin-bottom:10px;">
-      <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="#c8a96e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="14" cy="14" r="9"/>
-        <path d="M14 5 Q18 9 14 14 Q10 9 14 5Z" fill="#c8a96e" stroke="none"/>
-        <line x1="14" y1="14" x2="14" y2="19"/><line x1="11" y1="22" x2="17" y2="22"/>
-      </svg>
+  <a
+    href="/pomodoro/"
+    class="glass"
+    style="
+      display: block;
+      padding: 1.4rem 1rem;
+      text-decoration: none;
+      text-align: center;
+    "
+  >
+    <div style="display: flex; justify-content: center; margin-bottom: 10px">
+      <i
+        class="ph-light ph-coffee"
+        style="font-size: 28px; color: var(--text)"
+      ></i>
     </div>
-    <div style="font-weight:500;color:var(--text);font-size:0.9rem;">Pomodoro</div>
-    <div style="font-size:0.75rem;color:var(--muted);margin-top:3px;">Focus timer</div>
+    <div style="font-weight: 500; color: var(--text); font-size: 0.9rem">
+      Pomodoro
+    </div>
+    <div style="font-size: 0.75rem; color: var(--muted); margin-top: 3px">
+      Focus timer
+    </div>
   </a>
 
-  <a href="/world-clock/" class="glass" style="display:block;padding:1.4rem 1rem;text-decoration:none;text-align:center;">
-    <div style="display:flex;justify-content:center;margin-bottom:10px;">
-      <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="#c8a96e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="14" cy="14" r="10"/>
-        <line x1="4" y1="14" x2="24" y2="14"/>
-        <path d="M14 4 C10 8 10 20 14 24"/>
-        <path d="M14 4 C18 8 18 20 14 24"/>
-      </svg>
+  <a
+    href="/world-clock/"
+    class="glass"
+    style="
+      display: block;
+      padding: 1.4rem 1rem;
+      text-decoration: none;
+      text-align: center;
+    "
+  >
+    <div style="display: flex; justify-content: center; margin-bottom: 10px">
+      <i
+        class="ph-light ph-globe"
+        style="font-size: 28px; color: var(--text)"
+      ></i>
     </div>
-    <div style="font-weight:500;color:var(--text);font-size:0.9rem;">World Clock</div>
-    <div style="font-size:0.75rem;color:var(--muted);margin-top:3px;">Time around the world</div>
+    <div style="font-weight: 500; color: var(--text); font-size: 0.9rem">
+      World
+    </div>
+    <div style="font-size: 0.75rem; color: var(--muted); margin-top: 3px">
+      Time around the world
+    </div>
   </a>
-
 </div>
 
 <script>
-let military = localStorage.getItem('clock_military') === 'true';
+  let military = localStorage.getItem('clock_military') === 'true';
 
-function toggleMilitary() {
-  military = !military;
-  localStorage.setItem('clock_military', military);
-  const toggle = document.getElementById('militaryToggle');
-  const dot = document.getElementById('militaryDot');
-  toggle.style.background = military ? 'var(--accent)' : 'transparent';
-  toggle.style.borderColor = military ? 'var(--accent)' : 'var(--border2)';
-  dot.style.transform = military ? 'translateX(18px)' : 'translateX(0)';
-  dot.style.background = military ? '#0a0a0f' : 'var(--muted)';
-  updateClock();
-}
+  function toggleMilitary() {
+    military = !military;
+    localStorage.setItem('clock_military', military);
+    const toggle = document.getElementById('militaryToggle');
+    const dot = document.getElementById('militaryDot');
+    toggle.style.background = military ? 'var(--accent)' : 'transparent';
+    toggle.style.borderColor = military ? 'var(--accent)' : 'var(--border2)';
+    dot.style.transform = military ? 'translateX(18px)' : 'translateX(0)';
+    dot.style.background = military ? '#0a0a0f' : 'var(--muted)';
+    updateClock();
+  }
 
-function initToggle() {
-  if (!military) return;
-  const toggle = document.getElementById('militaryToggle');
-  const dot = document.getElementById('militaryDot');
-  toggle.style.background = 'var(--accent)';
-  toggle.style.borderColor = 'var(--accent)';
-  dot.style.transform = 'translateX(18px)';
-  dot.style.background = '#0a0a0f';
-}
+  function initToggle() {
+    if (!military) return;
+    const toggle = document.getElementById('militaryToggle');
+    const dot = document.getElementById('militaryDot');
+    toggle.style.background = 'var(--accent)';
+    toggle.style.borderColor = 'var(--accent)';
+    dot.style.transform = 'translateX(18px)';
+    dot.style.background = '#0a0a0f';
+  }
 
-function drawSun(el) {
-  el.innerHTML = `<svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+  function drawSun(el) {
+    el.innerHTML = `<svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
     <circle cx="18" cy="18" r="6" stroke="#c8a96e" stroke-width="1.5"/>
     <line x1="18" y1="4" x2="18" y2="8" stroke="#c8a96e" stroke-width="1.5" stroke-linecap="round"/>
     <line x1="18" y1="28" x2="18" y2="32" stroke="#c8a96e" stroke-width="1.5" stroke-linecap="round"/>
@@ -120,40 +258,80 @@ function drawSun(el) {
     <line x1="27.9" y1="8.1" x2="25.1" y2="10.9" stroke="#c8a96e" stroke-width="1.5" stroke-linecap="round"/>
     <line x1="10.9" y1="25.1" x2="8.1" y2="27.9" stroke="#c8a96e" stroke-width="1.5" stroke-linecap="round"/>
   </svg>`;
-}
+  }
 
-function drawMoon(el) {
-  el.innerHTML = `<svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+  function drawMoon(el) {
+    el.innerHTML = `<svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M26 24a12 12 0 1 1-10-20 10 10 0 0 0 10 20z" stroke="rgba(240,237,232,0.5)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
   </svg>`;
-}
-
-function updateClock() {
-  const now = new Date();
-  const h = now.getHours(), m = now.getMinutes(), s = now.getSeconds();
-  let display, ampm;
-  if (military) {
-    display = String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
-    ampm = '';
-  } else {
-    const ampmVal = h >= 12 ? 'PM' : 'AM';
-    const h12 = h % 12 || 12;
-    display = String(h12).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
-    ampm = ampmVal;
   }
-  document.getElementById('clockTime').textContent = display;
-  document.getElementById('clockAmPm').textContent = ampm;
-  const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-  const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-  document.getElementById('clockDate').textContent =
-    days[now.getDay()]+', '+months[now.getMonth()]+' '+now.getDate()+', '+now.getFullYear();
-  document.getElementById('clockTZ').textContent =
-    Intl.DateTimeFormat().resolvedOptions().timeZone;
-  const icon = document.getElementById('skyicon');
-  if (h >= 6 && h < 18) drawSun(icon); else drawMoon(icon);
-}
 
-initToggle();
-setInterval(updateClock, 1000);
-updateClock();
+  function updateClock() {
+    const now = new Date();
+    const h = now.getHours(),
+      m = now.getMinutes(),
+      s = now.getSeconds();
+    let display, ampm;
+    if (military) {
+      display =
+        String(h).padStart(2, '0') +
+        ':' +
+        String(m).padStart(2, '0') +
+        ':' +
+        String(s).padStart(2, '0');
+      ampm = '';
+    } else {
+      const ampmVal = h >= 12 ? 'PM' : 'AM';
+      const h12 = h % 12 || 12;
+      display =
+        String(h12).padStart(2, '0') +
+        ':' +
+        String(m).padStart(2, '0') +
+        ':' +
+        String(s).padStart(2, '0');
+      ampm = ampmVal;
+    }
+    document.getElementById('clockTime').textContent = display;
+    document.getElementById('clockAmPm').textContent = ampm;
+    const days = [
+      'Sunday',
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday'
+    ];
+    const months = [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December'
+    ];
+    document.getElementById('clockDate').textContent =
+      days[now.getDay()] +
+      ', ' +
+      months[now.getMonth()] +
+      ' ' +
+      now.getDate() +
+      ', ' +
+      now.getFullYear();
+    document.getElementById('clockTZ').textContent =
+      Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const icon = document.getElementById('skyicon');
+    if (h >= 6 && h < 18) drawSun(icon);
+    else drawMoon(icon);
+  }
+
+  initToggle();
+  setInterval(updateClock, 1000);
+  updateClock();
 </script>

@@ -1,301 +1,298 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Set Alarm for 1:00 PM — Online Alarm Clock | Timerrapp</title>
-<meta name="description" content="Set a free online alarm for 1:00 PM. Works in your browser, no download needed. Your alarm will ring right on this page.">
-<link rel="canonical" href="https://timerrapp.com/alarm/1-00-pm/">
-<meta name="google-site-verification" content="l7y9RLTGEQ9oIRfnLf-2oNWYb8G-ovdbaUHeK7o4ko8" />
-<link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
-<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
-<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400&family=DM+Sans:wght@300;400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-<style>
-:root {
-  --bg: #0a0a0f;
-  --surface: #13131a;
-  --surface2: #1c1c26;
-  --border: rgba(255,255,255,0.08);
-  --border2: rgba(255,255,255,0.14);
-  --text: #f0ede8;
-  --muted: rgba(240,237,232,0.45);
-  --hint: rgba(240,237,232,0.2);
-  --accent: #c8a96e;
-  --danger: #e05c5c;
-  --success: #5ce0a0;
-}
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'DM Sans', sans-serif;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-body::before {
-  content: '';
-  position: fixed; inset: 0;
-  background-image: url('/assets/mountain-1.webp');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  opacity: 0.2;
-  pointer-events: none;
-  z-index: 0;
-}
-body::after {
-  content: '';
-  position: fixed; inset: 0;
-  background-image:
-    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
-  background-size: 48px 48px;
-  pointer-events: none;
-  z-index: 0;
-}
-header {
-  position: relative; z-index: 10;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 1.25rem 2.5rem;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
-  background: rgba(10,10,15,0.6);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-}
-.logo {
-  font-family: 'Instrument Serif', serif;
-  font-size: 1.85rem;
-  color: var(--text);
-  text-decoration: none;
-}
-.logo span { color: var(--accent); font-style: italic; }
-nav { display: flex; gap: 4px; }
-nav a {
-  color: var(--muted);
-  text-decoration: none;
-  padding: 6px 14px;
-  border-radius: 100px;
-  font-size: 0.85rem;
-  border: 1px solid transparent;
-  transition: all 0.2s;
-}
-nav a:hover {
-  color: var(--text);
-  background: rgba(255,255,255,0.07);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-color: rgba(255,255,255,0.12);
-}
-nav a.active {
-  color: var(--text);
-  background: rgba(255,255,255,0.07);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-color: rgba(255,255,255,0.12);
-}
-main {
-  position: relative; z-index: 1;
-  flex: 1;
-  max-width: 680px;
-  width: 100%;
-  margin: 0 auto;
-  padding: 3rem 2rem 5rem;
-  text-align: center;
-}
-.page-title {
-  font-family: 'Instrument Serif', serif;
-  font-size: 2.4rem;
-  font-weight: 400;
-  margin-bottom: 0.4rem;
-}
-.page-subtitle {
-  color: var(--muted);
-  font-size: 0.95rem;
-  margin-bottom: 2.5rem;
-}
-/* Buttons */
-.btn {
-  padding: 0.9rem 2.2rem;
-  border-radius: 12px;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 1.05rem;
-  cursor: pointer;
-  font-weight: 500;
-  border: none;
-  transition: opacity 0.2s, border-color 0.2s;
-  min-width: 120px;
-}
-.btn-primary { background: var(--accent); color: #0a0a0f; }
-.btn-primary:hover { opacity: 0.85; }
-.btn-secondary {
-  background: rgba(255,255,255,0.05);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(96,96,96,0.1);
-  color: var(--text);
-}
-.btn-secondary:hover {
-  background: rgba(255,255,255,0.09);
-}
-.btn-danger { background: transparent; border: 1px solid var(--danger); color: var(--danger); }
-/* Inputs */
-.input-field {
-  width: 100%;
-  max-width" 100%;
-  box-sizing: border-box;
-  background: var(--surface);
-  border: 1px solid var(--border2);
-  border-radius: 10px;
-  color: var(--text);
-  padding: 0.75rem 1rem;
-  font-family: 'DM Mono', monospace;
-  font-size: 1rem;
-  outline: none;
-  transition: border-color 0.2s;
-  text-align: center;
-}
-.input-field:focus { border-color: var(--accent); }
-.field-label {
-  display: block;
-  font-size: 0.72rem;
-  color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin-bottom: 6px;
-  text-align: center;
-}
-/* Sound picker */
-.sound-row {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  margin: 1.25rem 0;
-  flex-wrap: wrap;
-}
-.sound-row label { font-size: 0.8rem; color: var(--muted); }
-.sound-select {
-  background: var(--surface);
-  border: 1px solid var(--border2);
-  border-radius: 8px;
-  color: var(--text);
-  padding: 6px 12px;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 0.85rem;
-  outline: none;
-  cursor: pointer;
-}
-.sound-select:focus { border-color: var(--accent); }
-.sound-select option { background: var(--surface2); }
-.btn-test {
-  padding: 6px 14px;
-  border-radius: 8px;
-  border: 1px solid var(--border2);
-  background: transparent;
-  color: var(--muted);
-  font-size: 0.8rem;
-  cursor: pointer;
-  font-family: 'DM Sans', sans-serif;
-  transition: all 0.15s;
-}
-.btn-test:hover { border-color: var(--accent); color: var(--accent); }
-/* Chips */
-.chips { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 1.5rem; }
-.chip {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 100px;
-  padding: 5px 16px;
-  font-size: 0.82rem;
-  color: var(--muted);
-  cursor: pointer;
-  font-family: 'DM Mono', monospace;
-  transition: all 0.15s;
-}
-.chip:hover { border-color: var(--accent); color: var(--accent); }
-
-.glass {
-  background: rgba(255,255,255,0.05);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(96,96,96,0.1);
-  border-radius: 16px;
-  transition: background 0.2s, border-color 0.2s;
-}
-.glass:hover {
-  background: rgba(255,255,255,0.09);
-}
-
-/* Control row */
-.controls { display: flex; gap: 10px; justify-content: center; margin-top: 1.5rem; flex-wrap: wrap; }
-/* Divider */
-.divider { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
-/* Section label */
-.section-label {
-  font-size: 0.72rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--hint);
-  margin-bottom: 1rem;
-}
-footer {
-  position: relative; z-index: 1;
-  text-align: center;
-  padding: 1.5rem;
-  font-size: 0.78rem;
-  color: var(--hint);
-  border-top: 1px solid var(--border);
-}
-footer a { color: var(--hint); text-decoration: none; }
-footer a:hover { color: var(--accent); }
-
-* { max-width: 100%; }
-body { overflow-x: hidden; }
-
-@media (max-width: 600px) {
-  header {
-    padding: 0.9rem 1rem;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.6rem;
-  }
-  .desktop-only { display: none; }
-  nav {
-    width: 100%;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    padding-bottom: 2px;
-  }
-  nav::-webkit-scrollbar { display: none; }
-  nav a { padding: 4px 10px; font-size: 0.75rem; white-space: nowrap; }
-  main { padding: 2rem 1rem 3rem; }
-  .page-title { font-size: 1.8rem; }
-  .controls { gap: 8px; }
-  .btn { padding: 0.8rem 1.4rem; font-size: 0.95rem; min-width: 100px; }
-}
-
-/* Shared sound engine */
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Set Alarm for 1:00 PM — Online Alarm Clock | Timerrapp</title>
+  <meta name="description" content="Set a free online alarm for 1:00 PM. Works in your browser, no download needed. Your alarm will ring right on this page.">
+  <link rel="canonical" href="https://timerrapp.com/alarm/1-00-pm/">
+  <meta name="google-site-verification" content="l7y9RLTGEQ9oIRfnLf-2oNWYb8G-ovdbaUHeK7o4ko8">
+  <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400&family=DM+Sans:wght@300;400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --surface: #13131a;
+      --surface2: #1c1c26;
+      --border: rgba(255,255,255,0.08);
+      --border2: rgba(255,255,255,0.14);
+      --text: #f0ede8;
+      --muted: rgba(240,237,232,0.45);
+      --hint: rgba(240,237,232,0.2);
+      --accent: #c8a96e;
+      --danger: #e05c5c;
+      --success: #5ce0a0;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url('/assets/mountain-1.webp');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      opacity: 0.2;
+      pointer-events: none;
+      z-index: 0;
+    }
+    body::after {
+      content: '';
+      position: fixed; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+      z-index: 0;
+    }
+    header {
+      position: relative; z-index: 10;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.25rem 2.5rem;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      background: rgba(10,10,15,0.4);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      box-shadow: 0 1px 0 rgba(255,255,255,0.05), 0 4px 24px rgba(0,0,0,0.4);
+    }
+    .logo {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.85rem;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .logo span { color: var(--accent); font-style: italic; }
+    nav { display: flex; gap: 4px; }
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      padding: 6px 14px;
+      border-radius: 100px;
+      font-size: 0.85rem;
+      border: 1px solid transparent;
+      transition: all 0.2s;
+    }
+    nav a:hover {
+      color: var(--text);
+      background: rgba(255,255,255,0.07);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-color: rgba(255,255,255,0.12);
+    }
+    nav a.active {
+      color: var(--text);
+      background: rgba(255,255,255,0.07);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-color: rgba(255,255,255,0.12);
+    }
+    main {
+      position: relative; z-index: 1;
+      flex: 1;
+      max-width: 680px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 3rem 2rem 5rem;
+      text-align: center;
+    }
+    .page-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: 2.4rem;
+      font-weight: 400;
+      margin-bottom: 0.4rem;
+    }
+    .page-subtitle {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 2.5rem;
+    }
+    /* Buttons */
+    .btn {
+      padding: 0.9rem 2.2rem;
+      border-radius: 12px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1.05rem;
+      cursor: pointer;
+      font-weight: 500;
+      border: none;
+      transition: opacity 0.2s, border-color 0.2s;
+      min-width: 120px;
+    }
+    .btn-primary { background: var(--accent); color: #0a0a0f; }
+    .btn-primary:hover { opacity: 0.85; }
+    .btn-secondary {
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(96,96,96,0.1);
+      color: var(--text);
+    }
+    .btn-secondary:hover { background: rgba(255,255,255,0.09); }
+    .btn-danger { background: transparent; border: 1px solid var(--danger); color: var(--danger); }
+    /* Inputs */
+    .input-field {
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
+      background: var(--surface);
+      border: 1px solid var(--border2);
+      border-radius: 10px;
+      color: var(--text);
+      padding: 0.75rem 1rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s;
+      text-align: center;
+    }
+    .input-field:focus { border-color: var(--accent); }
+    .field-label {
+      display: block;
+      font-size: 0.72rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 6px;
+      text-align: center;
+    }
+    /* Sound picker */
+    .sound-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 1.25rem 0;
+      flex-wrap: wrap;
+    }
+    .sound-row label { font-size: 0.8rem; color: var(--muted); }
+    .sound-select {
+      background: var(--surface);
+      border: 1px solid var(--border2);
+      border-radius: 8px;
+      color: var(--text);
+      padding: 6px 12px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem;
+      outline: none;
+      cursor: pointer;
+    }
+    .sound-select:focus { border-color: var(--accent); }
+    .sound-select option { background: var(--surface2); }
+    .btn-test {
+      padding: 6px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--border2);
+      background: transparent;
+      color: var(--muted);
+      font-size: 0.8rem;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      transition: all 0.15s;
+    }
+    .btn-test:hover { border-color: var(--accent); color: var(--accent); }
+    /* Chips */
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 1.5rem; }
+    .chip {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 5px 16px;
+      font-size: 0.82rem;
+      color: var(--muted);
+      cursor: pointer;
+      font-family: 'DM Mono', monospace;
+      transition: all 0.15s;
+    }
+    .chip:hover { border-color: var(--accent); color: var(--accent); }
+    .glass {
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(96,96,96,0.1);
+      border-radius: 16px;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .glass:hover { background: rgba(255,255,255,0.09); }
+    /* Control row */
+    .controls { display: flex; gap: 10px; justify-content: center; margin-top: 1.5rem; flex-wrap: wrap; }
+    /* Divider */
+    .divider { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+    /* Section label */
+    .section-label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--hint);
+      margin-bottom: 1rem;
+    }
+    footer {
+      position: relative; z-index: 1;
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 0.78rem;
+      color: var(--hint);
+      border-top: 1px solid var(--border);
+    }
+    footer a { color: var(--hint); text-decoration: none; }
+    footer a:hover { color: var(--accent); }
+    * { max-width: 100%; }
+    body { overflow-x: hidden; }
+    @media (max-width: 600px) {
+      header {
+        padding: 0.9rem 1rem;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.6rem;
+      }
+      .desktop-only { display: none; }
+      nav {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        padding-bottom: 2px;
+      }
+      nav::-webkit-scrollbar { display: none; }
+      nav a { padding: 4px 10px; font-size: 0.75rem; white-space: nowrap; }
+      main { padding: 2rem 1rem 3rem; }
+      .page-title { font-size: 1.8rem; }
+      .controls { gap: 8px; }
+      .btn { padding: 0.8rem 1.4rem; font-size: 0.95rem; min-width: 100px; }
+      .tool-grid { grid-template-columns: repeat(3, 1fr) !important; }
+    }
+    @media (max-width: 380px) {
+      .tool-grid { grid-template-columns: repeat(2, 1fr) !important; }
+    }
+  </style>
 </head>
 <body>
-<header>
-  <a href="/" class="logo">Timerr<span>app</span></a>
-  <nav>
-    <a href="/" >Clock</a>
-    <a href="/alarm/" class="active">Alarm</a>
-    <a href="/timer/" >Timer</a>
-    <a href="/stopwatch/" >Stopwatch</a>
-    <a href="/pomodoro/" >Pomodoro</a>
-<a href="/world-clock/" >World Clock</a>
-  </nav>
-</header>
-<main>
-  
+  <header>
+    <a href="/" class="logo">Timerr<span>app</span></a>
+    <nav>
+      <a href="/" >Clock</a>
+      <a href="/alarm/" class="active">Alarm</a>
+      <a href="/timer/" >Timer</a>
+      <a href="/stopwatch/" >Stopwatch</a>
+      <a href="/pomodoro/" >Pomodoro</a>
+      <a href="/world-clock/" >World Clock</a>
+    </nav>
+  </header>
+  <main>
+    
 <h1 style="font-family:'Instrument Serif',serif; font-size:2.5rem; font-weight:400; margin-bottom:0.5rem;">Set Alarm for 1:00 PM</h1>
 <p style="color:var(--muted); margin-bottom:2.5rem;">Your browser will alert you at 1:00 PM. Keep this tab open.</p>
 
@@ -656,43 +653,43 @@ function fireAlarm() {
   } catch(e) {}
 }
 </script>
-</main>
-<footer>
-  <p>© 2026 Timerrapp.com &nbsp;·&nbsp; <a href="/about/">About</a></p>
-</footer>
-<script>
-function playSound(type) {
-  try {
-    const ctx = new (window.AudioContext || window.webkitAudioContext)();
-    const t = ctx.currentTime;
-    if (type === 'beep') {
-      tone(ctx, 880, t, 0.5, 'sine');
-    } else if (type === 'digital') {
-      tone(ctx, 1047, t, 0.15, 'square');
-      tone(ctx, 1047, t+0.2, 0.15, 'square');
-      tone(ctx, 1047, t+0.4, 0.15, 'square');
-    } else if (type === 'bells') {
-      tone(ctx, 1318, t, 0.6, 'sine');
-      tone(ctx, 1568, t+0.15, 0.6, 'sine');
-      tone(ctx, 2093, t+0.3, 0.8, 'sine');
-    } else if (type === 'chime') {
-      [523, 659, 784, 1047].forEach((f, i) => tone(ctx, f, t + i*0.18, 0.5, 'sine'));
-    } else if (type === 'alarm') {
-      for (let i = 0; i < 6; i++) {
-        tone(ctx, i%2===0 ? 880 : 1100, t + i*0.18, 0.16, 'sawtooth');
-      }
+  </main>
+  <footer>
+    <p>© 2026 Timerrapp.com &nbsp;·&nbsp; <a href="/about/">About</a></p>
+  </footer>
+  <script>
+    function playSound(type) {
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const t = ctx.currentTime;
+        if (type === 'beep') {
+          tone(ctx, 880, t, 0.5, 'sine');
+        } else if (type === 'digital') {
+          tone(ctx, 1047, t, 0.15, 'square');
+          tone(ctx, 1047, t+0.2, 0.15, 'square');
+          tone(ctx, 1047, t+0.4, 0.15, 'square');
+        } else if (type === 'bells') {
+          tone(ctx, 1318, t, 0.6, 'sine');
+          tone(ctx, 1568, t+0.15, 0.6, 'sine');
+          tone(ctx, 2093, t+0.3, 0.8, 'sine');
+        } else if (type === 'chime') {
+          [523, 659, 784, 1047].forEach((f, i) => tone(ctx, f, t + i*0.18, 0.5, 'sine'));
+        } else if (type === 'alarm') {
+          for (let i = 0; i < 6; i++) {
+            tone(ctx, i%2===0 ? 880 : 1100, t + i*0.18, 0.16, 'sawtooth');
+          }
+        }
+      } catch(e) {}
     }
-  } catch(e) {}
-}
-function tone(ctx, freq, start, dur, type) {
-  const o = ctx.createOscillator();
-  const g = ctx.createGain();
-  o.connect(g); g.connect(ctx.destination);
-  o.frequency.value = freq; o.type = type;
-  g.gain.setValueAtTime(0.25, start);
-  g.gain.exponentialRampToValueAtTime(0.001, start + dur);
-  o.start(start); o.stop(start + dur);
-}
-</script>
+    function tone(ctx, freq, start, dur, type) {
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+      o.connect(g); g.connect(ctx.destination);
+      o.frequency.value = freq; o.type = type;
+      g.gain.setValueAtTime(0.25, start);
+      g.gain.exponentialRampToValueAtTime(0.001, start + dur);
+      o.start(start); o.stop(start + dur);
+    }
+  </script>
 </body>
 </html>

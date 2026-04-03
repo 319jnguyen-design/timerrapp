@@ -1,325 +1,409 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>World Clock — Current Time Around the World | Timerrapp</title>
-<meta name="description" content="See the current time in cities around the world. Free online world clock showing live times for New York, London, Tokyo, Sydney and more.">
-<link rel="canonical" href="https://timerrapp.com/world-clock/">
-<meta name="google-site-verification" content="l7y9RLTGEQ9oIRfnLf-2oNWYb8G-ovdbaUHeK7o4ko8" />
-<link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
-<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
-<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400&family=DM+Sans:wght@300;400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-<style>
-:root {
-  --bg: #0a0a0f;
-  --surface: #13131a;
-  --surface2: #1c1c26;
-  --border: rgba(255,255,255,0.08);
-  --border2: rgba(255,255,255,0.14);
-  --text: #f0ede8;
-  --muted: rgba(240,237,232,0.45);
-  --hint: rgba(240,237,232,0.2);
-  --accent: #c8a96e;
-  --danger: #e05c5c;
-  --success: #5ce0a0;
-}
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'DM Sans', sans-serif;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-body::before {
-  content: '';
-  position: fixed; inset: 0;
-  background-image: url('/assets/mountain-1.webp');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  opacity: 0.2;
-  pointer-events: none;
-  z-index: 0;
-}
-body::after {
-  content: '';
-  position: fixed; inset: 0;
-  background-image:
-    linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
-  background-size: 48px 48px;
-  pointer-events: none;
-  z-index: 0;
-}
-header {
-  position: relative; z-index: 10;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 1.25rem 2.5rem;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
-  background: rgba(10,10,15,0.6);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-}
-.logo {
-  font-family: 'Instrument Serif', serif;
-  font-size: 1.85rem;
-  color: var(--text);
-  text-decoration: none;
-}
-.logo span { color: var(--accent); font-style: italic; }
-nav { display: flex; gap: 4px; }
-nav a {
-  color: var(--muted);
-  text-decoration: none;
-  padding: 6px 14px;
-  border-radius: 100px;
-  font-size: 0.85rem;
-  border: 1px solid transparent;
-  transition: all 0.2s;
-}
-nav a:hover {
-  color: var(--text);
-  background: rgba(255,255,255,0.07);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-color: rgba(255,255,255,0.12);
-}
-nav a.active {
-  color: var(--text);
-  background: rgba(255,255,255,0.07);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-color: rgba(255,255,255,0.12);
-}
-main {
-  position: relative; z-index: 1;
-  flex: 1;
-  max-width: 680px;
-  width: 100%;
-  margin: 0 auto;
-  padding: 3rem 2rem 5rem;
-  text-align: center;
-}
-.page-title {
-  font-family: 'Instrument Serif', serif;
-  font-size: 2.4rem;
-  font-weight: 400;
-  margin-bottom: 0.4rem;
-}
-.page-subtitle {
-  color: var(--muted);
-  font-size: 0.95rem;
-  margin-bottom: 2.5rem;
-}
-/* Buttons */
-.btn {
-  padding: 0.9rem 2.2rem;
-  border-radius: 12px;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 1.05rem;
-  cursor: pointer;
-  font-weight: 500;
-  border: none;
-  transition: opacity 0.2s, border-color 0.2s;
-  min-width: 120px;
-}
-.btn-primary { background: var(--accent); color: #0a0a0f; }
-.btn-primary:hover { opacity: 0.85; }
-.btn-secondary {
-  background: rgba(255,255,255,0.05);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(96,96,96,0.1);
-  color: var(--text);
-}
-.btn-secondary:hover {
-  background: rgba(255,255,255,0.09);
-}
-.btn-danger { background: transparent; border: 1px solid var(--danger); color: var(--danger); }
-/* Inputs */
-.input-field {
-  width: 100%;
-  max-width" 100%;
-  box-sizing: border-box;
-  background: var(--surface);
-  border: 1px solid var(--border2);
-  border-radius: 10px;
-  color: var(--text);
-  padding: 0.75rem 1rem;
-  font-family: 'DM Mono', monospace;
-  font-size: 1rem;
-  outline: none;
-  transition: border-color 0.2s;
-  text-align: center;
-}
-.input-field:focus { border-color: var(--accent); }
-.field-label {
-  display: block;
-  font-size: 0.72rem;
-  color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin-bottom: 6px;
-  text-align: center;
-}
-/* Sound picker */
-.sound-row {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  margin: 1.25rem 0;
-  flex-wrap: wrap;
-}
-.sound-row label { font-size: 0.8rem; color: var(--muted); }
-.sound-select {
-  background: var(--surface);
-  border: 1px solid var(--border2);
-  border-radius: 8px;
-  color: var(--text);
-  padding: 6px 12px;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 0.85rem;
-  outline: none;
-  cursor: pointer;
-}
-.sound-select:focus { border-color: var(--accent); }
-.sound-select option { background: var(--surface2); }
-.btn-test {
-  padding: 6px 14px;
-  border-radius: 8px;
-  border: 1px solid var(--border2);
-  background: transparent;
-  color: var(--muted);
-  font-size: 0.8rem;
-  cursor: pointer;
-  font-family: 'DM Sans', sans-serif;
-  transition: all 0.15s;
-}
-.btn-test:hover { border-color: var(--accent); color: var(--accent); }
-/* Chips */
-.chips { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 1.5rem; }
-.chip {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 100px;
-  padding: 5px 16px;
-  font-size: 0.82rem;
-  color: var(--muted);
-  cursor: pointer;
-  font-family: 'DM Mono', monospace;
-  transition: all 0.15s;
-}
-.chip:hover { border-color: var(--accent); color: var(--accent); }
-
-.glass {
-  background: rgba(255,255,255,0.05);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(96,96,96,0.1);
-  border-radius: 16px;
-  transition: background 0.2s, border-color 0.2s;
-}
-.glass:hover {
-  background: rgba(255,255,255,0.09);
-}
-
-/* Control row */
-.controls { display: flex; gap: 10px; justify-content: center; margin-top: 1.5rem; flex-wrap: wrap; }
-/* Divider */
-.divider { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
-/* Section label */
-.section-label {
-  font-size: 0.72rem;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--hint);
-  margin-bottom: 1rem;
-}
-footer {
-  position: relative; z-index: 1;
-  text-align: center;
-  padding: 1.5rem;
-  font-size: 0.78rem;
-  color: var(--hint);
-  border-top: 1px solid var(--border);
-}
-footer a { color: var(--hint); text-decoration: none; }
-footer a:hover { color: var(--accent); }
-
-* { max-width: 100%; }
-body { overflow-x: hidden; }
-
-@media (max-width: 600px) {
-  header {
-    padding: 0.9rem 1rem;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.6rem;
-  }
-  .desktop-only { display: none; }
-  nav {
-    width: 100%;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    padding-bottom: 2px;
-  }
-  nav::-webkit-scrollbar { display: none; }
-  nav a { padding: 4px 10px; font-size: 0.75rem; white-space: nowrap; }
-  main { padding: 2rem 1rem 3rem; }
-  .page-title { font-size: 1.8rem; }
-  .controls { gap: 8px; }
-  .btn { padding: 0.8rem 1.4rem; font-size: 0.95rem; min-width: 100px; }
-}
-
-/* Shared sound engine */
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>World Clock — Current Time Around the World | Timerrapp</title>
+  <meta name="description" content="See the current time in cities around the world. Free online world clock showing live times for New York, London, Tokyo, Sydney and more.">
+  <link rel="canonical" href="https://timerrapp.com/world-clock/">
+  <meta name="google-site-verification" content="l7y9RLTGEQ9oIRfnLf-2oNWYb8G-ovdbaUHeK7o4ko8">
+  <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400&family=DM+Sans:wght@300;400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --surface: #13131a;
+      --surface2: #1c1c26;
+      --border: rgba(255,255,255,0.08);
+      --border2: rgba(255,255,255,0.14);
+      --text: #f0ede8;
+      --muted: rgba(240,237,232,0.45);
+      --hint: rgba(240,237,232,0.2);
+      --accent: #c8a96e;
+      --danger: #e05c5c;
+      --success: #5ce0a0;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url('/assets/mountain-1.webp');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      opacity: 0.2;
+      pointer-events: none;
+      z-index: 0;
+    }
+    body::after {
+      content: '';
+      position: fixed; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+      z-index: 0;
+    }
+    header {
+      position: relative; z-index: 10;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.25rem 2.5rem;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      background: rgba(10,10,15,0.4);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      box-shadow: 0 1px 0 rgba(255,255,255,0.05), 0 4px 24px rgba(0,0,0,0.4);
+    }
+    .logo {
+      font-family: 'Instrument Serif', serif;
+      font-size: 1.85rem;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .logo span { color: var(--accent); font-style: italic; }
+    nav { display: flex; gap: 4px; }
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      padding: 6px 14px;
+      border-radius: 100px;
+      font-size: 0.85rem;
+      border: 1px solid transparent;
+      transition: all 0.2s;
+    }
+    nav a:hover {
+      color: var(--text);
+      background: rgba(255,255,255,0.07);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-color: rgba(255,255,255,0.12);
+    }
+    nav a.active {
+      color: var(--text);
+      background: rgba(255,255,255,0.07);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-color: rgba(255,255,255,0.12);
+    }
+    main {
+      position: relative; z-index: 1;
+      flex: 1;
+      max-width: 680px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 3rem 2rem 5rem;
+      text-align: center;
+    }
+    .page-title {
+      font-family: 'Instrument Serif', serif;
+      font-size: 2.4rem;
+      font-weight: 400;
+      margin-bottom: 0.4rem;
+    }
+    .page-subtitle {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 2.5rem;
+    }
+    /* Buttons */
+    .btn {
+      padding: 0.9rem 2.2rem;
+      border-radius: 12px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1.05rem;
+      cursor: pointer;
+      font-weight: 500;
+      border: none;
+      transition: opacity 0.2s, border-color 0.2s;
+      min-width: 120px;
+    }
+    .btn-primary { background: var(--accent); color: #0a0a0f; }
+    .btn-primary:hover { opacity: 0.85; }
+    .btn-secondary {
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(96,96,96,0.1);
+      color: var(--text);
+    }
+    .btn-secondary:hover { background: rgba(255,255,255,0.09); }
+    .btn-danger { background: transparent; border: 1px solid var(--danger); color: var(--danger); }
+    /* Inputs */
+    .input-field {
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
+      background: var(--surface);
+      border: 1px solid var(--border2);
+      border-radius: 10px;
+      color: var(--text);
+      padding: 0.75rem 1rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s;
+      text-align: center;
+    }
+    .input-field:focus { border-color: var(--accent); }
+    .field-label {
+      display: block;
+      font-size: 0.72rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 6px;
+      text-align: center;
+    }
+    /* Sound picker */
+    .sound-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 1.25rem 0;
+      flex-wrap: wrap;
+    }
+    .sound-row label { font-size: 0.8rem; color: var(--muted); }
+    .sound-select {
+      background: var(--surface);
+      border: 1px solid var(--border2);
+      border-radius: 8px;
+      color: var(--text);
+      padding: 6px 12px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem;
+      outline: none;
+      cursor: pointer;
+    }
+    .sound-select:focus { border-color: var(--accent); }
+    .sound-select option { background: var(--surface2); }
+    .btn-test {
+      padding: 6px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--border2);
+      background: transparent;
+      color: var(--muted);
+      font-size: 0.8rem;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      transition: all 0.15s;
+    }
+    .btn-test:hover { border-color: var(--accent); color: var(--accent); }
+    /* Chips */
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 1.5rem; }
+    .chip {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 5px 16px;
+      font-size: 0.82rem;
+      color: var(--muted);
+      cursor: pointer;
+      font-family: 'DM Mono', monospace;
+      transition: all 0.15s;
+    }
+    .chip:hover { border-color: var(--accent); color: var(--accent); }
+    .glass {
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(96,96,96,0.1);
+      border-radius: 16px;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .glass:hover { background: rgba(255,255,255,0.09); }
+    /* Control row */
+    .controls { display: flex; gap: 10px; justify-content: center; margin-top: 1.5rem; flex-wrap: wrap; }
+    /* Divider */
+    .divider { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+    /* Section label */
+    .section-label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--hint);
+      margin-bottom: 1rem;
+    }
+    footer {
+      position: relative; z-index: 1;
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 0.78rem;
+      color: var(--hint);
+      border-top: 1px solid var(--border);
+    }
+    footer a { color: var(--hint); text-decoration: none; }
+    footer a:hover { color: var(--accent); }
+    * { max-width: 100%; }
+    body { overflow-x: hidden; }
+    @media (max-width: 600px) {
+      header {
+        padding: 0.9rem 1rem;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.6rem;
+      }
+      .desktop-only { display: none; }
+      nav {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        padding-bottom: 2px;
+      }
+      nav::-webkit-scrollbar { display: none; }
+      nav a { padding: 4px 10px; font-size: 0.75rem; white-space: nowrap; }
+      main { padding: 2rem 1rem 3rem; }
+      .page-title { font-size: 1.8rem; }
+      .controls { gap: 8px; }
+      .btn { padding: 0.8rem 1.4rem; font-size: 0.95rem; min-width: 100px; }
+      .tool-grid { grid-template-columns: repeat(3, 1fr) !important; }
+    }
+    @media (max-width: 380px) {
+      .tool-grid { grid-template-columns: repeat(2, 1fr) !important; }
+    }
+  </style>
 </head>
 <body>
-<header>
-  <a href="/" class="logo">Timerr<span>app</span></a>
-  <nav>
-    <a href="/" >Clock</a>
-    <a href="/alarm/" >Alarm</a>
-    <a href="/timer/" >Timer</a>
-    <a href="/stopwatch/" >Stopwatch</a>
-    <a href="/pomodoro/" >Pomodoro</a>
-<a href="/world-clock/" class="active">World Clock</a>
-  </nav>
-</header>
-<main>
-  
+  <header>
+    <a href="/" class="logo">Timerr<span>app</span></a>
+    <nav>
+      <a href="/" >Clock</a>
+      <a href="/alarm/" >Alarm</a>
+      <a href="/timer/" >Timer</a>
+      <a href="/stopwatch/" >Stopwatch</a>
+      <a href="/pomodoro/" >Pomodoro</a>
+      <a href="/world-clock/" class="active">World Clock</a>
+    </nav>
+  </header>
+  <main>
+    
 <style>
-  main { max-width: 850px; }
+  main {
+    max-width: 850px;
+  }
 </style>
 
 <h1 class="page-title">World Clock</h1>
 <p class="page-subtitle">Current local time around the world.</p>
 
-<div style="padding:1.25rem;margin-bottom:2rem;text-align:center;">
-  <div style="font-size:0.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem;">Your local time</div>
-  <div style="font-family:'DM Mono',monospace;font-size:clamp(2rem,6vw,3.5rem);font-weight:300;letter-spacing:-0.02em;" id="localTime">--:--:--</div>
-  <div style="font-family:'DM Mono',monospace;font-size:1rem;color:var(--accent);margin-top:0.25rem;" id="localAmPm">--</div>
-  <div style="margin-top:0.75rem;display:flex;align-items:center;justify-content:center;gap:8px;">
-    <span style="font-size:0.75rem;color:var(--muted);">12h</span>
-    <div id="militaryToggle" onclick="toggleMilitary()" style="width:40px;height:22px;border-radius:100px;border:1px solid var(--border2);background:transparent;cursor:pointer;position:relative;transition:all 0.2s;">
-      <div id="militaryDot" style="position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:var(--muted);transition:all 0.2s;"></div>
-    </div>
-    <span style="font-size:0.75rem;color:var(--muted);">24h</span>
+<div style="padding: 1.25rem; margin-bottom: 2rem; text-align: center">
+  <div
+    style="
+      font-size: 0.7rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.5rem;
+    "
+  >
+    Your local time
   </div>
-  <div style="font-size:0.8rem;color:var(--muted);margin-top:0.75rem;" id="localDate">--</div>
-  <div style="font-size:0.75rem;color:var(--hint);margin-top:0.25rem;" id="localTZ">--</div>
+  <div
+    style="
+      font-family: 'DM Mono', monospace;
+      font-size: clamp(2rem, 6vw, 3.5rem);
+      font-weight: 300;
+      letter-spacing: -0.02em;
+    "
+    id="localTime"
+  >
+    --:--:--
+  </div>
+  <div
+    style="
+      font-family: 'DM Mono', monospace;
+      font-size: 1rem;
+      color: var(--accent);
+      margin-top: 0.25rem;
+    "
+    id="localAmPm"
+  >
+    --
+  </div>
+  <div
+    style="
+      margin-top: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    "
+  >
+    <span style="font-size: 0.75rem; color: var(--muted)">12h</span>
+    <div
+      id="militaryToggle"
+      onclick="toggleMilitary()"
+      style="
+        width: 40px;
+        height: 22px;
+        border-radius: 100px;
+        border: 1px solid var(--border2);
+        background: transparent;
+        cursor: pointer;
+        position: relative;
+        transition: all 0.2s;
+      "
+    >
+      <div
+        id="militaryDot"
+        style="
+          position: absolute;
+          top: 2px;
+          left: 2px;
+          width: 16px;
+          height: 16px;
+          border-radius: 50%;
+          background: var(--muted);
+          transition: all 0.2s;
+        "
+      ></div>
+    </div>
+    <span style="font-size: 0.75rem; color: var(--muted)">24h</span>
+  </div>
+  <div
+    style="font-size: 0.8rem; color: var(--muted); margin-top: 0.75rem"
+    id="localDate"
+  >
+    --
+  </div>
+  <div
+    style="font-size: 0.75rem; color: var(--hint); margin-top: 0.25rem"
+    id="localTZ"
+  >
+    --
+  </div>
 </div>
 
-<div style="display:flex;gap:10px;justify-content:center;margin-bottom:1.5rem;flex-wrap:wrap;">
-  <select id="citySelect" class="sound-select" style="padding:8px 14px;font-size:0.9rem;">
+<div
+  style="
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+  "
+>
+  <select
+    id="citySelect"
+    class="sound-select"
+    style="padding: 8px 14px; font-size: 0.9rem"
+  >
     <option value="">— Add a city —</option>
     <option value="Pacific/Honolulu">Honolulu, HI</option>
     <option value="America/Anchorage">Anchorage, AK</option>
@@ -329,7 +413,9 @@ body { overflow-x: hidden; }
     <option value="America/Chicago">Chicago, IL</option>
     <option value="America/New_York">New York, NY</option>
     <option value="America/Sao_Paulo">São Paulo, Brazil</option>
-    <option value="America/Argentina/Buenos_Aires">Buenos Aires, Argentina</option>
+    <option value="America/Argentina/Buenos_Aires">
+      Buenos Aires, Argentina
+    </option>
     <option value="Europe/London">London, UK</option>
     <option value="Europe/Paris">Paris, France</option>
     <option value="Europe/Berlin">Berlin, Germany</option>
@@ -350,227 +436,267 @@ body { overflow-x: hidden; }
     <option value="Australia/Sydney">Sydney, Australia</option>
     <option value="Pacific/Auckland">Auckland, New Zealand</option>
   </select>
-  <button class="btn btn-primary" onclick="addCity()" style="padding:8px 20px;font-size:0.9rem;">Add</button>
+  <button
+    class="btn btn-primary"
+    onclick="addCity()"
+    style="padding: 8px 20px; font-size: 0.9rem"
+  >
+    Add
+  </button>
 </div>
 
-<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;" id="clockGrid"></div>
+<div
+  style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px"
+  id="clockGrid"
+></div>
 
 <style>
-@media (max-width: 900px) {
-  #clockGrid { grid-template-columns: repeat(3,1fr) !important; }
-}
-@media (max-width: 600px) {
-  #clockGrid { grid-template-columns: repeat(2,1fr) !important; }
-}
-@media (max-width: 380px) {
-  #clockGrid { grid-template-columns: 1fr !important; }
-}
+  @media (max-width: 900px) {
+    #clockGrid {
+      grid-template-columns: repeat(3, 1fr) !important;
+    }
+  }
+  @media (max-width: 600px) {
+    #clockGrid {
+      grid-template-columns: repeat(2, 1fr) !important;
+    }
+  }
+  @media (max-width: 380px) {
+    #clockGrid {
+      grid-template-columns: 1fr !important;
+    }
+  }
 </style>
 
 <script>
-const DEFAULT_CITIES = [
-  { name:'New York, NY',            tz:'America/New_York' },
-  { name:'Chicago, IL',             tz:'America/Chicago' },
-  { name:'Denver, CO',              tz:'America/Denver' },
-  { name:'Los Angeles, CA',         tz:'America/Los_Angeles' },
-  { name:'Phoenix, AZ',             tz:'America/Phoenix' },
-  { name:'Anchorage, AK',           tz:'America/Anchorage' },
-  { name:'Honolulu, HI',            tz:'Pacific/Honolulu' },
-  { name:'London, UK',              tz:'Europe/London' },
-  { name:'Berlin, Germany',         tz:'Europe/Berlin' },
-  { name:'Dubai, UAE',              tz:'Asia/Dubai' },
-  { name:'Manila, Philippines',     tz:'Asia/Manila' },
-  { name:'Singapore',               tz:'Asia/Singapore' },
-  { name:'Ho Chi Minh City',        tz:'Asia/Ho_Chi_Minh' },
-  { name:'Tokyo, Japan',            tz:'Asia/Tokyo' },
-  { name:'Beijing, China',          tz:'Asia/Shanghai' },
-  { name:'Sydney, Australia',       tz:'Australia/Sydney' },
-];
+  const DEFAULT_CITIES = [
+    { name: 'New York, NY', tz: 'America/New_York' },
+    { name: 'Chicago, IL', tz: 'America/Chicago' },
+    { name: 'Denver, CO', tz: 'America/Denver' },
+    { name: 'Los Angeles, CA', tz: 'America/Los_Angeles' },
+    { name: 'Phoenix, AZ', tz: 'America/Phoenix' },
+    { name: 'Anchorage, AK', tz: 'America/Anchorage' },
+    { name: 'Honolulu, HI', tz: 'Pacific/Honolulu' },
+    { name: 'London, UK', tz: 'Europe/London' },
+    { name: 'Berlin, Germany', tz: 'Europe/Berlin' },
+    { name: 'Dubai, UAE', tz: 'Asia/Dubai' },
+    { name: 'Manila, Philippines', tz: 'Asia/Manila' },
+    { name: 'Singapore', tz: 'Asia/Singapore' },
+    { name: 'Ho Chi Minh City', tz: 'Asia/Ho_Chi_Minh' },
+    { name: 'Tokyo, Japan', tz: 'Asia/Tokyo' },
+    { name: 'Beijing, China', tz: 'Asia/Shanghai' },
+    { name: 'Sydney, Australia', tz: 'Australia/Sydney' }
+  ];
 
-const TZ_LABELS = {
-  'Pacific/Honolulu':'Honolulu, HI',
-  'America/Anchorage':'Anchorage, AK',
-  'America/Los_Angeles':'Los Angeles, CA',
-  'America/Phoenix':'Phoenix, AZ',
-  'America/Denver':'Denver, CO',
-  'America/Chicago':'Chicago, IL',
-  'America/New_York':'New York, NY',
-  'America/Sao_Paulo':'São Paulo, Brazil',
-  'America/Argentina/Buenos_Aires':'Buenos Aires, Argentina',
-  'Europe/London':'London, UK',
-  'Europe/Paris':'Paris, France',
-  'Europe/Berlin':'Berlin, Germany',
-  'Europe/Moscow':'Moscow, Russia',
-  'Africa/Cairo':'Cairo, Egypt',
-  'Africa/Nairobi':'Nairobi, Kenya',
-  'Africa/Johannesburg':'Johannesburg, South Africa',
-  'Asia/Dubai':'Dubai, UAE',
-  'Asia/Kolkata':'Mumbai, India',
-  'Asia/Dhaka':'Dhaka, Bangladesh',
-  'Asia/Bangkok':'Bangkok, Thailand',
-  'Asia/Ho_Chi_Minh':'Ho Chi Minh City, Vietnam',
-  'Asia/Singapore':'Singapore',
-  'Asia/Manila':'Manila, Philippines',
-  'Asia/Shanghai':'Beijing, China',
-  'Asia/Tokyo':'Tokyo, Japan',
-  'Asia/Seoul':'Seoul, South Korea',
-  'Australia/Sydney':'Sydney, Australia',
-  'Pacific/Auckland':'Auckland, New Zealand',
-};
+  const TZ_LABELS = {
+    'Pacific/Honolulu': 'Honolulu, HI',
+    'America/Anchorage': 'Anchorage, AK',
+    'America/Los_Angeles': 'Los Angeles, CA',
+    'America/Phoenix': 'Phoenix, AZ',
+    'America/Denver': 'Denver, CO',
+    'America/Chicago': 'Chicago, IL',
+    'America/New_York': 'New York, NY',
+    'America/Sao_Paulo': 'São Paulo, Brazil',
+    'America/Argentina/Buenos_Aires': 'Buenos Aires, Argentina',
+    'Europe/London': 'London, UK',
+    'Europe/Paris': 'Paris, France',
+    'Europe/Berlin': 'Berlin, Germany',
+    'Europe/Moscow': 'Moscow, Russia',
+    'Africa/Cairo': 'Cairo, Egypt',
+    'Africa/Nairobi': 'Nairobi, Kenya',
+    'Africa/Johannesburg': 'Johannesburg, South Africa',
+    'Asia/Dubai': 'Dubai, UAE',
+    'Asia/Kolkata': 'Mumbai, India',
+    'Asia/Dhaka': 'Dhaka, Bangladesh',
+    'Asia/Bangkok': 'Bangkok, Thailand',
+    'Asia/Ho_Chi_Minh': 'Ho Chi Minh City, Vietnam',
+    'Asia/Singapore': 'Singapore',
+    'Asia/Manila': 'Manila, Philippines',
+    'Asia/Shanghai': 'Beijing, China',
+    'Asia/Tokyo': 'Tokyo, Japan',
+    'Asia/Seoul': 'Seoul, South Korea',
+    'Australia/Sydney': 'Sydney, Australia',
+    'Pacific/Auckland': 'Auckland, New Zealand'
+  };
 
-let cities = JSON.parse(localStorage.getItem('wc_cities') || 'null') || [...DEFAULT_CITIES];
-let customOrder = JSON.parse(localStorage.getItem('wc_order') || '[]');
-let pinned = JSON.parse(localStorage.getItem('wc_pinned') || '[]');
-let userTZ = Intl.DateTimeFormat().resolvedOptions().timeZone;
-let military = localStorage.getItem('wc_military') === 'true';
+  let cities = JSON.parse(localStorage.getItem('wc_cities') || 'null') || [
+    ...DEFAULT_CITIES
+  ];
+  let customOrder = JSON.parse(localStorage.getItem('wc_order') || '[]');
+  let pinned = JSON.parse(localStorage.getItem('wc_pinned') || '[]');
+  let userTZ = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  let military = localStorage.getItem('clock_military') === 'true';
 
-function saveCities() {
-  localStorage.setItem('wc_cities', JSON.stringify(cities));
-}
+  function saveCities() {
+    localStorage.setItem('wc_cities', JSON.stringify(cities));
+  }
 
-function addCity() {
-  const sel = document.getElementById('citySelect');
-  const tz = sel.value;
-  if (!tz) return;
-  const name = TZ_LABELS[tz] || tz;
-  if (cities.find(c => c.tz === tz)) {
+  function addCity() {
+    const sel = document.getElementById('citySelect');
+    const tz = sel.value;
+    if (!tz) return;
+    const name = TZ_LABELS[tz] || tz;
+    if (cities.find((c) => c.tz === tz)) {
+      sel.value = '';
+      return;
+    }
+    cities.push({ name, tz });
+    saveCities();
     sel.value = '';
-    return;
+    renderGrid();
+    initDragAndDrop();
   }
-  cities.push({ name, tz });
-  saveCities();
-  sel.value = '';
-  renderGrid();
-  initDragAndDrop();
-}
 
-function removeCity(tz) {
-  cities = cities.filter(c => c.tz !== tz);
-  saveCities();
-  renderGrid();
-  initDragAndDrop();
-}
-
-function toggleMilitary() {
-  military = !military;
-  localStorage.setItem('wc_military', military);
-  const toggle = document.getElementById('militaryToggle');
-  const dot = document.getElementById('militaryDot');
-  toggle.style.background = military ? 'var(--accent)' : 'transparent';
-  toggle.style.borderColor = military ? 'var(--accent)' : 'var(--border2)';
-  dot.style.transform = military ? 'translateX(18px)' : 'translateX(0)';
-  dot.style.background = military ? '#0a0a0f' : 'var(--muted)';
-  updateLocalTime();
-  renderGrid();
-  initDragAndDrop();
-}
-
-function initMilitaryToggle() {
-  if (!military) return;
-  const toggle = document.getElementById('militaryToggle');
-  const dot = document.getElementById('militaryDot');
-  toggle.style.background = 'var(--accent)';
-  toggle.style.borderColor = 'var(--accent)';
-  dot.style.transform = 'translateX(18px)';
-  dot.style.background = '#0a0a0f';
-}
-
-function togglePin(name) {
-  pinned = pinned.includes(name)
-    ? pinned.filter(p => p !== name)
-    : [...pinned, name];
-  localStorage.setItem('wc_pinned', JSON.stringify(pinned));
-  renderGrid();
-  initDragAndDrop();
-}
-
-function getTime(tz) {
-  const now = new Date();
-  if (military) {
-    const parts = new Intl.DateTimeFormat('en-GB', {
-      timeZone: tz,
-      hour: '2-digit', minute: '2-digit', second: '2-digit',
-      hour12: false
-    }).formatToParts(now);
-    const get = t => parts.find(p => p.type === t)?.value || '';
-    return { h: get('hour'), m: get('minute'), s: get('second'), ampm: '' };
-  } else {
-    const parts = new Intl.DateTimeFormat('en-US', {
-      timeZone: tz,
-      hour: 'numeric', minute: '2-digit', second: '2-digit',
-      hour12: true
-    }).formatToParts(now);
-    const get = t => parts.find(p => p.type === t)?.value || '';
-    return { h: get('hour'), m: get('minute'), s: get('second'), ampm: get('dayPeriod') };
+  function removeCity(tz) {
+    cities = cities.filter((c) => c.tz !== tz);
+    saveCities();
+    renderGrid();
+    initDragAndDrop();
   }
-}
 
-function getDate(tz) {
-  return new Intl.DateTimeFormat('en-US', {
-    timeZone: tz, weekday:'short', month:'short', day:'numeric'
-  }).format(new Date());
-}
+  function toggleMilitary() {
+    military = !military;
+    localStorage.setItem('clock_military', military);
+    const toggle = document.getElementById('militaryToggle');
+    const dot = document.getElementById('militaryDot');
+    toggle.style.background = military ? 'var(--accent)' : 'transparent';
+    toggle.style.borderColor = military ? 'var(--accent)' : 'var(--border2)';
+    dot.style.transform = military ? 'translateX(18px)' : 'translateX(0)';
+    dot.style.background = military ? '#0a0a0f' : 'var(--muted)';
+    updateLocalTime();
+    renderGrid();
+    initDragAndDrop();
+  }
 
-function getOffset(tz) {
-  const local = new Date(new Date().toLocaleString('en-US', { timeZone: userTZ }));
-  const target = new Date(new Date().toLocaleString('en-US', { timeZone: tz }));
-  const diff = Math.round((target - local) / 60000);
-  if (diff === 0) return 'Your timezone';
-  const sign = diff > 0 ? '+' : '-';
-  const h = Math.floor(Math.abs(diff) / 60);
-  const m = Math.abs(diff) % 60;
-  return m > 0 ? `${sign}${h}h ${m}m` : `${sign}${h}h`;
-}
+  function initMilitaryToggle() {
+    if (!military) return;
+    const toggle = document.getElementById('militaryToggle');
+    const dot = document.getElementById('militaryDot');
+    toggle.style.background = 'var(--accent)';
+    toggle.style.borderColor = 'var(--accent)';
+    dot.style.transform = 'translateX(18px)';
+    dot.style.background = '#0a0a0f';
+  }
 
-function isDaytime(tz) {
-  const h = parseInt(new Intl.DateTimeFormat('en-US', {
-    timeZone: tz, hour: 'numeric', hour12: false
-  }).format(new Date()));
-  return h >= 6 && h < 20;
-}
+  function togglePin(name) {
+    pinned = pinned.includes(name)
+      ? pinned.filter((p) => p !== name)
+      : [...pinned, name];
+    localStorage.setItem('wc_pinned', JSON.stringify(pinned));
+    renderGrid();
+    initDragAndDrop();
+  }
 
-function applyOrder(list) {
-  if (!customOrder.length) return list;
-  const ordered = [];
-  customOrder.forEach(name => {
-    const c = list.find(x => x.name === name);
-    if (c) ordered.push(c);
-  });
-  list.forEach(c => {
-    if (!ordered.find(x => x.name === c.name)) ordered.push(c);
-  });
-  return ordered;
-}
+  function getTime(tz) {
+    const now = new Date();
+    if (military) {
+      const parts = new Intl.DateTimeFormat('en-GB', {
+        timeZone: tz,
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false
+      }).formatToParts(now);
+      const get = (t) => parts.find((p) => p.type === t)?.value || '';
+      return { h: get('hour'), m: get('minute'), s: get('second'), ampm: '' };
+    } else {
+      const parts = new Intl.DateTimeFormat('en-US', {
+        timeZone: tz,
+        hour: 'numeric',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: true
+      }).formatToParts(now);
+      const get = (t) => parts.find((p) => p.type === t)?.value || '';
+      return {
+        h: get('hour'),
+        m: get('minute'),
+        s: get('second'),
+        ampm: get('dayPeriod')
+      };
+    }
+  }
 
-function saveOrder() {
-  customOrder = Array.from(document.querySelectorAll('#clockGrid .glass')).map(c => c.dataset.city);
-  localStorage.setItem('wc_order', JSON.stringify(customOrder));
-}
+  function getDate(tz) {
+    return new Intl.DateTimeFormat('en-US', {
+      timeZone: tz,
+      weekday: 'short',
+      month: 'short',
+      day: 'numeric'
+    }).format(new Date());
+  }
 
-function renderGrid() {
-  const grid = document.getElementById('clockGrid');
-  let list = applyOrder([...cities]);
-  list.sort((a, b) => {
-    const ap = pinned.includes(a.name) ? 0 : 1;
-    const bp = pinned.includes(b.name) ? 0 : 1;
-    return ap - bp;
-  });
+  function getOffset(tz) {
+    const local = new Date(
+      new Date().toLocaleString('en-US', { timeZone: userTZ })
+    );
+    const target = new Date(
+      new Date().toLocaleString('en-US', { timeZone: tz })
+    );
+    const diff = Math.round((target - local) / 60000);
+    if (diff === 0) return 'Your timezone';
+    const sign = diff > 0 ? '+' : '-';
+    const h = Math.floor(Math.abs(diff) / 60);
+    const m = Math.abs(diff) % 60;
+    return m > 0 ? `${sign}${h}h ${m}m` : `${sign}${h}h`;
+  }
 
-  grid.innerHTML = list.map(city => {
-    const t = getTime(city.tz);
-    const date = getDate(city.tz);
-    const offset = getOffset(city.tz);
-    const isUser = city.tz === userTZ;
-    const isPinned = pinned.includes(city.name);
-    const day = isDaytime(city.tz);
+  function isDaytime(tz) {
+    const h = parseInt(
+      new Intl.DateTimeFormat('en-US', {
+        timeZone: tz,
+        hour: 'numeric',
+        hour12: false
+      }).format(new Date())
+    );
+    return h >= 6 && h < 20;
+  }
 
-    return `
-    <div class="glass" style="padding:1.1rem 0.9rem;text-align:center;position:relative;cursor:grab;" draggable="true" data-city="${city.name}" id="card-${city.tz.replace(/\//g,'_')}">
+  function applyOrder(list) {
+    if (!customOrder.length) return list;
+    const ordered = [];
+    customOrder.forEach((name) => {
+      const c = list.find((x) => x.name === name);
+      if (c) ordered.push(c);
+    });
+    list.forEach((c) => {
+      if (!ordered.find((x) => x.name === c.name)) ordered.push(c);
+    });
+    return ordered;
+  }
+
+  function saveOrder() {
+    customOrder = Array.from(
+      document.querySelectorAll('#clockGrid .glass')
+    ).map((c) => c.dataset.city);
+    localStorage.setItem('wc_order', JSON.stringify(customOrder));
+  }
+
+  function renderGrid() {
+    const grid = document.getElementById('clockGrid');
+    let list = applyOrder([...cities]);
+    list.sort((a, b) => {
+      const ap = pinned.includes(a.name) ? 0 : 1;
+      const bp = pinned.includes(b.name) ? 0 : 1;
+      return ap - bp;
+    });
+
+    grid.innerHTML = list
+      .map((city) => {
+        const t = getTime(city.tz);
+        const date = getDate(city.tz);
+        const offset = getOffset(city.tz);
+        const isUser = city.tz === userTZ;
+        const isPinned = pinned.includes(city.name);
+        const day = isDaytime(city.tz);
+
+        return `
+    <div class="glass" style="padding:1.1rem 0.9rem;text-align:center;position:relative;cursor:grab;" draggable="true" data-city="${city.name}" id="card-${city.tz.replace(/\//g, '_')}">
       <div style="position:absolute;top:8px;left:8px;opacity:0.2;">
         <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><circle cx="9" cy="5" r="2"/><circle cx="15" cy="5" r="2"/><circle cx="9" cy="12" r="2"/><circle cx="15" cy="12" r="2"/><circle cx="9" cy="19" r="2"/><circle cx="15" cy="19" r="2"/></svg>
       </div>
-      <div style="position:absolute;top:8px;right:28px;cursor:pointer;opacity:${isPinned?1:0.3};" onclick="togglePin('${city.name}')">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="${isPinned?'#c8a96e':'none'}" stroke="${isPinned?'#c8a96e':'currentColor'}" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      <div style="position:absolute;top:8px;right:28px;cursor:pointer;opacity:${isPinned ? 1 : 0.3};" onclick="togglePin('${city.name}')">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="${isPinned ? '#c8a96e' : 'none'}" stroke="${isPinned ? '#c8a96e' : 'currentColor'}" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
       </div>
       <div style="position:absolute;top:8px;right:8px;cursor:pointer;opacity:0.3;transition:opacity 0.2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.3" onclick="removeCity('${city.tz}')">
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
@@ -578,149 +704,218 @@ function renderGrid() {
       <div style="font-size:0.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px;">${day ? 'Day' : 'Night'}</div>
       <div style="font-weight:500;color:var(--text);font-size:0.82rem;margin-bottom:2px;line-height:1.3;">${city.name}</div>
       ${isUser ? '<div style="font-size:0.6rem;color:var(--accent);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:4px;">Your location</div>' : `<div style="font-size:0.68rem;color:var(--muted);margin-bottom:4px;">${offset}</div>`}
-      <div style="font-family:'DM Mono',monospace;font-size:1.3rem;font-weight:300;color:var(--text);" id="time-${city.tz.replace(/\//g,'_')}">${t.h}:${t.m}:${t.s}</div>
+      <div style="font-family:'DM Mono',monospace;font-size:1.3rem;font-weight:300;color:var(--text);" id="time-${city.tz.replace(/\//g, '_')}">${t.h}:${t.m}:${t.s}</div>
       <div style="font-size:0.7rem;color:var(--accent);font-family:'DM Mono',monospace;margin-top:1px;">${t.ampm}</div>
       <div style="font-size:0.68rem;color:var(--muted);margin-top:4px;">${date}</div>
     </div>`;
-  }).join('');
-}
-
-function updateTimes() {
-  cities.forEach(city => {
-    const el = document.getElementById('time-' + city.tz.replace(/\//g,'_'));
-    if (el) {
-      const t = getTime(city.tz);
-      el.textContent = `${t.h}:${t.m}:${t.s}`;
-    }
-  });
-  updateLocalTime();
-}
-
-function initDragAndDrop() {
-  const grid = document.getElementById('clockGrid');
-  let dragSrc = null;
-
-  grid.addEventListener('dragstart', e => {
-    dragSrc = e.target.closest('.glass');
-    if (dragSrc) dragSrc.style.opacity = '0.4';
-    e.dataTransfer.effectAllowed = 'move';
-  });
-  grid.addEventListener('dragend', e => {
-    const card = e.target.closest('.glass');
-    if (card) card.style.opacity = '1';
-    saveOrder();
-  });
-  grid.addEventListener('dragover', e => {
-    e.preventDefault();
-    const target = e.target.closest('.glass');
-    if (!target || target === dragSrc) return;
-    const mid = target.getBoundingClientRect().left + target.getBoundingClientRect().width / 2;
-    grid.insertBefore(dragSrc, e.clientX < mid ? target : target.nextSibling);
-  });
-
-  let touchDrag = null, touchClone = null;
-  grid.addEventListener('touchstart', e => {
-    const card = e.target.closest('.glass');
-    if (!card) return;
-    touchDrag = card;
-    const rect = card.getBoundingClientRect();
-    touchClone = card.cloneNode(true);
-    Object.assign(touchClone.style, {
-      position:'fixed', width:rect.width+'px', opacity:'0.8',
-      pointerEvents:'none', zIndex:'9999',
-      top:rect.top+'px', left:rect.left+'px'
-    });
-    document.body.appendChild(touchClone);
-    card.style.opacity = '0.3';
-  }, { passive:true });
-
-  grid.addEventListener('touchmove', e => {
-    if (!touchDrag || !touchClone) return;
-    e.preventDefault();
-    const touch = e.touches[0];
-    touchClone.style.top = (touch.clientY - touchClone.offsetHeight/2) + 'px';
-    touchClone.style.left = (touch.clientX - touchClone.offsetWidth/2) + 'px';
-    const el = document.elementFromPoint(touch.clientX, touch.clientY);
-    const target = el?.closest('.glass');
-    if (target && target !== touchDrag) {
-      const rect = target.getBoundingClientRect();
-      grid.insertBefore(touchDrag, touch.clientX < rect.left + rect.width/2 ? target : target.nextSibling);
-    }
-  }, { passive:false });
-
-  grid.addEventListener('touchend', () => {
-    if (touchDrag) { touchDrag.style.opacity = '1'; touchDrag = null; }
-    if (touchClone) { touchClone.remove(); touchClone = null; }
-    saveOrder();
-  });
-}
-
-function updateLocalTime() {
-  const now = new Date();
-  const h = now.getHours(), m = now.getMinutes(), s = now.getSeconds();
-  let display, ampm;
-  if (military) {
-    display = String(h).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
-    ampm = '';
-  } else {
-    const ampmVal = h >= 12 ? 'PM' : 'AM';
-    const h12 = h % 12 || 12;
-    display = String(h12).padStart(2,'0')+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
-    ampm = ampmVal;
+      })
+      .join('');
   }
-  document.getElementById('localTime').textContent = display;
-  document.getElementById('localAmPm').textContent = ampm;
-  const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-  const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-  document.getElementById('localDate').textContent =
-    days[now.getDay()]+', '+months[now.getMonth()]+' '+now.getDate()+', '+now.getFullYear();
-  document.getElementById('localTZ').textContent = userTZ;
-}
 
-initMilitaryToggle();
-renderGrid();
-updateLocalTime();
-setInterval(updateTimes, 1000);
-setInterval(updateLocalTime, 1000);
-initDragAndDrop();
-</script>
-</main>
-<footer>
-  <p>© 2026 Timerrapp.com &nbsp;·&nbsp; <a href="/about/">About</a></p>
-</footer>
-<script>
-function playSound(type) {
-  try {
-    const ctx = new (window.AudioContext || window.webkitAudioContext)();
-    const t = ctx.currentTime;
-    if (type === 'beep') {
-      tone(ctx, 880, t, 0.5, 'sine');
-    } else if (type === 'digital') {
-      tone(ctx, 1047, t, 0.15, 'square');
-      tone(ctx, 1047, t+0.2, 0.15, 'square');
-      tone(ctx, 1047, t+0.4, 0.15, 'square');
-    } else if (type === 'bells') {
-      tone(ctx, 1318, t, 0.6, 'sine');
-      tone(ctx, 1568, t+0.15, 0.6, 'sine');
-      tone(ctx, 2093, t+0.3, 0.8, 'sine');
-    } else if (type === 'chime') {
-      [523, 659, 784, 1047].forEach((f, i) => tone(ctx, f, t + i*0.18, 0.5, 'sine'));
-    } else if (type === 'alarm') {
-      for (let i = 0; i < 6; i++) {
-        tone(ctx, i%2===0 ? 880 : 1100, t + i*0.18, 0.16, 'sawtooth');
+  function updateTimes() {
+    cities.forEach((city) => {
+      const el = document.getElementById('time-' + city.tz.replace(/\//g, '_'));
+      if (el) {
+        const t = getTime(city.tz);
+        el.textContent = `${t.h}:${t.m}:${t.s}`;
       }
+    });
+    updateLocalTime();
+  }
+
+  function initDragAndDrop() {
+    const grid = document.getElementById('clockGrid');
+    let dragSrc = null;
+
+    grid.addEventListener('dragstart', (e) => {
+      dragSrc = e.target.closest('.glass');
+      if (dragSrc) dragSrc.style.opacity = '0.4';
+      e.dataTransfer.effectAllowed = 'move';
+    });
+    grid.addEventListener('dragend', (e) => {
+      const card = e.target.closest('.glass');
+      if (card) card.style.opacity = '1';
+      saveOrder();
+    });
+    grid.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      const target = e.target.closest('.glass');
+      if (!target || target === dragSrc) return;
+      const mid =
+        target.getBoundingClientRect().left +
+        target.getBoundingClientRect().width / 2;
+      grid.insertBefore(dragSrc, e.clientX < mid ? target : target.nextSibling);
+    });
+
+    let touchDrag = null,
+      touchClone = null;
+    grid.addEventListener(
+      'touchstart',
+      (e) => {
+        const card = e.target.closest('.glass');
+        if (!card) return;
+        touchDrag = card;
+        const rect = card.getBoundingClientRect();
+        touchClone = card.cloneNode(true);
+        Object.assign(touchClone.style, {
+          position: 'fixed',
+          width: rect.width + 'px',
+          opacity: '0.8',
+          pointerEvents: 'none',
+          zIndex: '9999',
+          top: rect.top + 'px',
+          left: rect.left + 'px'
+        });
+        document.body.appendChild(touchClone);
+        card.style.opacity = '0.3';
+      },
+      { passive: true }
+    );
+
+    grid.addEventListener(
+      'touchmove',
+      (e) => {
+        if (!touchDrag || !touchClone) return;
+        e.preventDefault();
+        const touch = e.touches[0];
+        touchClone.style.top =
+          touch.clientY - touchClone.offsetHeight / 2 + 'px';
+        touchClone.style.left =
+          touch.clientX - touchClone.offsetWidth / 2 + 'px';
+        const el = document.elementFromPoint(touch.clientX, touch.clientY);
+        const target = el?.closest('.glass');
+        if (target && target !== touchDrag) {
+          const rect = target.getBoundingClientRect();
+          grid.insertBefore(
+            touchDrag,
+            touch.clientX < rect.left + rect.width / 2
+              ? target
+              : target.nextSibling
+          );
+        }
+      },
+      { passive: false }
+    );
+
+    grid.addEventListener('touchend', () => {
+      if (touchDrag) {
+        touchDrag.style.opacity = '1';
+        touchDrag = null;
+      }
+      if (touchClone) {
+        touchClone.remove();
+        touchClone = null;
+      }
+      saveOrder();
+    });
+  }
+
+  function updateLocalTime() {
+    const now = new Date();
+    const h = now.getHours(),
+      m = now.getMinutes(),
+      s = now.getSeconds();
+    let display, ampm;
+    if (military) {
+      display =
+        String(h).padStart(2, '0') +
+        ':' +
+        String(m).padStart(2, '0') +
+        ':' +
+        String(s).padStart(2, '0');
+      ampm = '';
+    } else {
+      const ampmVal = h >= 12 ? 'PM' : 'AM';
+      const h12 = h % 12 || 12;
+      display =
+        String(h12).padStart(2, '0') +
+        ':' +
+        String(m).padStart(2, '0') +
+        ':' +
+        String(s).padStart(2, '0');
+      ampm = ampmVal;
     }
-  } catch(e) {}
-}
-function tone(ctx, freq, start, dur, type) {
-  const o = ctx.createOscillator();
-  const g = ctx.createGain();
-  o.connect(g); g.connect(ctx.destination);
-  o.frequency.value = freq; o.type = type;
-  g.gain.setValueAtTime(0.25, start);
-  g.gain.exponentialRampToValueAtTime(0.001, start + dur);
-  o.start(start); o.stop(start + dur);
-}
+    document.getElementById('localTime').textContent = display;
+    document.getElementById('localAmPm').textContent = ampm;
+    const days = [
+      'Sunday',
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday'
+    ];
+    const months = [
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December'
+    ];
+    document.getElementById('localDate').textContent =
+      days[now.getDay()] +
+      ', ' +
+      months[now.getMonth()] +
+      ' ' +
+      now.getDate() +
+      ', ' +
+      now.getFullYear();
+    document.getElementById('localTZ').textContent = userTZ;
+  }
+
+  initMilitaryToggle();
+  renderGrid();
+  updateLocalTime();
+  setInterval(updateTimes, 1000);
+  setInterval(updateLocalTime, 1000);
+  initDragAndDrop();
 </script>
+
+  </main>
+  <footer>
+    <p>© 2026 Timerrapp.com &nbsp;·&nbsp; <a href="/about/">About</a></p>
+  </footer>
+  <script>
+    function playSound(type) {
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const t = ctx.currentTime;
+        if (type === 'beep') {
+          tone(ctx, 880, t, 0.5, 'sine');
+        } else if (type === 'digital') {
+          tone(ctx, 1047, t, 0.15, 'square');
+          tone(ctx, 1047, t+0.2, 0.15, 'square');
+          tone(ctx, 1047, t+0.4, 0.15, 'square');
+        } else if (type === 'bells') {
+          tone(ctx, 1318, t, 0.6, 'sine');
+          tone(ctx, 1568, t+0.15, 0.6, 'sine');
+          tone(ctx, 2093, t+0.3, 0.8, 'sine');
+        } else if (type === 'chime') {
+          [523, 659, 784, 1047].forEach((f, i) => tone(ctx, f, t + i*0.18, 0.5, 'sine'));
+        } else if (type === 'alarm') {
+          for (let i = 0; i < 6; i++) {
+            tone(ctx, i%2===0 ? 880 : 1100, t + i*0.18, 0.16, 'sawtooth');
+          }
+        }
+      } catch(e) {}
+    }
+    function tone(ctx, freq, start, dur, type) {
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+      o.connect(g); g.connect(ctx.destination);
+      o.frequency.value = freq; o.type = type;
+      g.gain.setValueAtTime(0.25, start);
+      g.gain.exponentialRampToValueAtTime(0.001, start + dur);
+      o.start(start); o.stop(start + dur);
+    }
+  </script>
 </body>
 </html>
