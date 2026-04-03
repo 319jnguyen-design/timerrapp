@@ -131,8 +131,16 @@ main {
 }
 .btn-primary { background: var(--accent); color: #0a0a0f; }
 .btn-primary:hover { opacity: 0.85; }
-.btn-secondary { background: transparent; border: 1px solid var(--border2); color: var(--text); }
-.btn-secondary:hover { border-color: rgba(255,255,255,0.3); }
+.btn-secondary {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(96,96,96,0.1);
+  color: var(--text);
+}
+.btn-secondary:hover {
+  background: rgba(255,255,255,0.09);
+}
 .btn-danger { background: transparent; border: 1px solid var(--danger); color: var(--danger); }
 /* Inputs */
 .input-field {
