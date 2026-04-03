@@ -39,7 +39,7 @@ body {
 body::before {
   content: '';
   position: fixed; inset: 0;
-  background-image: url('/assets/mountain.webp');
+  background-image: url('/assets/mountain-1.webp');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -61,9 +61,10 @@ header {
   position: relative; z-index: 10;
   display: flex; align-items: center; justify-content: space-between;
   padding: 1.25rem 2.5rem;
-  border-bottom: 1px solid var(--border);
-  background: rgba(10,10,15,0.85);
-  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  background: rgba(10,10,15,0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 }
 .logo {
   font-family: 'Instrument Serif', serif;
@@ -196,6 +197,20 @@ main {
   transition: all 0.15s;
 }
 .chip:hover { border-color: var(--accent); color: var(--accent); }
+
+.glass {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 16px;
+  transition: background 0.2s, border-color 0.2s;
+}
+.glass:hover {
+  background: rgba(255,255,255,0.09);
+  border-color: rgba(200,169,110,0.5);
+}
+
 /* Control row */
 .controls { display: flex; gap: 10px; justify-content: center; margin-top: 1.5rem; flex-wrap: wrap; }
 /* Divider */

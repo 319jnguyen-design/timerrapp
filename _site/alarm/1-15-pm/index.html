@@ -6,6 +6,7 @@
 <title>Set Alarm for 1:15 PM — Online Alarm Clock | Timerrapp</title>
 <meta name="description" content="Set a free online alarm for 1:15 PM. Works in your browser, no download needed. Your alarm will ring right on this page.">
 <link rel="canonical" href="https://timerrapp.com/alarm/1-15-pm/">
+<meta name="google-site-verification" content="l7y9RLTGEQ9oIRfnLf-2oNWYb8G-ovdbaUHeK7o4ko8" />
 <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
@@ -38,6 +39,17 @@ body {
 body::before {
   content: '';
   position: fixed; inset: 0;
+  background-image: url('/assets/mountain-1.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.2;
+  pointer-events: none;
+  z-index: 0;
+}
+body::after {
+  content: '';
+  position: fixed; inset: 0;
   background-image:
     linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
@@ -49,9 +61,10 @@ header {
   position: relative; z-index: 10;
   display: flex; align-items: center; justify-content: space-between;
   padding: 1.25rem 2.5rem;
-  border-bottom: 1px solid var(--border);
-  background: rgba(10,10,15,0.85);
-  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  background: rgba(10,10,15,0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 }
 .logo {
   font-family: 'Instrument Serif', serif;
@@ -112,6 +125,8 @@ main {
 /* Inputs */
 .input-field {
   width: 100%;
+  max-width" 100%;
+  box-sizing: border-box;
   background: var(--surface);
   border: 1px solid var(--border2);
   border-radius: 10px;
@@ -182,6 +197,20 @@ main {
   transition: all 0.15s;
 }
 .chip:hover { border-color: var(--accent); color: var(--accent); }
+
+.glass {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 16px;
+  transition: background 0.2s, border-color 0.2s;
+}
+.glass:hover {
+  background: rgba(255,255,255,0.09);
+  border-color: rgba(200,169,110,0.5);
+}
+
 /* Control row */
 .controls { display: flex; gap: 10px; justify-content: center; margin-top: 1.5rem; flex-wrap: wrap; }
 /* Divider */
@@ -204,11 +233,30 @@ footer {
 }
 footer a { color: var(--hint); text-decoration: none; }
 footer a:hover { color: var(--accent); }
-@media (max-width: 520px) {
-  header { padding: 1rem 1.25rem; }
-  nav a { padding: 5px 10px; font-size: 0.78rem; }
-  main { padding: 2rem 1.25rem 3rem; }
-  .page-title { font-size: 2rem; }
+
+* { max-width: 100%; }
+body { overflow-x: hidden; }
+
+@media (max-width: 600px) {
+  header {
+    padding: 0.9rem 1rem;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  nav {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 2px;
+  }
+  nav::-webkit-scrollbar { display: none; }
+  nav a { padding: 4px 10px; font-size: 0.75rem; white-space: nowrap; }
+  main { padding: 2rem 1rem 3rem; }
+  .page-title { font-size: 1.8rem; }
+  .controls { gap: 8px; }
+  .btn { padding: 0.8rem 1.4rem; font-size: 0.95rem; min-width: 100px; }
 }
 
 /* Shared sound engine */
