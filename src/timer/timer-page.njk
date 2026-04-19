@@ -32,7 +32,12 @@ activePage: timer
   </div>
 </div>
 
-<div style="margin-top:3rem;padding-top:2rem;border-top:1px solid var(--border);">
+<section class="seo-content" style="margin-top:3rem;padding-top:2rem;border-top:1px solid var(--border);text-align:left;">
+  <h2 style="font-size:1.1rem;margin-bottom:0.75rem;font-family:var(--font-heading);">About the {{ timer.duration }} Timer</h2>
+  <p style="color:var(--muted);font-size:0.9rem;line-height:1.7;font-family:var(--font-body);">{{ timer.blurb }}</p>
+</section>
+
+<div style="margin-top:2rem;padding-top:2rem;border-top:1px solid var(--border);">
   <h2 style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:1rem;font-weight:400;font-family:var(--font-body);">Other timers</h2>
   <div style="display:flex;flex-wrap:wrap;gap:8px;">
     {% for t in timers %}

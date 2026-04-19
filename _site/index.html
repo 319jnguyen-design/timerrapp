@@ -544,6 +544,8 @@
       <a href="/alarm/" >Alarm</a>
       <a href="/timer/" >Timer</a>
       <a href="/stopwatch/" >Stopwatch</a>
+      <a href="/chess-clock/" >Chess</a>
+      <a href="/binary-clock/" >Binary</a>
       <a href="/pomodoro/" >Pomodoro</a>
       <a href="/world-clock/" >World Clock</a>
 
@@ -574,7 +576,7 @@
 <div id="skyicon" style="margin-bottom:1rem;display:flex;justify-content:center;"></div>
 
 <div style="font-family:var(--font-mono);font-size:clamp(4rem,14vw,8rem);font-weight:300;letter-spacing:0.02em;line-height:1;" id="clockTime">00:00:00</div>
-<div style="font-family:var(--font-mono);font-size:1.3rem;color:var(--accent);margin-top:0.4rem;letter-spacing:0.15em;" id="clockAmPm">AM</div>
+<div style="font-family:var(--font-mono);font-size:1.3rem;color:var(--accent);margin-top:1.25rem;letter-spacing:0.15em;" id="clockAmPm">AM</div>
 
 <div style="margin-top:0.75rem;display:flex;align-items:center;justify-content:center;gap:8px;">
   <span style="font-size:0.75rem;color:var(--muted);">12h</span>
@@ -594,6 +596,23 @@
   [data-theme="kawaii"] .tile-sub { color: #3a3050 !important; }
   [data-theme="kawaii"] .glass { background: rgba(255,255,255,0.9) !important; }
   [data-theme="kawaii"] .glass:hover { background: rgba(255,255,255,0.97) !important; }
+  [data-theme="style3"] .tile-title { color: #f0ede8 !important; font-weight: 400; letter-spacing: 0.04em; font-size: 0.9rem !important; }
+  [data-theme="style3"] .tile-sub { color: rgba(240,237,232,0.8) !important; }
+  [data-theme="style3"] .tool-grid .glass {
+    background: transparent !important;
+    backdrop-filter: blur(1.5px) !important;
+    -webkit-backdrop-filter: blur(1.5px) !important;
+    border: 1px solid rgba(255,255,255,0.15) !important;
+    box-shadow: none !important;
+  }
+  [data-theme="style3"] .tool-grid .glass:hover {
+    background: rgba(255,255,255,0.08) !important;
+  }
+  [data-theme="style3"] #clockTime { font-family: 'Cormorant Garamond', serif !important; font-style: italic; }
+  [data-theme="style3"] #clockDate { color: rgba(0,0,0,0.825) !important; }
+  [data-theme="style3"] #clockTZ { color: rgba(0,0,0,0.525) !important; }
+  [data-theme="dark"] #clockDate { color: rgba(240,237,232,0.675) !important; }
+  [data-theme="dark"] #clockTZ { color: rgba(240,237,232,0.3) !important; }
 </style>
 
 <div class="tool-grid" style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:2rem;">

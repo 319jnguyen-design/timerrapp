@@ -1,0 +1,61 @@
+---
+layout: blog.njk
+title: "How Does Your Computer Know What Time It Is?"
+description: "NTP, atomic clocks, leap seconds, and why your computer's clock is almost certainly accurate to within a fraction of a second — explained simply."
+permalink: /blog/how-computers-tell-time/
+activePage: blog
+readingTime: "6 min read"
+category: "Timekeeping"
+ctaText: "See the current time tracked to the second in your browser."
+ctaLink: "/"
+ctaLabel: "Open Clock →"
+relatedTools:
+  - { name: "Online Clock", url: "/" }
+  - { name: "World Clock", url: "/world-clock/" }
+  - { name: "Current Time in London", url: "/world-clock/london/" }
+---
+
+<!-- ============================================================
+  CONTENT PLACEHOLDER — Replace everything between these comments
+  with your finished article. Target: 600–800 words of genuine prose.
+
+  KEY SECTIONS TO COVER:
+  1. The problem: computers have no internal sense of time without reference
+  2. What NTP is (Network Time Protocol) and how it works
+  3. The time server hierarchy: stratum 0 (atomic clocks) → stratum 1 → stratum 2
+  4. How accurate is your computer's clock really?
+  5. What happens when NTP is unavailable (clock drift)
+  6. Leap seconds: why they exist and what they cause
+
+  TONE: Educational, accessible. No promotional tone.
+  Written as if explaining to a curious non-technical person.
+  ONE natural mention of Timerrapp — e.g. "the clock on this page
+  reads from your device's system time, which is kept accurate by NTP."
+
+  This article is written primarily to earn backlinks from tech bloggers,
+  CS educators, and science writers. Keep it accurate and interesting.
+  ============================================================ -->
+
+<h2>Your Computer Has No Internal Sense of Time</h2>
+
+<p>[PLACEHOLDER — Explain that computers don't innately know the time. They have a hardware clock (CMOS clock) that ticks while powered off, but it drifts. Without synchronization, computers lose or gain seconds every day, which becomes a significant problem over time.]</p>
+
+<h2>NTP: The Internet's Time Synchronization Protocol</h2>
+
+<p>[PLACEHOLDER — Explain what NTP (Network Time Protocol) is: a protocol that allows devices to synchronize their clocks with internet time servers. Explain how it works at a high level — a device asks a time server what time it is, the server responds with a timestamp, and the device adjusts its clock accounting for network latency.]</p>
+
+<h2>The Time Server Hierarchy</h2>
+
+<p>[PLACEHOLDER — Describe the stratum hierarchy: Stratum 0 devices are atomic clocks and GPS receivers — the source of truth. Stratum 1 servers are directly connected to Stratum 0. Stratum 2 servers (like pool.ntp.org) sync from Stratum 1 and serve most of the internet. Your computer or phone syncs to a Stratum 2 or 3 server.]</p>
+
+<h2>How Accurate Is Your Clock?</h2>
+
+<p>[PLACEHOLDER — Explain that a typical device synced via NTP is accurate to within a few milliseconds. Mention that the clock displayed on this page reads from your device's system time, which NTP keeps synchronized. Contrast this with pre-NTP computers, which could drift by minutes per day.]</p>
+
+<h2>Clock Drift and What Happens Without Sync</h2>
+
+<p>[PLACEHOLDER — Explain clock drift: crystal oscillators in hardware clocks aren't perfectly precise. They run slightly fast or slow, accumulating error over time. Describe what used to happen before NTP was widespread — servers with timestamps hours apart, log files that made no sense, financial records with incorrect times.]</p>
+
+<h2>Leap Seconds: The Edge Case That Breaks Things</h2>
+
+<p>[PLACEHOLDER — Explain what a leap second is and why it exists: the Earth's rotation is slightly irregular, so occasionally an extra second is inserted into UTC to keep it aligned with astronomical time. Discuss why this causes software problems — systems that expect time to always move forward by exactly one second can crash or behave unpredictably. Note that major tech companies have pushed to abolish the leap second.]</p>

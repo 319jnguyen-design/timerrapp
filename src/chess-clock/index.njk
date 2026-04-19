@@ -1,0 +1,269 @@
+---
+layout: base.njk
+title: "Chess Clock — Free Online Chess Timer | Timerrapp"
+description: "Free online chess clock for two players. Set time controls for blitz, rapid, or classical games. Tap to switch clocks — works on any device, no download needed."
+activePage: chess
+---
+
+<h1 class="page-title">Chess Clock</h1>
+<p class="page-subtitle">Two-player countdown timer. Tap the button after each move.</p>
+
+<!-- Preset time controls -->
+<div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:1.5rem;">
+  <button class="btn btn-secondary" onclick="setPreset(1)" style="padding:6px 16px;font-size:0.85rem;">1 min</button>
+  <button class="btn btn-secondary" onclick="setPreset(3)" style="padding:6px 16px;font-size:0.85rem;">3 min</button>
+  <button class="btn btn-secondary" onclick="setPreset(5)" style="padding:6px 16px;font-size:0.85rem;">5 min</button>
+  <button class="btn btn-secondary" onclick="setPreset(10)" style="padding:6px 16px;font-size:0.85rem;">10 min</button>
+  <button class="btn btn-secondary" onclick="setPreset(15)" style="padding:6px 16px;font-size:0.85rem;">15 min</button>
+  <button class="btn btn-secondary" onclick="setPreset(30)" style="padding:6px 16px;font-size:0.85rem;">30 min</button>
+</div>
+
+<!-- Chess grid -->
+<div id="chessGrid" style="display:flex;flex-direction:column;gap:10px;width:100%;max-width:420px;margin:0 auto;">
+
+  <!-- Player 2 panel (top, rotated for face-to-face play) -->
+  <div id="p2Panel" onclick="switchPlayer()" style="
+    transform: rotate(180deg);
+    border-radius: 20px;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+    border: 2px solid var(--border2);
+    background: var(--surface);
+    user-select: none;
+    -webkit-user-select: none;
+  ">
+    <div style="font-size:0.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem;font-family:var(--font-body);" id="p2Label">Player 2</div>
+    <div style="font-family:var(--font-mono);font-size:clamp(3rem,14vw,5rem);font-weight:300;letter-spacing:-0.02em;" id="p2Time">10:00</div>
+    <div style="font-size:0.8rem;color:var(--muted);margin-top:0.5rem;font-family:var(--font-body);" id="p2Moves">0 moves</div>
+  </div>
+
+  <!-- Center controls -->
+  <div style="display:flex;gap:10px;justify-content:center;align-items:center;">
+    <button class="btn btn-primary" id="startBtn" onclick="startGame()" style="flex:1;padding:0.9rem;">Start</button>
+    <button class="btn btn-secondary" id="pauseBtn" onclick="pauseGame()" style="flex:1;padding:0.9rem;" disabled>Pause</button>
+    <button class="btn btn-secondary" onclick="resetGame()" style="flex:1;padding:0.9rem;">Reset</button>
+  </div>
+
+  <div style="text-align:center;font-size:0.78rem;color:var(--hint);font-family:var(--font-body);" id="gameStatus">Set a time control above, then press Start.</div>
+
+  <!-- Player 1 panel (bottom) -->
+  <div id="p1Panel" onclick="switchPlayer()" style="
+    border-radius: 20px;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+    border: 2px solid var(--accent);
+    background: var(--surface);
+    user-select: none;
+    -webkit-user-select: none;
+  ">
+    <div style="font-size:0.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem;font-family:var(--font-body);" id="p1Label">Player 1</div>
+    <div style="font-family:var(--font-mono);font-size:clamp(3rem,14vw,5rem);font-weight:300;letter-spacing:-0.02em;" id="p1Time">10:00</div>
+    <div style="font-size:0.8rem;color:var(--muted);margin-top:0.5rem;font-family:var(--font-body);" id="p1Moves">0 moves</div>
+  </div>
+
+</div>
+
+<!-- Custom time input -->
+<div style="margin-top:1.5rem;display:flex;gap:10px;align-items:flex-end;justify-content:center;flex-wrap:wrap;">
+  <div>
+    <label class="field-label">Custom (minutes)</label>
+    <input type="number" id="customMin" min="1" max="180" value="10" class="input-field" style="width:110px;font-size:1.1rem;">
+  </div>
+  <button class="btn btn-secondary" onclick="setCustom()" style="padding:0.75rem 1.4rem;">Set</button>
+</div>
+
+<!-- SEO content block -->
+<section class="seo-content" style="margin-top:3rem;padding-top:2rem;border-top:1px solid var(--border);text-align:left;">
+  <h2 style="font-size:1.1rem;margin-bottom:0.75rem;font-family:var(--font-heading);">Free Online Chess Clock</h2>
+  <p style="color:var(--muted);font-size:0.9rem;line-height:1.7;font-family:var(--font-body);margin-bottom:0.75rem;">This chess clock gives each player their own countdown timer. Tap the button after your move to stop your clock and start your opponent's. Works for blitz (3–5 min), rapid (10–15 min), and classical (30+ min) games.</p>
+  <h3 style="font-size:0.95rem;margin-bottom:0.5rem;margin-top:1rem;font-family:var(--font-heading);">How to use the chess clock</h3>
+  <p style="color:var(--muted);font-size:0.9rem;line-height:1.7;font-family:var(--font-body);">Choose a time control from the presets above or enter a custom number of minutes. Press Start to begin Player 1's clock. After each move, tap your own player panel — it stops your clock and starts your opponent's. The panel lights up gold to show whose turn it is. The clock locks when either player runs out of time.</p>
+  <h3 style="font-size:0.95rem;margin-bottom:0.5rem;margin-top:1rem;font-family:var(--font-heading);">Time controls explained</h3>
+  <p style="color:var(--muted);font-size:0.9rem;line-height:1.7;font-family:var(--font-body);">Blitz chess uses 3 to 5 minutes per player. Rapid games typically use 10 to 15 minutes. Classical tournament chess starts at 30 minutes per player and can go much longer. For casual play, 5 or 10 minutes is the most common choice. The chess clock on this page works for all formats and is fully optimized for mobile — just place your phone between two players on a table.</p>
+</section>
+
+<style>
+  .player-active {
+    border-color: var(--accent) !important;
+    background: rgba(200, 169, 110, 0.08) !important;
+  }
+  [data-theme="kawaii"] .player-active {
+    border-color: var(--accent) !important;
+    background: rgba(232,96,44,0.08) !important;
+  }
+  .player-flagged {
+    border-color: var(--danger) !important;
+    background: rgba(224, 92, 92, 0.1) !important;
+  }
+  .player-flagged #p1Time,
+  .player-flagged #p2Time {
+    color: var(--danger);
+  }
+</style>
+
+<script>
+// State machine: IDLE | P1 | P2 | PAUSED | GAMEOVER
+let state = 'IDLE';
+let p1Secs, p2Secs, totalSecs;
+let p1Moves = 0, p2Moves = 0;
+let iv = null;
+
+function fmt(s) {
+  if (s < 0) s = 0;
+  const m = Math.floor(s / 60), sec = s % 60;
+  return String(m).padStart(2, '0') + ':' + String(sec).padStart(2, '0');
+}
+
+function setPreset(mins) {
+  resetGame();
+  totalSecs = mins * 60;
+  p1Secs = totalSecs;
+  p2Secs = totalSecs;
+  document.getElementById('customMin').value = mins;
+  updateDisplays();
+  document.getElementById('gameStatus').textContent = `${mins} minute time control. Press Start.`;
+}
+
+function setCustom() {
+  const mins = parseInt(document.getElementById('customMin').value) || 10;
+  setPreset(mins);
+}
+
+function startGame() {
+  if (state !== 'IDLE') return;
+  state = 'P1';
+  document.getElementById('startBtn').disabled = true;
+  document.getElementById('pauseBtn').disabled = false;
+  document.getElementById('gameStatus').textContent = "Player 1's turn — tap your panel after each move.";
+  highlightActive();
+  iv = setInterval(tick, 1000);
+}
+
+function pauseGame() {
+  if (state === 'PAUSED') {
+    // Resume
+    state = (lastActive === 'P1') ? 'P1' : 'P2';
+    document.getElementById('pauseBtn').textContent = 'Pause';
+    document.getElementById('gameStatus').textContent = state === 'P1' ? "Player 1's turn." : "Player 2's turn.";
+    highlightActive();
+    iv = setInterval(tick, 1000);
+  } else if (state === 'P1' || state === 'P2') {
+    lastActive = state;
+    state = 'PAUSED';
+    clearInterval(iv);
+    document.getElementById('pauseBtn').textContent = 'Resume';
+    document.getElementById('gameStatus').textContent = 'Game paused. Press Resume to continue.';
+    // Clear active highlights
+    document.getElementById('p1Panel').classList.remove('player-active');
+    document.getElementById('p2Panel').classList.remove('player-active');
+  }
+}
+let lastActive = 'P1';
+
+function switchPlayer() {
+  if (state !== 'P1' && state !== 'P2') return;
+  if (state === 'P1') {
+    p1Moves++;
+    document.getElementById('p1Moves').textContent = p1Moves + ' move' + (p1Moves !== 1 ? 's' : '');
+    state = 'P2';
+    document.getElementById('gameStatus').textContent = "Player 2's turn — tap your panel after each move.";
+  } else {
+    p2Moves++;
+    document.getElementById('p2Moves').textContent = p2Moves + ' move' + (p2Moves !== 1 ? 's' : '');
+    state = 'P1';
+    document.getElementById('gameStatus').textContent = "Player 1's turn — tap your panel after each move.";
+  }
+  highlightActive();
+}
+
+function tick() {
+  if (state === 'P1') {
+    p1Secs--;
+    document.getElementById('p1Time').textContent = fmt(p1Secs);
+    if (p1Secs <= 0) { gameOver('Player 1'); return; }
+  } else if (state === 'P2') {
+    p2Secs--;
+    document.getElementById('p2Time').textContent = fmt(p2Secs);
+    if (p2Secs <= 0) { gameOver('Player 2'); return; }
+  }
+}
+
+function gameOver(flaggedPlayer) {
+  state = 'GAMEOVER';
+  clearInterval(iv);
+  document.getElementById('gameStatus').textContent = `⏱ ${flaggedPlayer} ran out of time! Game over.`;
+  document.getElementById('pauseBtn').disabled = true;
+  const panel = flaggedPlayer === 'Player 1' ? document.getElementById('p1Panel') : document.getElementById('p2Panel');
+  panel.classList.remove('player-active');
+  panel.classList.add('player-flagged');
+  playFlagSound();
+}
+
+function resetGame() {
+  clearInterval(iv);
+  state = 'IDLE';
+  p1Moves = 0; p2Moves = 0;
+  const mins = parseInt(document.getElementById('customMin').value) || 10;
+  totalSecs = mins * 60;
+  p1Secs = totalSecs;
+  p2Secs = totalSecs;
+  document.getElementById('p1Time').textContent = fmt(p1Secs);
+  document.getElementById('p2Time').textContent = fmt(p2Secs);
+  document.getElementById('p1Moves').textContent = '0 moves';
+  document.getElementById('p2Moves').textContent = '0 moves';
+  document.getElementById('p1Panel').className = '';
+  document.getElementById('p2Panel').className = '';
+  document.getElementById('p1Panel').style.cssText = `
+    border-radius:20px;padding:2rem 1.5rem;text-align:center;cursor:pointer;
+    transition:background 0.2s,border-color 0.2s;border:2px solid var(--accent);
+    background:var(--surface);user-select:none;-webkit-user-select:none;`;
+  document.getElementById('p2Panel').style.cssText = `
+    transform:rotate(180deg);border-radius:20px;padding:2rem 1.5rem;text-align:center;
+    cursor:pointer;transition:background 0.2s,border-color 0.2s;border:2px solid var(--border2);
+    background:var(--surface);user-select:none;-webkit-user-select:none;`;
+  document.getElementById('startBtn').disabled = false;
+  document.getElementById('pauseBtn').disabled = true;
+  document.getElementById('pauseBtn').textContent = 'Pause';
+  document.getElementById('gameStatus').textContent = 'Press Start when ready.';
+  lastActive = 'P1';
+}
+
+function updateDisplays() {
+  document.getElementById('p1Time').textContent = fmt(p1Secs);
+  document.getElementById('p2Time').textContent = fmt(p2Secs);
+}
+
+function highlightActive() {
+  const p1 = document.getElementById('p1Panel');
+  const p2 = document.getElementById('p2Panel');
+  if (state === 'P1') {
+    p1.classList.add('player-active');
+    p2.classList.remove('player-active');
+  } else if (state === 'P2') {
+    p2.classList.add('player-active');
+    p1.classList.remove('player-active');
+  }
+}
+
+function playFlagSound() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    [880, 440, 220].forEach((f, i) => {
+      const o = ctx.createOscillator(), g = ctx.createGain();
+      o.connect(g); g.connect(ctx.destination);
+      o.frequency.value = f; o.type = 'sine';
+      const st = ctx.currentTime + i * 0.3;
+      g.gain.setValueAtTime(0.3, st);
+      g.gain.exponentialRampToValueAtTime(0.001, st + 0.5);
+      o.start(st); o.stop(st + 0.6);
+    });
+  } catch(e) {}
+}
+
+// Initialize with 10-minute default
+setPreset(10);
+</script>

@@ -1,0 +1,131 @@
+---
+layout: base.njk
+---
+
+<style>
+  .prose {
+    text-align: left;
+    color: var(--muted);
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    line-height: 1.8;
+  }
+  .prose h2 {
+    font-family: var(--font-heading);
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: var(--text);
+    margin: 2rem 0 0.75rem;
+  }
+  [data-theme="kawaii"] .prose h2 { font-weight: 800; }
+  .prose h3 {
+    font-family: var(--font-body);
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text);
+    margin: 1.5rem 0 0.5rem;
+  }
+  .prose p { margin-bottom: 1rem; }
+  .prose a { color: var(--accent); text-decoration: none; }
+  .prose a:hover { text-decoration: underline; }
+  .prose table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 0.88rem;
+  }
+  .prose th {
+    background: var(--surface2);
+    color: var(--text);
+    font-weight: 600;
+    padding: 10px 14px;
+    text-align: left;
+    border: 1px solid var(--border2);
+    font-family: var(--font-body);
+  }
+  .prose td {
+    padding: 9px 14px;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-family: var(--font-body);
+    vertical-align: top;
+  }
+  .prose tr:nth-child(even) td { background: var(--surface); }
+  [data-theme="kawaii"] .prose table { border: 2.5px solid #000; }
+  [data-theme="kawaii"] .prose th { border: 1px solid #000; background: rgba(232,96,44,0.1); }
+  [data-theme="kawaii"] .prose td { border: 1px solid #000; }
+  .reading-time {
+    font-size: 0.75rem;
+    color: var(--hint);
+    font-family: var(--font-body);
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .blog-cta {
+    margin-top: 3rem;
+    padding: 1.5rem;
+    border-radius: 16px;
+    text-align: center;
+  }
+  .blog-cta p {
+    color: var(--muted);
+    font-size: 0.88rem;
+    margin-bottom: 1rem;
+    font-family: var(--font-body);
+  }
+  .related-tools {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+    text-align: left;
+  }
+  .related-tools h3 {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--hint);
+    margin-bottom: 1rem;
+    font-family: var(--font-body);
+  }
+  .related-tools-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+</style>
+
+<article>
+  <h1 class="page-title">{{ title }}</h1>
+  <p class="page-subtitle">{{ description }}</p>
+  <div class="reading-time">
+    <span>📖</span>
+    <span>{{ readingTime or "5 min read" }}</span>
+    <span>·</span>
+    <span>{{ category or "Guide" }}</span>
+  </div>
+
+  <div class="prose">
+    {{ content | safe }}
+  </div>
+
+  {% if ctaText and ctaLink %}
+  <div class="blog-cta glass">
+    <p>{{ ctaText }}</p>
+    <a href="{{ ctaLink }}" class="btn btn-primary" style="text-decoration:none;">{{ ctaLabel or "Try it free →" }}</a>
+  </div>
+  {% endif %}
+
+  {% if relatedTools %}
+  <aside class="related-tools">
+    <h3>Related tools</h3>
+    <div class="related-tools-grid">
+      {% for tool in relatedTools %}
+      <a href="{{ tool.url }}" class="chip" style="text-decoration:none;">{{ tool.name }}</a>
+      {% endfor %}
+    </div>
+  </aside>
+  {% endif %}
+</article>

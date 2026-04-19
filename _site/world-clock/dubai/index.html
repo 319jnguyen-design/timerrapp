@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Current Time in Dubai, UAE — Live Clock | Timerrapp</title>
+  <meta name="description" content="See the current local time in Dubai, UAE. Live clock showing Asia/Dubai time. UTC offset: +4:00.">
+  <link rel="canonical" href="https://timerrapp.com/world-clock/dubai/">
+  <meta name="google-site-verification" content="l7y9RLTGEQ9oIRfnLf-2oNWYb8G-ovdbaUHeK7o4ko8">
+  <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400&family=DM+Sans:wght@300;400;500&family=Instrument+Serif:ital@0;1&family=Nunito:wght@400;600;700;800;900&family=Nunito+Sans:wght@400;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+  <script>
+    (function() {
+      var t = localStorage.getItem('timerr_theme') || 'kawaii';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+
+  <style>
+    /* ===================== DARK THEME (default) ===================== */
+    :root,
+    [data-theme="dark"] {
+      --bg: #0a0a0f;
+      --surface: #13131a;
+      --surface2: #1c1c26;
+      --border: rgba(255,255,255,0.08);
+      --border2: rgba(255,255,255,0.14);
+      --text: #f0ede8;
+      --muted: rgba(240,237,232,0.45);
+      --hint: rgba(240,237,232,0.2);
+      --accent: #c8a96e;
+      --danger: #e05c5c;
+      --success: #5ce0a0;
+      --bg-image: url('/assets/mountain-1.webp');
+      --bg-image-opacity: 0.2;
+      --header-bg: rgba(10,10,15,0.4);
+      --glass-bg: rgba(255,255,255,0.05);
+      --glass-border: rgba(96,96,96,0.1);
+      --font-heading: 'Instrument Serif', serif;
+      --font-body: 'DM Sans', sans-serif;
+      --font-mono: 'DM Mono', monospace;
+      --btn-radius: 10px;
+      --btn-border: none;
+      --btn-shadow: none;
+      --logo-style: italic;
+      --icon-lib: phosphor;
+    }
+
+    /* ===================== KAWAII THEME ===================== */
+    [data-theme="kawaii"] {
+      --bg: #e8e0f5;
+      --surface: #f2eefb;
+      --surface2: #ede6f8;
+      --border: rgba(100,80,160,0.15);
+      --border2: rgba(100,80,160,0.25);
+      --text: #1a1a2e;
+      --muted: #4a3c6e;
+      --hint: #6a5a9a;
+      --accent: #e8602c;
+      --accent-hover: #f07040;
+      --accent-active: #c94e1e;
+      --danger: #e05c5c;
+      --success: #7ecec8;
+      --bg-image: url('/assets/fun-mtn.webp');
+      --bg-image-opacity: 0.35;
+      --header-bg: rgba(232,224,245,0.7);
+      --glass-bg: rgba(255,255,255,0.55);
+      --glass-border: rgba(0,0,0,1);
+      --font-heading: 'Nunito', sans-serif;
+      --font-body: 'Nunito Sans', sans-serif;
+      --font-mono: 'Space Mono', monospace;
+      --btn-radius: 10px;
+      --btn-border: 3.5px solid #000000;
+      --btn-shadow: 4px 4px 0px #000000;
+      --logo-style: normal;
+      --icon-lib: lucide;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: var(--bg-image);
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      opacity: var(--bg-image-opacity);
+      pointer-events: none;
+      z-index: 0;
+      transition: opacity 0.3s, background-image 0.3s;
+    }
+
+    [data-theme="dark"] body::after {
+      content: '';
+      position: fixed; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ===================== HEADER ===================== */
+    header {
+      position: relative; z-index: 10;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.25rem 2.5rem;
+      border-bottom: 1px solid var(--border);
+      background: var(--header-bg);
+      box-shadow: 0 1px 0 rgba(255,255,255,0.05), 0 4px 24px rgba(0,0,0,0.1);
+      transition: background 0.3s;
+    }
+    [data-theme="dark"] header {
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+    }
+    [data-theme="kawaii"] header {
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      border-bottom: 2.5px solid #000;
+      box-shadow: 0 3px 0 #000;
+    }
+
+    .logo {
+      font-family: var(--font-heading);
+      font-size: 1.85rem;
+      color: var(--text);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    [data-theme="dark"] .logo span { color: var(--accent); font-style: italic; }
+    [data-theme="kawaii"] .logo { font-weight: 800; }
+    [data-theme="kawaii"] .logo span { color: var(--accent); font-style: normal; font-weight: 900; }
+
+    nav { display: flex; gap: 4px; align-items: center; }
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      padding: 6px 14px;
+      border-radius: 100px;
+      font-size: 0.85rem;
+      border: 1px solid transparent;
+      transition: all 0.2s;
+      font-family: var(--font-body);
+    }
+    [data-theme="dark"] nav a:hover,
+    [data-theme="dark"] nav a.active {
+      color: var(--text);
+      background: var(--glass-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-color: var(--border2);
+    }
+    [data-theme="kawaii"] nav a:hover,
+    [data-theme="kawaii"] nav a.active {
+      color: var(--text);
+      background: rgba(255,255,255,0.85);
+      border: 1px solid #000;
+      box-shadow: 2px 2px 0px #000;
+      backdrop-filter: none;
+    }
+
+    /* ===================== SKIN SWITCHER ===================== */
+    .skin-btn {
+      border-radius: 100px;
+      padding: 6px 12px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      font-family: var(--font-body);
+      display: flex; align-items: center; gap: 6px;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    [data-theme="dark"] .skin-btn {
+      background: var(--glass-bg);
+      border: 1px solid var(--border2);
+      color: var(--muted);
+    }
+    [data-theme="dark"] .skin-btn:hover { color: var(--text); border-color: var(--accent); }
+    [data-theme="kawaii"] .skin-btn {
+      border: 2.5px solid #000;
+      box-shadow: 2px 2px 0px #000;
+      background: rgba(255,255,255,0.85);
+      color: #000;
+      font-weight: 700;
+    }
+    [data-theme="kawaii"] .skin-btn:hover {
+      background: var(--accent);
+      transform: translate(-1px,-1px);
+      box-shadow: 3px 3px 0px #000;
+    }
+    [data-theme="kawaii"] .skin-btn:hover i{
+      color: #000 !important;
+    }
+
+    .skin-menu {
+      display: none;
+      position: absolute;
+      top: calc(100% + 10px);
+      right: 0;
+      background: var(--surface);
+      border: 1px solid var(--border2);
+      border-radius: 14px;
+      padding: 8px;
+      min-width: 180px;
+      z-index: 100;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    }
+    [data-theme="kawaii"] .skin-menu {
+      border: 3px solid #000;
+      box-shadow: 4px 4px 0px #000;
+      border-radius: 14px;
+    }
+    .skin-menu.open { display: block; }
+
+    .skin-option { 
+      display: flex; align-items: center; gap: 10px;
+      padding: 9px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      color: var(--text);
+      font-family: var(--font-body);
+      transition: background 0.15s;
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+    }
+    .skin-option:hover { background: var(--surface2); }
+    .skin-option.active {
+      color: var(--accent);
+      font-weight: 700;
+      background: var(--surface2);
+    }
+    .skin-option .check {
+      margin-left: auto;
+      opacity: 0;
+      font-size: 14px;
+      color: var(--accent);
+    }
+    .skin-option.active .check { opacity: 1; }
+    .skin-swatch {
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      border: 2px solid var(--border2);
+      flex-shrink: 0;
+    }
+    [data-theme="kawaii"] .skin-option:hover { background: rgba(232,96,44,0.1); }
+    [data-theme="kawaii"] .skin-option.active { color: var(--accent); background: rgba(232,96,44,0.08); }
+
+    /* ===================== MAIN ===================== */
+    main {
+      position: relative; z-index: 1;
+      flex: 1;
+      max-width: 680px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 3rem 2rem 5rem;
+      text-align: center;
+    }
+
+    .page-title {
+      font-family: var(--font-heading);
+      font-size: 2.4rem;
+      font-weight: 400;
+      margin-bottom: 0.4rem;
+      color: var(--text);
+    }
+    [data-theme="kawaii"] .page-title { font-weight: 900; }
+
+    .page-subtitle {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 2.5rem;
+      font-family: var(--font-body);
+    }
+
+    /* ===================== BUTTONS ===================== */
+    .btn {
+      padding: 0.9rem 2.2rem;
+      border-radius: var(--btn-radius);
+      font-family: var(--font-body);
+      font-size: 1.05rem;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.15s;
+      min-width: 120px;
+      display: inline-block;
+    }
+
+    /* Dark theme buttons */
+    [data-theme="dark"] .btn-primary {
+      background: var(--accent);
+      color: #0a0a0f;
+      border: none;
+    }
+    [data-theme="dark"] .btn-primary:hover { opacity: 0.85; }
+    [data-theme="dark"] .btn-secondary {
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(96,96,96,0.1);
+      color: var(--text);
+    }
+    [data-theme="dark"] .btn-secondary:hover { background: rgba(255,255,255,0.09); }
+    [data-theme="dark"] .btn-danger { background: transparent; border: 1px solid var(--danger); color: var(--danger); }
+
+    /* Kawaii theme buttons */
+    [data-theme="kawaii"] .btn-primary,
+    [data-theme="kawaii"] .btn-secondary,
+    [data-theme="kawaii"] .btn-danger {
+      background: var(--accent);
+      color: #000000 !important;
+      -webkit-text-fill-color: #000000;
+      border: 3.5px solid #000000;
+      box-shadow: 4px 4px 0px #000000;
+      font-weight: 800;
+      font-family: var(--font-body);
+    }
+    [data-theme="kawaii"] .btn-primary:hover,
+    [data-theme="kawaii"] .btn-secondary:hover {
+      background: var(--accent-hover);
+      transform: translate(-1px, -1px);
+      box-shadow: 5px 5px 0px #000000;
+    }
+    [data-theme="kawaii"] .btn-primary:active,
+    [data-theme="kawaii"] .btn-secondary:active {
+      background: var(--accent-active);
+      transform: translate(3px, 3px);
+      box-shadow: 1px 1px 0px #000000;
+    }
+    [data-theme="kawaii"] .btn-danger {
+      background: #ffb3b3;
+    }
+
+    /* ===================== INPUTS ===================== */
+    .input-field {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border2);
+      border-radius: 10px;
+      color: var(--text);
+      padding: 0.75rem 1rem;
+      font-family: var(--font-mono);
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s;
+      text-align: center;
+    }
+    .input-field:focus { border-color: var(--accent); }
+    [data-theme="kawaii"] .input-field {
+      border: 2.5px solid #000;
+      background: rgba(255,255,255,0.7);
+      color: #1a1a2e;
+      font-family: var(--font-mono);
+      border-radius: 10px;
+    }
+    [data-theme="kawaii"] .input-field:focus { border-color: var(--accent); box-shadow: 3px 3px 0px #000; }
+
+    .field-label {
+      display: block;
+      font-size: 0.72rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 6px;
+      text-align: center;
+      font-family: var(--font-body);
+    }
+
+    /* ===================== SOUND ROW ===================== */
+    .sound-row {
+      display: flex; align-items: center; justify-content: center;
+      gap: 10px; margin: 1.25rem 0; flex-wrap: wrap;
+    }
+    .sound-row label { font-size: 0.8rem; color: var(--muted); font-family: var(--font-body); }
+
+    .sound-select {
+      background: var(--surface);
+      border: 1px solid var(--border2);
+      border-radius: 8px;
+      color: var(--text);
+      padding: 6px 12px;
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      outline: none;
+      cursor: pointer;
+    }
+    [data-theme="kawaii"] .sound-select {
+      border: 2.5px solid #000;
+      background: rgba(255,255,255,0.7);
+      color: #1a1a2e;
+      border-radius: 8px;
+    }
+
+    .btn-test {
+      padding: 6px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--border2);
+      background: transparent;
+      color: var(--muted);
+      font-size: 0.8rem;
+      cursor: pointer;
+      font-family: var(--font-body);
+      transition: all 0.15s;
+    }
+    .btn-test:hover { border-color: var(--accent); color: var(--accent); }
+    [data-theme="kawaii"] .btn-test {
+      border: 2.5px solid #000;
+      color: #000;
+      background: rgba(255,255,255,0.5);
+      border-radius: 8px;
+      font-weight: 700;
+    }
+    [data-theme="kawaii"] .btn-test:hover { background: var(--accent); box-shadow: 2px 2px 0px #000; }
+
+    /* ===================== CHIPS ===================== */
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 1.5rem; }
+    .chip {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 5px 16px;
+      font-size: 0.82rem;
+      color: var(--muted);
+      cursor: pointer;
+      font-family: var(--font-mono);
+      transition: all 0.15s;
+    }
+    .chip:hover { border-color: var(--accent); color: var(--accent); }
+    [data-theme="kawaii"] .chip {
+      background: rgba(255,255,255,0.7);
+      border: 2.5px solid #000;
+      border-radius: 10px;
+      color: #000;
+      font-weight: 700;
+      box-shadow: 2px 2px 0px #000;
+    }
+    [data-theme="kawaii"] .chip:hover {
+      background: var(--accent);
+      transform: translate(-1px, -1px);
+      box-shadow: 3px 3px 0px #000;
+      color: #000;
+    }
+
+    /* ===================== GLASS CARDS ===================== */
+    .glass {
+      border-radius: 16px;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    [data-theme="dark"] .glass {
+      background: var(--glass-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--glass-border);
+    }
+    [data-theme="dark"] .glass:hover { background: rgba(255,255,255,0.09); }
+    [data-theme="kawaii"] .glass {
+      background: rgba(255,255,255,0.75);
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      border: 2.5px solid #000;
+      box-shadow: 3px 3px 0px #000;
+      border-radius: 16px;
+    }
+    [data-theme="kawaii"] .glass:hover {
+      background: rgba(255,255,255,0.95);
+      transform: translate(-1px, -1px);
+      box-shadow: 4px 4px 0px #000;
+    }
+
+    /* ===================== MISC ===================== */
+    .controls { display: flex; gap: 10px; justify-content: center; margin-top: 1.5rem; flex-wrap: wrap; }
+    .divider { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+    .section-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--hint); margin-bottom: 1rem; font-family: var(--font-body); }
+
+    /* ===================== FOOTER ===================== */
+    footer {
+      position: relative; z-index: 1;
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 0.78rem;
+      color: var(--hint);
+      border-top: 1px solid var(--border);
+      font-family: var(--font-body);
+    }
+    footer a { color: var(--hint); text-decoration: none; }
+    footer a:hover { color: var(--accent); }
+
+    /* ===================== RESPONSIVE ===================== */
+    * { max-width: 100%; }
+    body { overflow-x: hidden; }
+
+    @media (max-width: 600px) {
+      header { padding: 0.9rem 1rem; flex-direction: column; align-items: center; gap: 0.6rem; }
+      .desktop-only { display: none; }
+      nav {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        padding-bottom: 2px;
+        flex-wrap: nowrap;
+      }
+      nav::-webkit-scrollbar { display: none; }
+      nav a { padding: 4px 10px; font-size: 0.75rem; white-space: nowrap; }
+      .skin-btn { padding: 4px 10px; font-size: 0.75rem; white-space: nowrap; }
+      .skin-menu { right: auto; left: 0; }
+      main { padding: 2rem 1rem 3rem; }
+      .page-title { font-size: 1.8rem; }
+      .controls { gap: 8px; }
+      .btn { padding: 0.8rem 1.4rem; font-size: 0.95rem; min-width: 100px; }
+      .tool-grid { grid-template-columns: repeat(3, 1fr) !important; }
+    }
+    @media (max-width: 380px) {
+      .tool-grid { grid-template-columns: repeat(2, 1fr) !important; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="/" class="logo">Timerr<span>app</span></a>
+    <nav>
+      <a href="/" >Clock</a>
+      <a href="/alarm/" >Alarm</a>
+      <a href="/timer/" >Timer</a>
+      <a href="/stopwatch/" >Stopwatch</a>
+      <a href="/chess-clock/" >Chess</a>
+      <a href="/binary-clock/" >Binary</a>
+      <a href="/pomodoro/" >Pomodoro</a>
+      <a href="/world-clock/" class="active">World Clock</a>
+
+      <!-- Skin Switcher -->
+      <div style="position:relative;">
+        <button class="skin-btn" onclick="toggleSkinMenu()" id="skinBtn">
+          <i class="ph-fill ph-checkerboard" style="font-size:16px;color:var(--accent);"></i>
+          <span>Style</span>
+        </button>
+        <div class="skin-menu" id="skinMenu">
+          <button class="skin-option" onclick="setSkin('kawaii')" id="opt-kawaii">
+            <span class="skin-swatch" style="background:#e8e0f5;border-color:#b0a5cc;"></span>
+            Style 1
+            <i class="ph-bold ph-check check"></i>
+          </button>
+          <button class="skin-option" onclick="setSkin('dark')" id="opt-dark">
+            <span class="skin-swatch" style="background:#0a0a0f;"></span>
+            Style 2
+            <i class="ph-bold ph-check check"></i>
+          </button>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    
+<h1 style="font-family:var(--font-heading);font-size:2.5rem;font-weight:400;margin-bottom:0.5rem;">Current Time in Dubai</h1>
+<p style="color:var(--muted);margin-bottom:0.5rem;font-family:var(--font-body);">Asia/Dubai &nbsp;·&nbsp; UTC+4:00</p>
+
+<div style="text-align:center;padding:2.5rem 0 1.5rem;">
+  <div style="font-size:0.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.75rem;font-family:var(--font-body);" id="dayNight">—</div>
+  <div style="font-family:var(--font-mono);font-size:clamp(3rem,12vw,6rem);font-weight:300;letter-spacing:-0.02em;line-height:1;" id="cityTime">--:--:--</div>
+  <div style="font-family:var(--font-mono);font-size:1.2rem;color:var(--accent);margin-top:0.3rem;" id="cityAmPm"></div>
+
+  <div style="margin-top:0.75rem;display:flex;align-items:center;justify-content:center;gap:8px;">
+    <span style="font-size:0.75rem;color:var(--muted);">12h</span>
+    <div id="militaryToggle" onclick="toggleMilitary()" style="width:40px;height:22px;border-radius:100px;border:1px solid var(--border2);background:transparent;cursor:pointer;position:relative;transition:all 0.2s;">
+      <div id="militaryDot" style="position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:var(--muted);transition:all 0.2s;"></div>
+    </div>
+    <span style="font-size:0.75rem;color:var(--muted);">24h</span>
+  </div>
+
+  <div style="font-size:0.85rem;color:var(--muted);margin-top:1rem;font-family:var(--font-body);" id="cityDate">—</div>
+  <div style="font-size:0.78rem;color:var(--hint);margin-top:0.25rem;font-family:var(--font-body);" id="cityOffset">—</div>
+</div>
+
+<section class="seo-content" style="margin-top:1rem;padding:1.5rem;border-radius:16px;text-align:left;" class="glass">
+  <h2 style="font-size:1.1rem;margin-bottom:0.75rem;font-family:var(--font-heading);">About Time in Dubai, UAE</h2>
+  <p style="color:var(--muted);font-size:0.9rem;line-height:1.7;font-family:var(--font-body);">Dubai operates on Gulf Standard Time (GST), which is UTC+4. The UAE does not observe daylight saving time, making Dubai&#39;s offset permanently fixed — a significant advantage for scheduling international calls. Dubai has become a global business hub, sitting conveniently between European and Asian time zones. Its working week runs Sunday through Thursday, which is an important consideration when scheduling calls with Dubai-based partners.</p>
+  
+  <p style="color:var(--muted);font-size:0.9rem;line-height:1.7;margin-top:0.75rem;font-family:var(--font-body);">Popular with: finance and logistics professionals, remote workers bridging Europe and Asia, real estate investors, and expats living or working in the UAE.</p>
+  
+</section>
+
+<div style="margin-top:2.5rem;padding-top:2rem;border-top:1px solid var(--border);">
+  <h2 style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:1rem;font-weight:400;font-family:var(--font-body);">Other cities</h2>
+  <div style="display:flex;flex-wrap:wrap;gap:8px;">
+    
+    
+    <a href="/world-clock/new-york/" class="chip" style="text-decoration:none;">New York</a>
+    
+    
+    
+    <a href="/world-clock/london/" class="chip" style="text-decoration:none;">London</a>
+    
+    
+    
+    <a href="/world-clock/tokyo/" class="chip" style="text-decoration:none;">Tokyo</a>
+    
+    
+    
+    <a href="/world-clock/los-angeles/" class="chip" style="text-decoration:none;">Los Angeles</a>
+    
+    
+    
+    <a href="/world-clock/paris/" class="chip" style="text-decoration:none;">Paris</a>
+    
+    
+    
+    
+    
+    <a href="/world-clock/sydney/" class="chip" style="text-decoration:none;">Sydney</a>
+    
+    
+    
+    <a href="/world-clock/singapore/" class="chip" style="text-decoration:none;">Singapore</a>
+    
+    
+    
+    <a href="/world-clock/berlin/" class="chip" style="text-decoration:none;">Berlin</a>
+    
+    
+    
+    <a href="/world-clock/mumbai/" class="chip" style="text-decoration:none;">Mumbai</a>
+    
+    
+    
+    <a href="/world-clock/chicago/" class="chip" style="text-decoration:none;">Chicago</a>
+    
+    
+    
+    <a href="/world-clock/toronto/" class="chip" style="text-decoration:none;">Toronto</a>
+    
+    
+    
+    <a href="/world-clock/beijing/" class="chip" style="text-decoration:none;">Beijing</a>
+    
+    
+    
+    <a href="/world-clock/seoul/" class="chip" style="text-decoration:none;">Seoul</a>
+    
+    
+    
+    <a href="/world-clock/amsterdam/" class="chip" style="text-decoration:none;">Amsterdam</a>
+    
+    
+    
+    <a href="/world-clock/sao-paulo/" class="chip" style="text-decoration:none;">São Paulo</a>
+    
+    
+  </div>
+</div>
+
+<script>
+const CITY_TZ = 'Asia/Dubai';
+let military = localStorage.getItem('clock_military') === 'true';
+
+function initToggle() {
+  if (!military) return;
+  document.getElementById('militaryToggle').style.background = 'var(--accent)';
+  document.getElementById('militaryToggle').style.borderColor = 'var(--accent)';
+  document.getElementById('militaryDot').style.transform = 'translateX(18px)';
+  document.getElementById('militaryDot').style.background = '#0a0a0f';
+}
+
+function toggleMilitary() {
+  military = !military;
+  localStorage.setItem('clock_military', military);
+  const toggle = document.getElementById('militaryToggle');
+  const dot = document.getElementById('militaryDot');
+  toggle.style.background = military ? 'var(--accent)' : 'transparent';
+  toggle.style.borderColor = military ? 'var(--accent)' : 'var(--border2)';
+  dot.style.transform = military ? 'translateX(18px)' : 'translateX(0)';
+  dot.style.background = military ? '#0a0a0f' : 'var(--muted)';
+  updateClock();
+}
+
+function updateClock() {
+  const now = new Date();
+  let timeStr, ampm;
+
+  if (military) {
+    const parts = new Intl.DateTimeFormat('en-GB', {
+      timeZone: CITY_TZ, hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
+    }).formatToParts(now);
+    const get = t => parts.find(p => p.type === t)?.value || '';
+    timeStr = get('hour') + ':' + get('minute') + ':' + get('second');
+    ampm = '';
+  } else {
+    const parts = new Intl.DateTimeFormat('en-US', {
+      timeZone: CITY_TZ, hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true
+    }).formatToParts(now);
+    const get = t => parts.find(p => p.type === t)?.value || '';
+    timeStr = get('hour') + ':' + get('minute') + ':' + get('second');
+    ampm = get('dayPeriod');
+  }
+
+  document.getElementById('cityTime').textContent = timeStr;
+  document.getElementById('cityAmPm').textContent = ampm;
+
+  // Date
+  const dateStr = new Intl.DateTimeFormat('en-US', {
+    timeZone: CITY_TZ, weekday: 'long', month: 'long', day: 'numeric', year: 'numeric'
+  }).format(now);
+  document.getElementById('cityDate').textContent = dateStr;
+
+  // Local hour for day/night
+  const hourParts = new Intl.DateTimeFormat('en-US', {
+    timeZone: CITY_TZ, hour: 'numeric', hour12: false
+  }).formatToParts(now);
+  const h = parseInt(hourParts.find(p => p.type === 'hour')?.value || '12');
+  document.getElementById('dayNight').textContent = (h >= 6 && h < 20) ? '☀ Day' : '🌙 Night';
+
+  // Offset from user's local time
+  const userTZ = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  if (userTZ !== CITY_TZ) {
+    const local = new Date(new Date().toLocaleString('en-US', { timeZone: userTZ }));
+    const target = new Date(new Date().toLocaleString('en-US', { timeZone: CITY_TZ }));
+    const diff = Math.round((target - local) / 60000);
+    const sign = diff > 0 ? '+' : '-';
+    const hOff = Math.floor(Math.abs(diff) / 60);
+    const mOff = Math.abs(diff) % 60;
+    const offsetStr = mOff > 0 ? `${sign}${hOff}h ${mOff}m from your local time` : `${sign}${hOff}h from your local time`;
+    document.getElementById('cityOffset').textContent = offsetStr;
+  } else {
+    document.getElementById('cityOffset').textContent = 'This is your local timezone';
+  }
+}
+
+initToggle();
+updateClock();
+setInterval(updateClock, 1000);
+</script>
+
+  </main>
+
+  <footer>
+    <p>© 2026 Timerrapp.com &nbsp;·&nbsp; <a href="/about/">About</a></p>
+  </footer>
+
+  <script>
+    /* ---- Skin switcher ---- */
+    function toggleSkinMenu() {
+      document.getElementById('skinMenu').classList.toggle('open');
+    }
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.skin-btn') && !e.target.closest('.skin-menu')) {
+        document.getElementById('skinMenu').classList.remove('open');
+      }
+    });
+    function setSkin(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+      localStorage.setItem('timerr_theme', theme);
+      document.getElementById('skinMenu').classList.remove('open');
+      updateSkinUI(theme);
+    }
+    function updateSkinUI(theme) {
+      document.querySelectorAll('.skin-option').forEach(o => o.classList.remove('active'));
+      var opt = document.getElementById('opt-' + theme);
+      if (opt) opt.classList.add('active');
+    }
+    var currentTheme = localStorage.getItem('timerr_theme') || 'dark';
+    updateSkinUI(currentTheme);
+
+    /* ---- Sound engine ---- */
+    function playSound(type) {
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const t = ctx.currentTime;
+        if (type === 'beep') {
+          tone(ctx, 880, t, 0.5, 'sine');
+        } else if (type === 'digital') {
+          tone(ctx, 1047, t, 0.15, 'square');
+          tone(ctx, 1047, t+0.2, 0.15, 'square');
+          tone(ctx, 1047, t+0.4, 0.15, 'square');
+        } else if (type === 'bells') {
+          tone(ctx, 1318, t, 0.6, 'sine');
+          tone(ctx, 1568, t+0.15, 0.6, 'sine');
+          tone(ctx, 2093, t+0.3, 0.8, 'sine');
+        } else if (type === 'chime') {
+          [523, 659, 784, 1047].forEach((f, i) => tone(ctx, f, t + i*0.18, 0.5, 'sine'));
+        } else if (type === 'alarm') {
+          for (let i = 0; i < 6; i++) {
+            tone(ctx, i%2===0 ? 880 : 1100, t + i*0.18, 0.16, 'sawtooth');
+          }
+        }
+      } catch(e) {}
+    }
+    function tone(ctx, freq, start, dur, type) {
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+      o.connect(g); g.connect(ctx.destination);
+      o.frequency.value = freq; o.type = type;
+      g.gain.setValueAtTime(0.25, start);
+      g.gain.exponentialRampToValueAtTime(0.001, start + dur);
+      o.start(start); o.stop(start + dur);
+    }
+  </script>
+</body>
+</html>

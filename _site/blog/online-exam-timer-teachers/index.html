@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How to Run a Timed Exam or Quiz Online (For Teachers and HR)</title>
+  <meta name="description" content="A practical guide to using a browser countdown timer to proctor timed exams — including fullscreen mode, sound alerts, Chromebook compatibility, and offline use.">
+  <link rel="canonical" href="https://timerrapp.com/blog/online-exam-timer-teachers/">
+  <meta name="google-site-verification" content="l7y9RLTGEQ9oIRfnLf-2oNWYb8G-ovdbaUHeK7o4ko8">
+  <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400&family=DM+Sans:wght@300;400;500&family=Instrument+Serif:ital@0;1&family=Nunito:wght@400;600;700;800;900&family=Nunito+Sans:wght@400;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+  <script>
+    (function() {
+      var t = localStorage.getItem('timerr_theme') || 'kawaii';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+
+  <style>
+    /* ===================== DARK THEME (default) ===================== */
+    :root,
+    [data-theme="dark"] {
+      --bg: #0a0a0f;
+      --surface: #13131a;
+      --surface2: #1c1c26;
+      --border: rgba(255,255,255,0.08);
+      --border2: rgba(255,255,255,0.14);
+      --text: #f0ede8;
+      --muted: rgba(240,237,232,0.45);
+      --hint: rgba(240,237,232,0.2);
+      --accent: #c8a96e;
+      --danger: #e05c5c;
+      --success: #5ce0a0;
+      --bg-image: url('/assets/mountain-1.webp');
+      --bg-image-opacity: 0.2;
+      --header-bg: rgba(10,10,15,0.4);
+      --glass-bg: rgba(255,255,255,0.05);
+      --glass-border: rgba(96,96,96,0.1);
+      --font-heading: 'Instrument Serif', serif;
+      --font-body: 'DM Sans', sans-serif;
+      --font-mono: 'DM Mono', monospace;
+      --btn-radius: 10px;
+      --btn-border: none;
+      --btn-shadow: none;
+      --logo-style: italic;
+      --icon-lib: phosphor;
+    }
+
+    /* ===================== KAWAII THEME ===================== */
+    [data-theme="kawaii"] {
+      --bg: #e8e0f5;
+      --surface: #f2eefb;
+      --surface2: #ede6f8;
+      --border: rgba(100,80,160,0.15);
+      --border2: rgba(100,80,160,0.25);
+      --text: #1a1a2e;
+      --muted: #4a3c6e;
+      --hint: #6a5a9a;
+      --accent: #e8602c;
+      --accent-hover: #f07040;
+      --accent-active: #c94e1e;
+      --danger: #e05c5c;
+      --success: #7ecec8;
+      --bg-image: url('/assets/fun-mtn.webp');
+      --bg-image-opacity: 0.35;
+      --header-bg: rgba(232,224,245,0.7);
+      --glass-bg: rgba(255,255,255,0.55);
+      --glass-border: rgba(0,0,0,1);
+      --font-heading: 'Nunito', sans-serif;
+      --font-body: 'Nunito Sans', sans-serif;
+      --font-mono: 'Space Mono', monospace;
+      --btn-radius: 10px;
+      --btn-border: 3.5px solid #000000;
+      --btn-shadow: 4px 4px 0px #000000;
+      --logo-style: normal;
+      --icon-lib: lucide;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: var(--bg-image);
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      opacity: var(--bg-image-opacity);
+      pointer-events: none;
+      z-index: 0;
+      transition: opacity 0.3s, background-image 0.3s;
+    }
+
+    [data-theme="dark"] body::after {
+      content: '';
+      position: fixed; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ===================== HEADER ===================== */
+    header {
+      position: relative; z-index: 10;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.25rem 2.5rem;
+      border-bottom: 1px solid var(--border);
+      background: var(--header-bg);
+      box-shadow: 0 1px 0 rgba(255,255,255,0.05), 0 4px 24px rgba(0,0,0,0.1);
+      transition: background 0.3s;
+    }
+    [data-theme="dark"] header {
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+    }
+    [data-theme="kawaii"] header {
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      border-bottom: 2.5px solid #000;
+      box-shadow: 0 3px 0 #000;
+    }
+
+    .logo {
+      font-family: var(--font-heading);
+      font-size: 1.85rem;
+      color: var(--text);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    [data-theme="dark"] .logo span { color: var(--accent); font-style: italic; }
+    [data-theme="kawaii"] .logo { font-weight: 800; }
+    [data-theme="kawaii"] .logo span { color: var(--accent); font-style: normal; font-weight: 900; }
+
+    nav { display: flex; gap: 4px; align-items: center; }
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      padding: 6px 14px;
+      border-radius: 100px;
+      font-size: 0.85rem;
+      border: 1px solid transparent;
+      transition: all 0.2s;
+      font-family: var(--font-body);
+    }
+    [data-theme="dark"] nav a:hover,
+    [data-theme="dark"] nav a.active {
+      color: var(--text);
+      background: var(--glass-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-color: var(--border2);
+    }
+    [data-theme="kawaii"] nav a:hover,
+    [data-theme="kawaii"] nav a.active {
+      color: var(--text);
+      background: rgba(255,255,255,0.85);
+      border: 1px solid #000;
+      box-shadow: 2px 2px 0px #000;
+      backdrop-filter: none;
+    }
+
+    /* ===================== SKIN SWITCHER ===================== */
+    .skin-btn {
+      border-radius: 100px;
+      padding: 6px 12px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      font-family: var(--font-body);
+      display: flex; align-items: center; gap: 6px;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    [data-theme="dark"] .skin-btn {
+      background: var(--glass-bg);
+      border: 1px solid var(--border2);
+      color: var(--muted);
+    }
+    [data-theme="dark"] .skin-btn:hover { color: var(--text); border-color: var(--accent); }
+    [data-theme="kawaii"] .skin-btn {
+      border: 2.5px solid #000;
+      box-shadow: 2px 2px 0px #000;
+      background: rgba(255,255,255,0.85);
+      color: #000;
+      font-weight: 700;
+    }
+    [data-theme="kawaii"] .skin-btn:hover {
+      background: var(--accent);
+      transform: translate(-1px,-1px);
+      box-shadow: 3px 3px 0px #000;
+    }
+    [data-theme="kawaii"] .skin-btn:hover i{
+      color: #000 !important;
+    }
+
+    .skin-menu {
+      display: none;
+      position: absolute;
+      top: calc(100% + 10px);
+      right: 0;
+      background: var(--surface);
+      border: 1px solid var(--border2);
+      border-radius: 14px;
+      padding: 8px;
+      min-width: 180px;
+      z-index: 100;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    }
+    [data-theme="kawaii"] .skin-menu {
+      border: 3px solid #000;
+      box-shadow: 4px 4px 0px #000;
+      border-radius: 14px;
+    }
+    .skin-menu.open { display: block; }
+
+    .skin-option { 
+      display: flex; align-items: center; gap: 10px;
+      padding: 9px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      color: var(--text);
+      font-family: var(--font-body);
+      transition: background 0.15s;
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
+    }
+    .skin-option:hover { background: var(--surface2); }
+    .skin-option.active {
+      color: var(--accent);
+      font-weight: 700;
+      background: var(--surface2);
+    }
+    .skin-option .check {
+      margin-left: auto;
+      opacity: 0;
+      font-size: 14px;
+      color: var(--accent);
+    }
+    .skin-option.active .check { opacity: 1; }
+    .skin-swatch {
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      border: 2px solid var(--border2);
+      flex-shrink: 0;
+    }
+    [data-theme="kawaii"] .skin-option:hover { background: rgba(232,96,44,0.1); }
+    [data-theme="kawaii"] .skin-option.active { color: var(--accent); background: rgba(232,96,44,0.08); }
+
+    /* ===================== MAIN ===================== */
+    main {
+      position: relative; z-index: 1;
+      flex: 1;
+      max-width: 680px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 3rem 2rem 5rem;
+      text-align: center;
+    }
+
+    .page-title {
+      font-family: var(--font-heading);
+      font-size: 2.4rem;
+      font-weight: 400;
+      margin-bottom: 0.4rem;
+      color: var(--text);
+    }
+    [data-theme="kawaii"] .page-title { font-weight: 900; }
+
+    .page-subtitle {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 2.5rem;
+      font-family: var(--font-body);
+    }
+
+    /* ===================== BUTTONS ===================== */
+    .btn {
+      padding: 0.9rem 2.2rem;
+      border-radius: var(--btn-radius);
+      font-family: var(--font-body);
+      font-size: 1.05rem;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.15s;
+      min-width: 120px;
+      display: inline-block;
+    }
+
+    /* Dark theme buttons */
+    [data-theme="dark"] .btn-primary {
+      background: var(--accent);
+      color: #0a0a0f;
+      border: none;
+    }
+    [data-theme="dark"] .btn-primary:hover { opacity: 0.85; }
+    [data-theme="dark"] .btn-secondary {
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(96,96,96,0.1);
+      color: var(--text);
+    }
+    [data-theme="dark"] .btn-secondary:hover { background: rgba(255,255,255,0.09); }
+    [data-theme="dark"] .btn-danger { background: transparent; border: 1px solid var(--danger); color: var(--danger); }
+
+    /* Kawaii theme buttons */
+    [data-theme="kawaii"] .btn-primary,
+    [data-theme="kawaii"] .btn-secondary,
+    [data-theme="kawaii"] .btn-danger {
+      background: var(--accent);
+      color: #000000 !important;
+      -webkit-text-fill-color: #000000;
+      border: 3.5px solid #000000;
+      box-shadow: 4px 4px 0px #000000;
+      font-weight: 800;
+      font-family: var(--font-body);
+    }
+    [data-theme="kawaii"] .btn-primary:hover,
+    [data-theme="kawaii"] .btn-secondary:hover {
+      background: var(--accent-hover);
+      transform: translate(-1px, -1px);
+      box-shadow: 5px 5px 0px #000000;
+    }
+    [data-theme="kawaii"] .btn-primary:active,
+    [data-theme="kawaii"] .btn-secondary:active {
+      background: var(--accent-active);
+      transform: translate(3px, 3px);
+      box-shadow: 1px 1px 0px #000000;
+    }
+    [data-theme="kawaii"] .btn-danger {
+      background: #ffb3b3;
+    }
+
+    /* ===================== INPUTS ===================== */
+    .input-field {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border2);
+      border-radius: 10px;
+      color: var(--text);
+      padding: 0.75rem 1rem;
+      font-family: var(--font-mono);
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s;
+      text-align: center;
+    }
+    .input-field:focus { border-color: var(--accent); }
+    [data-theme="kawaii"] .input-field {
+      border: 2.5px solid #000;
+      background: rgba(255,255,255,0.7);
+      color: #1a1a2e;
+      font-family: var(--font-mono);
+      border-radius: 10px;
+    }
+    [data-theme="kawaii"] .input-field:focus { border-color: var(--accent); box-shadow: 3px 3px 0px #000; }
+
+    .field-label {
+      display: block;
+      font-size: 0.72rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 6px;
+      text-align: center;
+      font-family: var(--font-body);
+    }
+
+    /* ===================== SOUND ROW ===================== */
+    .sound-row {
+      display: flex; align-items: center; justify-content: center;
+      gap: 10px; margin: 1.25rem 0; flex-wrap: wrap;
+    }
+    .sound-row label { font-size: 0.8rem; color: var(--muted); font-family: var(--font-body); }
+
+    .sound-select {
+      background: var(--surface);
+      border: 1px solid var(--border2);
+      border-radius: 8px;
+      color: var(--text);
+      padding: 6px 12px;
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      outline: none;
+      cursor: pointer;
+    }
+    [data-theme="kawaii"] .sound-select {
+      border: 2.5px solid #000;
+      background: rgba(255,255,255,0.7);
+      color: #1a1a2e;
+      border-radius: 8px;
+    }
+
+    .btn-test {
+      padding: 6px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--border2);
+      background: transparent;
+      color: var(--muted);
+      font-size: 0.8rem;
+      cursor: pointer;
+      font-family: var(--font-body);
+      transition: all 0.15s;
+    }
+    .btn-test:hover { border-color: var(--accent); color: var(--accent); }
+    [data-theme="kawaii"] .btn-test {
+      border: 2.5px solid #000;
+      color: #000;
+      background: rgba(255,255,255,0.5);
+      border-radius: 8px;
+      font-weight: 700;
+    }
+    [data-theme="kawaii"] .btn-test:hover { background: var(--accent); box-shadow: 2px 2px 0px #000; }
+
+    /* ===================== CHIPS ===================== */
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 1.5rem; }
+    .chip {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      padding: 5px 16px;
+      font-size: 0.82rem;
+      color: var(--muted);
+      cursor: pointer;
+      font-family: var(--font-mono);
+      transition: all 0.15s;
+    }
+    .chip:hover { border-color: var(--accent); color: var(--accent); }
+    [data-theme="kawaii"] .chip {
+      background: rgba(255,255,255,0.7);
+      border: 2.5px solid #000;
+      border-radius: 10px;
+      color: #000;
+      font-weight: 700;
+      box-shadow: 2px 2px 0px #000;
+    }
+    [data-theme="kawaii"] .chip:hover {
+      background: var(--accent);
+      transform: translate(-1px, -1px);
+      box-shadow: 3px 3px 0px #000;
+      color: #000;
+    }
+
+    /* ===================== GLASS CARDS ===================== */
+    .glass {
+      border-radius: 16px;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    [data-theme="dark"] .glass {
+      background: var(--glass-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--glass-border);
+    }
+    [data-theme="dark"] .glass:hover { background: rgba(255,255,255,0.09); }
+    [data-theme="kawaii"] .glass {
+      background: rgba(255,255,255,0.75);
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      border: 2.5px solid #000;
+      box-shadow: 3px 3px 0px #000;
+      border-radius: 16px;
+    }
+    [data-theme="kawaii"] .glass:hover {
+      background: rgba(255,255,255,0.95);
+      transform: translate(-1px, -1px);
+      box-shadow: 4px 4px 0px #000;
+    }
+
+    /* ===================== MISC ===================== */
+    .controls { display: flex; gap: 10px; justify-content: center; margin-top: 1.5rem; flex-wrap: wrap; }
+    .divider { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+    .section-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--hint); margin-bottom: 1rem; font-family: var(--font-body); }
+
+    /* ===================== FOOTER ===================== */
+    footer {
+      position: relative; z-index: 1;
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 0.78rem;
+      color: var(--hint);
+      border-top: 1px solid var(--border);
+      font-family: var(--font-body);
+    }
+    footer a { color: var(--hint); text-decoration: none; }
+    footer a:hover { color: var(--accent); }
+
+    /* ===================== RESPONSIVE ===================== */
+    * { max-width: 100%; }
+    body { overflow-x: hidden; }
+
+    @media (max-width: 600px) {
+      header { padding: 0.9rem 1rem; flex-direction: column; align-items: center; gap: 0.6rem; }
+      .desktop-only { display: none; }
+      nav {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        padding-bottom: 2px;
+        flex-wrap: nowrap;
+      }
+      nav::-webkit-scrollbar { display: none; }
+      nav a { padding: 4px 10px; font-size: 0.75rem; white-space: nowrap; }
+      .skin-btn { padding: 4px 10px; font-size: 0.75rem; white-space: nowrap; }
+      .skin-menu { right: auto; left: 0; }
+      main { padding: 2rem 1rem 3rem; }
+      .page-title { font-size: 1.8rem; }
+      .controls { gap: 8px; }
+      .btn { padding: 0.8rem 1.4rem; font-size: 0.95rem; min-width: 100px; }
+      .tool-grid { grid-template-columns: repeat(3, 1fr) !important; }
+    }
+    @media (max-width: 380px) {
+      .tool-grid { grid-template-columns: repeat(2, 1fr) !important; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="/" class="logo">Timerr<span>app</span></a>
+    <nav>
+      <a href="/" >Clock</a>
+      <a href="/alarm/" >Alarm</a>
+      <a href="/timer/" >Timer</a>
+      <a href="/stopwatch/" >Stopwatch</a>
+      <a href="/chess-clock/" >Chess</a>
+      <a href="/binary-clock/" >Binary</a>
+      <a href="/pomodoro/" >Pomodoro</a>
+      <a href="/world-clock/" >World Clock</a>
+
+      <!-- Skin Switcher -->
+      <div style="position:relative;">
+        <button class="skin-btn" onclick="toggleSkinMenu()" id="skinBtn">
+          <i class="ph-fill ph-checkerboard" style="font-size:16px;color:var(--accent);"></i>
+          <span>Style</span>
+        </button>
+        <div class="skin-menu" id="skinMenu">
+          <button class="skin-option" onclick="setSkin('kawaii')" id="opt-kawaii">
+            <span class="skin-swatch" style="background:#e8e0f5;border-color:#b0a5cc;"></span>
+            Style 1
+            <i class="ph-bold ph-check check"></i>
+          </button>
+          <button class="skin-option" onclick="setSkin('dark')" id="opt-dark">
+            <span class="skin-swatch" style="background:#0a0a0f;"></span>
+            Style 2
+            <i class="ph-bold ph-check check"></i>
+          </button>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    
+<style>
+  .prose {
+    text-align: left;
+    color: var(--muted);
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    line-height: 1.8;
+  }
+  .prose h2 {
+    font-family: var(--font-heading);
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: var(--text);
+    margin: 2rem 0 0.75rem;
+  }
+  [data-theme="kawaii"] .prose h2 { font-weight: 800; }
+  .prose h3 {
+    font-family: var(--font-body);
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text);
+    margin: 1.5rem 0 0.5rem;
+  }
+  .prose p { margin-bottom: 1rem; }
+  .prose a { color: var(--accent); text-decoration: none; }
+  .prose a:hover { text-decoration: underline; }
+  .prose table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 0.88rem;
+  }
+  .prose th {
+    background: var(--surface2);
+    color: var(--text);
+    font-weight: 600;
+    padding: 10px 14px;
+    text-align: left;
+    border: 1px solid var(--border2);
+    font-family: var(--font-body);
+  }
+  .prose td {
+    padding: 9px 14px;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-family: var(--font-body);
+    vertical-align: top;
+  }
+  .prose tr:nth-child(even) td { background: var(--surface); }
+  [data-theme="kawaii"] .prose table { border: 2.5px solid #000; }
+  [data-theme="kawaii"] .prose th { border: 1px solid #000; background: rgba(232,96,44,0.1); }
+  [data-theme="kawaii"] .prose td { border: 1px solid #000; }
+  .reading-time {
+    font-size: 0.75rem;
+    color: var(--hint);
+    font-family: var(--font-body);
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .blog-cta {
+    margin-top: 3rem;
+    padding: 1.5rem;
+    border-radius: 16px;
+    text-align: center;
+  }
+  .blog-cta p {
+    color: var(--muted);
+    font-size: 0.88rem;
+    margin-bottom: 1rem;
+    font-family: var(--font-body);
+  }
+  .related-tools {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+    text-align: left;
+  }
+  .related-tools h3 {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--hint);
+    margin-bottom: 1rem;
+    font-family: var(--font-body);
+  }
+  .related-tools-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+</style>
+
+<article>
+  <h1 class="page-title">How to Run a Timed Exam or Quiz Online (For Teachers and HR)</h1>
+  <p class="page-subtitle">A practical guide to using a browser countdown timer to proctor timed exams — including fullscreen mode, sound alerts, Chromebook compatibility, and offline use.</p>
+  <div class="reading-time">
+    <span>📖</span>
+    <span>6 min read</span>
+    <span>·</span>
+    <span>Education</span>
+  </div>
+
+  <div class="prose">
+    
+<!-- ============================================================
+  CONTENT PLACEHOLDER — Target: 700–900 words.
+
+  KEY SECTIONS:
+  1. Why a browser timer is often the simplest exam proctoring tool
+  2. Setting up: choosing duration, going fullscreen (F11), keeping tab open
+  3. Sound alerts: what students/HR candidates will hear when time is up
+  4. Common questions answered:
+     - Will it work on a Chromebook? (Yes — Chrome browser)
+     - What if the internet goes out? (Timer continues — runs in browser)
+     - Can students see it on a projector? (Yes — use fullscreen / F11)
+     - What if the tab closes? (Timer stops — keep tab open)
+  5. Using alarm vs timer for different exam scenarios
+  6. HR use case: timed assessment exercises
+
+  KEY INTERNAL LINKS:
+  - /timer/ — multiple times
+  - /timer/30-minutes/ — common exam duration
+  - /timer/45-minutes/ — class period length
+  - /timer/1-hour/ — longer exams
+  - /alarm/ — for fixed end-time exams
+  ============================================================ -->
+
+<h2>The Case for a Simple Browser Timer</h2>
+
+<p>[PLACEHOLDER — Explain why many teachers and HR professionals prefer a browser-based countdown timer over purpose-built proctoring software for standard timed exercises: no installation required, no accounts, no IT dependencies, works on any device in the room, and can be displayed on a projector or smartboard instantly.]</p>
+
+<h2>Setting Up the Timer</h2>
+
+<p>[PLACEHOLDER — Walk through the setup: open <a href="/timer/">Timerrapp's timer page</a>, set the exam duration (common lengths: <a href="/timer/30-minutes/">30 minutes</a>, <a href="/timer/45-minutes/">45 minutes</a>, or <a href="/timer/1-hour/">1 hour</a>), click Start, then press F11 to go fullscreen so the timer fills the entire screen or projector display. The countdown is readable from the back of a classroom.]</p>
+
+<h2>The Sound Alert</h2>
+
+<p>[PLACEHOLDER — Explain that Timerrapp's timer plays a clear audio alert when time expires. Describe how to test the sound before the exam using the sound test button on the main timer page. Note that volume should be set at the system level beforehand. Mention that the alert fires even if the browser tab is in the background, as long as it's not closed.]</p>
+
+<h2>Frequently Asked Questions</h2>
+
+<h3>Will it work on a Chromebook?</h3>
+<p>[PLACEHOLDER — Yes. Timerrapp runs entirely in the Chrome browser, which is the default on Chromebooks. No installation or extensions required. Just navigate to the page.]</p>
+
+<h3>What happens if the internet goes out?</h3>
+<p>[PLACEHOLDER — Once the page loads, the timer runs entirely in the browser using JavaScript. An internet outage during the exam will not stop or reset the timer. The countdown continues independently of the network connection.]</p>
+
+<h3>Can students see it on a classroom projector?</h3>
+<p>[PLACEHOLDER — Yes. Connect your laptop or desktop to the projector, open the timer, and press F11 (Windows/Chromebook) or use the browser's fullscreen button. The large digital display is designed to be visible from across a room.]</p>
+
+<h3>What if the tab accidentally closes?</h3>
+<p>[PLACEHOLDER — If the browser tab is closed, the timer stops. To prevent this, suggest right-clicking the tab and selecting "Pin tab" — pinned tabs are harder to accidentally close and stay available across browser restarts.]</p>
+
+<h2>Timer vs. Alarm: Which to Use for Exams?</h2>
+
+<p>[PLACEHOLDER — Explain the difference in practical terms: use a countdown timer when the exam starts the moment you click Start (variable start time). Use the <a href="/alarm/">alarm clock</a> when the exam must end at a specific wall-clock time regardless of when it started — for example, all students must stop at 10:45 AM. For most classroom exams, the timer is simpler and more reliable.]</p>
+
+<h2>Using a Timer for HR Assessments</h2>
+
+<p>[PLACEHOLDER — Describe the HR use case: timed writing exercises, logic puzzles with a hard stop, timed presentations, or speed-reading assessments. Explain how to use the timer for in-person or video-call assessments. Suggest sharing the timer URL with remote candidates so both parties can see the same countdown.]</p>
+
+  </div>
+
+  
+  <div class="blog-cta glass">
+    <p>Start a free exam timer right now — fullscreen, no login, works on Chromebooks.</p>
+    <a href="/timer/" class="btn btn-primary" style="text-decoration:none;">Open Timer →</a>
+  </div>
+  
+
+  
+  <aside class="related-tools">
+    <h3>Related tools</h3>
+    <div class="related-tools-grid">
+      
+      <a href="/timer/" class="chip" style="text-decoration:none;">Online Timer</a>
+      
+      <a href="/timer/30-minutes/" class="chip" style="text-decoration:none;">30 Minute Timer</a>
+      
+      <a href="/timer/45-minutes/" class="chip" style="text-decoration:none;">45 Minute Timer</a>
+      
+      <a href="/timer/1-hour/" class="chip" style="text-decoration:none;">1 Hour Timer</a>
+      
+      <a href="/alarm/" class="chip" style="text-decoration:none;">Online Alarm</a>
+      
+    </div>
+  </aside>
+  
+</article>
+
+  </main>
+
+  <footer>
+    <p>© 2026 Timerrapp.com &nbsp;·&nbsp; <a href="/about/">About</a></p>
+  </footer>
+
+  <script>
+    /* ---- Skin switcher ---- */
+    function toggleSkinMenu() {
+      document.getElementById('skinMenu').classList.toggle('open');
+    }
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.skin-btn') && !e.target.closest('.skin-menu')) {
+        document.getElementById('skinMenu').classList.remove('open');
+      }
+    });
+    function setSkin(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+      localStorage.setItem('timerr_theme', theme);
+      document.getElementById('skinMenu').classList.remove('open');
+      updateSkinUI(theme);
+    }
+    function updateSkinUI(theme) {
+      document.querySelectorAll('.skin-option').forEach(o => o.classList.remove('active'));
+      var opt = document.getElementById('opt-' + theme);
+      if (opt) opt.classList.add('active');
+    }
+    var currentTheme = localStorage.getItem('timerr_theme') || 'dark';
+    updateSkinUI(currentTheme);
+
+    /* ---- Sound engine ---- */
+    function playSound(type) {
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const t = ctx.currentTime;
+        if (type === 'beep') {
+          tone(ctx, 880, t, 0.5, 'sine');
+        } else if (type === 'digital') {
+          tone(ctx, 1047, t, 0.15, 'square');
+          tone(ctx, 1047, t+0.2, 0.15, 'square');
+          tone(ctx, 1047, t+0.4, 0.15, 'square');
+        } else if (type === 'bells') {
+          tone(ctx, 1318, t, 0.6, 'sine');
+          tone(ctx, 1568, t+0.15, 0.6, 'sine');
+          tone(ctx, 2093, t+0.3, 0.8, 'sine');
+        } else if (type === 'chime') {
+          [523, 659, 784, 1047].forEach((f, i) => tone(ctx, f, t + i*0.18, 0.5, 'sine'));
+        } else if (type === 'alarm') {
+          for (let i = 0; i < 6; i++) {
+            tone(ctx, i%2===0 ? 880 : 1100, t + i*0.18, 0.16, 'sawtooth');
+          }
+        }
+      } catch(e) {}
+    }
+    function tone(ctx, freq, start, dur, type) {
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+      o.connect(g); g.connect(ctx.destination);
+      o.frequency.value = freq; o.type = type;
+      g.gain.setValueAtTime(0.25, start);
+      g.gain.exponentialRampToValueAtTime(0.001, start + dur);
+      o.start(start); o.stop(start + dur);
+    }
+  </script>
+</body>
+</html>

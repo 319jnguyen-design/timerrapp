@@ -544,6 +544,8 @@
       <a href="/alarm/" >Alarm</a>
       <a href="/timer/" >Timer</a>
       <a href="/stopwatch/" >Stopwatch</a>
+      <a href="/chess-clock/" >Chess</a>
+      <a href="/binary-clock/" >Binary</a>
       <a href="/pomodoro/" >Pomodoro</a>
       <a href="/world-clock/" class="active">World Clock</a>
 
@@ -750,10 +752,11 @@ function renderGrid() {
   let list = applyOrder([...cities]);
   list.sort((a,b)=>(pinned.includes(a.name)?0:1)-(pinned.includes(b.name)?0:1));
   const isKawaii = document.documentElement.getAttribute('data-theme') === 'kawaii';
+  const isStyle3 = document.documentElement.getAttribute('data-theme') === 'style3';
   grid.innerHTML = list.map(city => {
     const t=getTime(city.tz), date=getDate(city.tz), offset=getOffset(city.tz);
     const isUser=city.tz===userTZ, isPinned=pinned.includes(city.name), day=isDaytime(city.tz);
-    const cardBg = isKawaii ? 'background:rgba(255,255,255,0.9);' : '';
+    const cardBg = isKawaii ? 'background:rgba(255,255,255,0.9);' : isStyle3 ? 'background:rgba(0,0,0,0.32);color:#f0ede8;' : '';
     return `
     <div class="glass" style="padding:1.1rem 0.9rem;text-align:center;position:relative;cursor:grab;${cardBg}" draggable="true" data-city="${city.name}" id="card-${city.tz.replace(/\//g,'_')}">
       <div style="position:absolute;top:8px;left:8px;opacity:0.2;">

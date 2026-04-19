@@ -25,7 +25,7 @@ eleventyExcludeFromCollections: true
     <priority>0.9</priority>
     <changefreq>weekly</changefreq>
   </url>
-<url>
+  <url>
     <loc>https://timerrapp.com/pomodoro/</loc>
     <priority>0.9</priority>
     <changefreq>weekly</changefreq>
@@ -34,6 +34,16 @@ eleventyExcludeFromCollections: true
     <loc>https://timerrapp.com/world-clock/</loc>
     <priority>0.9</priority>
     <changefreq>daily</changefreq>
+  </url>
+  <url>
+    <loc>https://timerrapp.com/chess-clock/</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+  </url>
+  <url>
+    <loc>https://timerrapp.com/binary-clock/</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
   </url>
   {% for alarm in alarms %}
   <url>
@@ -49,4 +59,56 @@ eleventyExcludeFromCollections: true
     <changefreq>monthly</changefreq>
   </url>
   {% endfor %}
+  {% for city in cities %}
+  <url>
+    <loc>https://timerrapp.com/world-clock/{{ city.slug }}/</loc>
+    <priority>0.8</priority>
+    <changefreq>daily</changefreq>
+  </url>
+  {% endfor %}
+  <url>
+    <loc>https://timerrapp.com/blog/remote-work-time-zones/</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://timerrapp.com/blog/classroom-timers/</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://timerrapp.com/blog/pomodoro-technique/</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://timerrapp.com/blog/how-computers-tell-time/</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://timerrapp.com/blog/shareable-countdown-timer/</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://timerrapp.com/blog/embed-clock-website/</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://timerrapp.com/blog/world-clock-remote-team/</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://timerrapp.com/blog/focus-timer-techniques/</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://timerrapp.com/blog/online-exam-timer-teachers/</loc>
+    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+  </url>
 </urlset>

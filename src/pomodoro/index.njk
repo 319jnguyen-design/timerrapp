@@ -70,6 +70,15 @@ activePage: pomodoro
   </div>
 </div>
 
+<!-- Session history log -->
+<div id="sessionLogWrap" style="display:none;margin-bottom:2rem;">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.75rem;">
+    <div style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--hint);font-family:var(--font-body);">Today's sessions</div>
+    <button onclick="clearHistory()" style="font-size:0.72rem;color:var(--muted);background:none;border:none;cursor:pointer;font-family:var(--font-body);padding:0;">Clear history</button>
+  </div>
+  <div id="sessionLog" style="display:flex;flex-direction:column;gap:6px;max-height:200px;overflow-y:auto;"></div>
+</div>
+
 <div class="glass" style="padding:1.5rem;text-align:left;">
   <div style="font-family:var(--font-heading);font-size:1.2rem;margin-bottom:0.75rem;">What is the Pomodoro Technique?</div>
   <p style="color:var(--muted);font-size:0.88rem;line-height:1.7;margin-bottom:0.75rem;font-family:var(--font-body);">Developed by Francesco Cirillo, the Pomodoro Technique breaks work into 25-minute focused intervals separated by short 5-minute breaks.</p>
@@ -89,9 +98,58 @@ let remaining = total;
 let running = false;
 let iv = null;
 let session = 1;
-let completed = 0;
-let totalFocusSeconds = 0;
-let streak = 0;
+
+// --- localStorage persistence ---
+const today = new Date().toDateString();
+const raw = JSON.parse(localStorage.getItem('pom_stats') || '{}');
+
+// Reset streak if last session wasn't yesterday or today
+let lastSession = raw.lastSession || null;
+let streak = raw.streak || 0;
+if (lastSession && lastSession !== today) {
+  const yesterday = new Date(Date.now() - 86400000).toDateString();
+  if (lastSession !== yesterday) streak = 0;
+}
+
+let completed = raw.completed || 0;
+let totalFocusSeconds = raw.totalFocusSeconds || 0;
+
+// Session history log (max 30, today only)
+let sessionHistory = JSON.parse(localStorage.getItem('pom_history') || '[]');
+// Filter to today only
+sessionHistory = sessionHistory.filter(s => s.date === today);
+
+function saveStats() {
+  lastSession = today;
+  localStorage.setItem('pom_stats', JSON.stringify({ completed, totalFocusSeconds, streak, lastSession }));
+}
+
+function saveHistory(entry) {
+  sessionHistory.unshift(entry);
+  if (sessionHistory.length > 30) sessionHistory = sessionHistory.slice(0, 30);
+  localStorage.setItem('pom_history', JSON.stringify(sessionHistory));
+}
+
+function clearHistory() {
+  sessionHistory = [];
+  localStorage.removeItem('pom_history');
+  renderSessionLog();
+}
+
+function renderSessionLog() {
+  const wrap = document.getElementById('sessionLogWrap');
+  const log = document.getElementById('sessionLog');
+  if (!sessionHistory.length) { wrap.style.display = 'none'; return; }
+  wrap.style.display = 'block';
+  log.innerHTML = sessionHistory.map(s => `
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--surface);border:1px solid var(--border);border-radius:8px;">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span style="font-size:0.75rem;">${s.type === 'focus' ? '🍅' : '☕'}</span>
+        <span style="font-size:0.82rem;color:var(--text);font-family:var(--font-body);">${s.label}</span>
+      </div>
+      <span style="font-family:var(--font-mono);font-size:0.78rem;color:var(--muted);">${s.time}</span>
+    </div>`).join('');
+}
 
 function setMode(mode) {
   resetPom();
@@ -136,13 +194,23 @@ function togglePom() {
         running = false; clearInterval(iv);
         document.getElementById('pomStartBtn').textContent = 'Start';
         playSound(document.getElementById('pomSound').value);
+        const now = new Date();
+        const timeStr = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
         if (currentMode === 'focus') {
           completed++; streak++;
           session = session >= 4 ? 1 : session+1;
           document.getElementById('pomSession').textContent = session;
+          saveHistory({ type: 'focus', label: 'Focus session', time: timeStr, date: today });
+          saveStats();
           updateStats();
+          renderSessionLog();
           setMode(session === 1 ? 'long' : 'short');
-        } else { setMode('focus'); }
+        } else {
+          const breakLabel = currentMode === 'short' ? 'Short break' : 'Long break';
+          saveHistory({ type: 'break', label: breakLabel, time: timeStr, date: today });
+          renderSessionLog();
+          setMode('focus');
+        }
       }
     }, 1000);
   } else {
@@ -186,6 +254,10 @@ function updateTabTitle() {
     document.title = 'Pomodoro Timer — Free Online Pomodoro Clock | Timerrapp';
   }
 }
+
+// Initialize
+updateStats();
+renderSessionLog();
 setInterval(updateTabTitle, 1000);
 
 document.addEventListener('keydown', function(e) {

@@ -1,0 +1,132 @@
+---
+layout: base.njk
+pagination:
+  data: cities
+  size: 1
+  alias: city
+permalink: /world-clock/{{ city.slug }}/
+eleventyComputed:
+  title: "Current Time in {{ city.fullName }} — Live Clock | Timerrapp"
+  description: "See the current local time in {{ city.fullName }}. Live clock showing {{ city.timezone }} time. UTC offset: {{ city.utcOffset }}."
+activePage: worldclock
+---
+
+<h1 style="font-family:var(--font-heading);font-size:2.5rem;font-weight:400;margin-bottom:0.5rem;">Current Time in {{ city.name }}</h1>
+<p style="color:var(--muted);margin-bottom:0.5rem;font-family:var(--font-body);">{{ city.timezone }} &nbsp;·&nbsp; UTC{{ city.utcOffset }}</p>
+
+<div style="text-align:center;padding:2.5rem 0 1.5rem;">
+  <div style="font-size:0.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.75rem;font-family:var(--font-body);" id="dayNight">—</div>
+  <div style="font-family:var(--font-mono);font-size:clamp(3rem,12vw,6rem);font-weight:300;letter-spacing:-0.02em;line-height:1;" id="cityTime">--:--:--</div>
+  <div style="font-family:var(--font-mono);font-size:1.2rem;color:var(--accent);margin-top:0.3rem;" id="cityAmPm"></div>
+
+  <div style="margin-top:0.75rem;display:flex;align-items:center;justify-content:center;gap:8px;">
+    <span style="font-size:0.75rem;color:var(--muted);">12h</span>
+    <div id="militaryToggle" onclick="toggleMilitary()" style="width:40px;height:22px;border-radius:100px;border:1px solid var(--border2);background:transparent;cursor:pointer;position:relative;transition:all 0.2s;">
+      <div id="militaryDot" style="position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:var(--muted);transition:all 0.2s;"></div>
+    </div>
+    <span style="font-size:0.75rem;color:var(--muted);">24h</span>
+  </div>
+
+  <div style="font-size:0.85rem;color:var(--muted);margin-top:1rem;font-family:var(--font-body);" id="cityDate">—</div>
+  <div style="font-size:0.78rem;color:var(--hint);margin-top:0.25rem;font-family:var(--font-body);" id="cityOffset">—</div>
+</div>
+
+<section class="seo-content" style="margin-top:1rem;padding:1.5rem;border-radius:16px;text-align:left;" class="glass">
+  <h2 style="font-size:1.1rem;margin-bottom:0.75rem;font-family:var(--font-heading);">About Time in {{ city.fullName }}</h2>
+  <p style="color:var(--muted);font-size:0.9rem;line-height:1.7;font-family:var(--font-body);">{{ city.blurb }}</p>
+  {% if city.popularWith %}
+  <p style="color:var(--muted);font-size:0.9rem;line-height:1.7;margin-top:0.75rem;font-family:var(--font-body);">Popular with: {{ city.popularWith }}.</p>
+  {% endif %}
+</section>
+
+<div style="margin-top:2.5rem;padding-top:2rem;border-top:1px solid var(--border);">
+  <h2 style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:1rem;font-weight:400;font-family:var(--font-body);">Other cities</h2>
+  <div style="display:flex;flex-wrap:wrap;gap:8px;">
+    {% for c in cities %}
+    {% if c.slug != city.slug %}
+    <a href="/world-clock/{{ c.slug }}/" class="chip" style="text-decoration:none;">{{ c.name }}</a>
+    {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+<script>
+const CITY_TZ = '{{ city.timezone }}';
+let military = localStorage.getItem('clock_military') === 'true';
+
+function initToggle() {
+  if (!military) return;
+  document.getElementById('militaryToggle').style.background = 'var(--accent)';
+  document.getElementById('militaryToggle').style.borderColor = 'var(--accent)';
+  document.getElementById('militaryDot').style.transform = 'translateX(18px)';
+  document.getElementById('militaryDot').style.background = '#0a0a0f';
+}
+
+function toggleMilitary() {
+  military = !military;
+  localStorage.setItem('clock_military', military);
+  const toggle = document.getElementById('militaryToggle');
+  const dot = document.getElementById('militaryDot');
+  toggle.style.background = military ? 'var(--accent)' : 'transparent';
+  toggle.style.borderColor = military ? 'var(--accent)' : 'var(--border2)';
+  dot.style.transform = military ? 'translateX(18px)' : 'translateX(0)';
+  dot.style.background = military ? '#0a0a0f' : 'var(--muted)';
+  updateClock();
+}
+
+function updateClock() {
+  const now = new Date();
+  let timeStr, ampm;
+
+  if (military) {
+    const parts = new Intl.DateTimeFormat('en-GB', {
+      timeZone: CITY_TZ, hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
+    }).formatToParts(now);
+    const get = t => parts.find(p => p.type === t)?.value || '';
+    timeStr = get('hour') + ':' + get('minute') + ':' + get('second');
+    ampm = '';
+  } else {
+    const parts = new Intl.DateTimeFormat('en-US', {
+      timeZone: CITY_TZ, hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true
+    }).formatToParts(now);
+    const get = t => parts.find(p => p.type === t)?.value || '';
+    timeStr = get('hour') + ':' + get('minute') + ':' + get('second');
+    ampm = get('dayPeriod');
+  }
+
+  document.getElementById('cityTime').textContent = timeStr;
+  document.getElementById('cityAmPm').textContent = ampm;
+
+  // Date
+  const dateStr = new Intl.DateTimeFormat('en-US', {
+    timeZone: CITY_TZ, weekday: 'long', month: 'long', day: 'numeric', year: 'numeric'
+  }).format(now);
+  document.getElementById('cityDate').textContent = dateStr;
+
+  // Local hour for day/night
+  const hourParts = new Intl.DateTimeFormat('en-US', {
+    timeZone: CITY_TZ, hour: 'numeric', hour12: false
+  }).formatToParts(now);
+  const h = parseInt(hourParts.find(p => p.type === 'hour')?.value || '12');
+  document.getElementById('dayNight').textContent = (h >= 6 && h < 20) ? '☀ Day' : '🌙 Night';
+
+  // Offset from user's local time
+  const userTZ = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  if (userTZ !== CITY_TZ) {
+    const local = new Date(new Date().toLocaleString('en-US', { timeZone: userTZ }));
+    const target = new Date(new Date().toLocaleString('en-US', { timeZone: CITY_TZ }));
+    const diff = Math.round((target - local) / 60000);
+    const sign = diff > 0 ? '+' : '-';
+    const hOff = Math.floor(Math.abs(diff) / 60);
+    const mOff = Math.abs(diff) % 60;
+    const offsetStr = mOff > 0 ? `${sign}${hOff}h ${mOff}m from your local time` : `${sign}${hOff}h from your local time`;
+    document.getElementById('cityOffset').textContent = offsetStr;
+  } else {
+    document.getElementById('cityOffset').textContent = 'This is your local timezone';
+  }
+}
+
+initToggle();
+updateClock();
+setInterval(updateClock, 1000);
+</script>

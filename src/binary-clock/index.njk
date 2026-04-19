@@ -1,0 +1,200 @@
+---
+layout: base.njk
+title: "Binary Clock — Live Time in Binary | Timerrapp"
+description: "A live binary clock showing the current time in binary-coded decimal (BCD) format. Learn to read time in binary with our free online binary clock."
+activePage: binary
+---
+
+<h1 class="page-title">Binary Clock</h1>
+<p class="page-subtitle">Current time displayed in binary-coded decimal.</p>
+
+<!-- Labels toggle -->
+<div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:2rem;">
+  <span style="font-size:0.8rem;color:var(--muted);font-family:var(--font-body);">Show decimal labels</span>
+  <div id="labelToggle" onclick="toggleLabels()" style="width:40px;height:22px;border-radius:100px;border:1px solid var(--border2);background:transparent;cursor:pointer;position:relative;transition:all 0.2s;">
+    <div id="labelDot" style="position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:var(--muted);transition:all 0.2s;"></div>
+  </div>
+</div>
+
+<!-- Binary Clock Display -->
+<div style="display:inline-flex;gap:6px;align-items:flex-end;justify-content:center;padding:2rem;border-radius:20px;background:var(--surface);border:1px solid var(--border2);" id="clockWrap">
+
+  <!-- H tens -->
+  <div class="bcol" data-label="H" data-pos="0">
+    <div class="brow" data-bit="2"></div>
+    <div class="brow" data-bit="1"></div>
+    <div class="brow" data-bit="0"></div>
+    <div class="dec-label">0</div>
+  </div>
+  <!-- H units -->
+  <div class="bcol" data-label="H" data-pos="1" style="margin-right:14px;">
+    <div class="brow" data-bit="3"></div>
+    <div class="brow" data-bit="2"></div>
+    <div class="brow" data-bit="1"></div>
+    <div class="brow" data-bit="0"></div>
+    <div class="dec-label">0</div>
+  </div>
+
+  <!-- M tens -->
+  <div class="bcol" data-label="M" data-pos="2">
+    <div class="brow" data-bit="2"></div>
+    <div class="brow" data-bit="1"></div>
+    <div class="brow" data-bit="0"></div>
+    <div class="dec-label">0</div>
+  </div>
+  <!-- M units -->
+  <div class="bcol" data-label="M" data-pos="3" style="margin-right:14px;">
+    <div class="brow" data-bit="3"></div>
+    <div class="brow" data-bit="2"></div>
+    <div class="brow" data-bit="1"></div>
+    <div class="brow" data-bit="0"></div>
+    <div class="dec-label">0</div>
+  </div>
+
+  <!-- S tens -->
+  <div class="bcol" data-label="S" data-pos="4">
+    <div class="brow" data-bit="2"></div>
+    <div class="brow" data-bit="1"></div>
+    <div class="brow" data-bit="0"></div>
+    <div class="dec-label">0</div>
+  </div>
+  <!-- S units -->
+  <div class="bcol" data-label="S" data-pos="5">
+    <div class="brow" data-bit="3"></div>
+    <div class="brow" data-bit="2"></div>
+    <div class="brow" data-bit="1"></div>
+    <div class="brow" data-bit="0"></div>
+    <div class="dec-label">0</div>
+  </div>
+
+</div>
+
+<!-- Column headers HH MM SS -->
+<div style="display:inline-flex;gap:6px;justify-content:center;margin-top:10px;padding:0 2rem;" id="colHeaders">
+  <div style="width:36px;text-align:center;font-size:0.65rem;color:var(--muted);font-family:var(--font-body);letter-spacing:0.08em;">H</div>
+  <div style="width:36px;text-align:center;font-size:0.65rem;color:var(--muted);font-family:var(--font-body);letter-spacing:0.08em;margin-right:14px;">H</div>
+  <div style="width:36px;text-align:center;font-size:0.65rem;color:var(--muted);font-family:var(--font-body);letter-spacing:0.08em;">M</div>
+  <div style="width:36px;text-align:center;font-size:0.65rem;color:var(--muted);font-family:var(--font-body);letter-spacing:0.08em;margin-right:14px;">M</div>
+  <div style="width:36px;text-align:center;font-size:0.65rem;color:var(--muted);font-family:var(--font-body);letter-spacing:0.08em;">S</div>
+  <div style="width:36px;text-align:center;font-size:0.65rem;color:var(--muted);font-family:var(--font-body);letter-spacing:0.08em;">S</div>
+</div>
+
+<!-- Decimal time readout -->
+<div style="margin-top:1.5rem;font-family:var(--font-mono);font-size:1.6rem;font-weight:300;letter-spacing:0.05em;color:var(--muted);" id="decimalTime">--:--:--</div>
+
+<!-- Bit value legend -->
+<div style="margin-top:1.5rem;display:flex;gap:16px;justify-content:center;align-items:center;flex-wrap:wrap;">
+  <span style="font-size:0.75rem;color:var(--hint);font-family:var(--font-body);">Bit values (top → bottom):</span>
+  <span style="font-size:0.78rem;color:var(--muted);font-family:var(--font-mono);">8 · 4 · 2 · 1</span>
+</div>
+
+<style>
+.bcol {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  width: 36px;
+}
+.brow {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid var(--border2);
+  background: transparent;
+  transition: background 0.15s, border-color 0.15s;
+}
+.brow.on {
+  background: var(--accent);
+  border-color: var(--accent);
+  box-shadow: 0 0 8px rgba(200,169,110,0.4);
+}
+[data-theme="kawaii"] .brow.on {
+  background: var(--accent);
+  border-color: #000;
+  box-shadow: 2px 2px 0px #000;
+}
+[data-theme="kawaii"] #clockWrap {
+  border: 2.5px solid #000;
+  box-shadow: 4px 4px 0px #000;
+}
+.dec-label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--accent);
+  margin-top: 4px;
+  height: 1em;
+  display: none;
+}
+.labels-on .dec-label {
+  display: block;
+}
+</style>
+
+<!-- SEO content block -->
+<section class="seo-content" style="margin-top:3rem;padding-top:2rem;border-top:1px solid var(--border);text-align:left;">
+  <h2 style="font-size:1.1rem;margin-bottom:0.75rem;font-family:var(--font-heading);">Binary Clock — Learn to Read Time in Binary</h2>
+  <p style="color:var(--muted);font-size:0.9rem;line-height:1.7;font-family:var(--font-body);margin-bottom:0.75rem;">This binary clock shows the current time using binary-coded decimal (BCD) format. Each pair of columns represents hours, minutes, and seconds. Filled dots are 1; empty dots are 0. Toggle the decimal labels on to see the value of each column while you learn.</p>
+  <h3 style="font-size:0.95rem;margin-bottom:0.5rem;margin-top:1rem;font-family:var(--font-heading);">How to read a binary clock</h3>
+  <p style="color:var(--muted);font-size:0.9rem;line-height:1.7;font-family:var(--font-body);margin-bottom:0.75rem;">Each column is read from bottom to top. The bottom dot has a value of 1, the next is 2, then 4, then 8. Add the values of all filled (lit) dots in a column to get the digit. Two columns side by side form one number — the left column is the tens digit and the right is the units digit.</p>
+  <p style="color:var(--muted);font-size:0.9rem;line-height:1.7;font-family:var(--font-body);">For example, if the hours units column has the bottom two dots lit, that's 1 + 2 = 3. If the hours tens column has only the bottom dot lit, that's 1. Together, the time reads 13 hours — or 1:00 PM. Turn on the decimal labels above to see each column's value updated in real time as you practice.</p>
+</section>
+
+<script>
+let labelsOn = false;
+const wrap = document.getElementById('clockWrap');
+
+function toggleLabels() {
+  labelsOn = !labelsOn;
+  const toggle = document.getElementById('labelToggle');
+  const dot = document.getElementById('labelDot');
+  toggle.style.background = labelsOn ? 'var(--accent)' : 'transparent';
+  toggle.style.borderColor = labelsOn ? 'var(--accent)' : 'var(--border2)';
+  dot.style.transform = labelsOn ? 'translateX(18px)' : 'translateX(0)';
+  dot.style.background = labelsOn ? '#0a0a0f' : 'var(--muted)';
+  if (labelsOn) wrap.classList.add('labels-on');
+  else wrap.classList.remove('labels-on');
+}
+
+function decToBinary(n, bits) {
+  return n.toString(2).padStart(bits, '0').split('').map(Number);
+}
+
+function updateClock() {
+  const now = new Date();
+  const h = now.getHours(), m = now.getMinutes(), s = now.getSeconds();
+
+  // BCD: tens and units separately
+  const digits = [
+    Math.floor(h / 10), h % 10,
+    Math.floor(m / 10), m % 10,
+    Math.floor(s / 10), s % 10
+  ];
+  // Bit counts per column: tens of hours = 2 bits, units = 4 bits, min tens = 3 bits, etc.
+  const bitCounts = [2, 4, 3, 4, 3, 4];
+
+  const cols = wrap.querySelectorAll('.bcol');
+  cols.forEach((col, ci) => {
+    const bits = decToBinary(digits[ci], bitCounts[ci]);
+    const rows = col.querySelectorAll('.brow');
+    rows.forEach((row, ri) => {
+      if (bits[ri] === 1) row.classList.add('on');
+      else row.classList.remove('on');
+    });
+    const label = col.querySelector('.dec-label');
+    if (label) label.textContent = digits[ci];
+  });
+
+  // Decimal readout
+  const hh = String(h).padStart(2, '0');
+  const mm = String(m).padStart(2, '0');
+  const ss = String(s).padStart(2, '0');
+  document.getElementById('decimalTime').textContent = hh + ':' + mm + ':' + ss;
+
+  // Update tab title
+  document.title = hh + ':' + mm + ':' + ss + ' — Binary Clock | Timerrapp';
+}
+
+updateClock();
+setInterval(updateClock, 1000);
+</script>
