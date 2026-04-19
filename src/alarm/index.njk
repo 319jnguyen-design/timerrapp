@@ -42,7 +42,6 @@ activePage: alarm
 <!-- Alarm modal -->
 <div id="alarmModal" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.85);align-items:center;justify-content:center;">
   <div id="modalBox" style="background:var(--surface);border:1px solid var(--accent);border-radius:16px;padding:2.5rem 2rem;text-align:center;max-width:340px;width:90%;animation:fadeUp 0.3s ease;">
-    <div id="modalIcon" style="font-size:2.5rem;margin-bottom:1rem;">🔔</div>
     <div style="font-family:var(--font-heading);font-size:1.8rem;margin-bottom:0.4rem;" id="modalTitle">Alarm</div>
     <div style="font-family:var(--font-mono);font-size:2.2rem;font-weight:300;color:var(--accent);margin-bottom:0.5rem;" id="modalTime">--:--</div>
     <div style="font-size:0.85rem;color:var(--muted);margin-bottom:2rem;font-family:var(--font-body);" id="modalLabel"></div>
@@ -52,10 +51,7 @@ activePage: alarm
 
 <style>
 @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
-@keyframes bellRing { 0%,100%{transform:rotate(-15deg)} 50%{transform:rotate(15deg)} }
-#modalIcon { display:inline-block; }
 #alarmModal.show { display:flex !important; }
-#alarmModal.ringing #modalIcon { animation:bellRing 0.4s ease infinite; }
 </style>
 
 <script>

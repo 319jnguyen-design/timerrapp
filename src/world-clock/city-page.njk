@@ -108,7 +108,7 @@ function updateClock() {
     timeZone: CITY_TZ, hour: 'numeric', hour12: false
   }).formatToParts(now);
   const h = parseInt(hourParts.find(p => p.type === 'hour')?.value || '12');
-  document.getElementById('dayNight').textContent = (h >= 6 && h < 20) ? '☀ Day' : '🌙 Night';
+  document.getElementById('dayNight').textContent = (h >= 6 && h < 20) ? 'Day' : 'Night';
 
   // Offset from user's local time
   const userTZ = Intl.DateTimeFormat().resolvedOptions().timeZone;

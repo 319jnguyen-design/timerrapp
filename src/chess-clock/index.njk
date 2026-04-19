@@ -195,7 +195,7 @@ function tick() {
 function gameOver(flaggedPlayer) {
   state = 'GAMEOVER';
   clearInterval(iv);
-  document.getElementById('gameStatus').textContent = `⏱ ${flaggedPlayer} ran out of time! Game over.`;
+  document.getElementById('gameStatus').textContent = `${flaggedPlayer} ran out of time. Game over.`;
   document.getElementById('pauseBtn').disabled = true;
   const panel = flaggedPlayer === 'Player 1' ? document.getElementById('p1Panel') : document.getElementById('p2Panel');
   panel.classList.remove('player-active');

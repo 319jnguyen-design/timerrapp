@@ -76,7 +76,7 @@ function tick() {
 }
 
 function fireAlarm() {
-  document.getElementById('status').textContent = '🔔 Alarm ringing!';
+  document.getElementById('status').textContent = 'Alarm ringing!';
   try {
     const ctx = new (window.AudioContext || window.webkitAudioContext)();
     function beep() {

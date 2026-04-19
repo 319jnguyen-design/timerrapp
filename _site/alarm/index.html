@@ -510,46 +510,128 @@
     * { max-width: 100%; }
     body { overflow-x: hidden; }
 
+    /* ---- More dropdown ---- */
+    .more-wrap { position: relative; }
+    .more-btn {
+      display: flex; align-items: center; gap: 5px;
+      color: var(--muted); padding: 6px 13px; border-radius: 100px;
+      font-size: 0.85rem; border: 1px solid transparent;
+      background: none; cursor: pointer; font-family: var(--font-body);
+      transition: all 0.2s; white-space: nowrap;
+    }
+    [data-theme="dark"] .more-btn:hover, [data-theme="dark"] .more-btn.is-open {
+      color: var(--text); background: var(--glass-bg); border-color: var(--border2);
+    }
+    [data-theme="kawaii"] .more-btn:hover, [data-theme="kawaii"] .more-btn.is-open {
+      color: var(--text); background: rgba(255,255,255,0.85); border: 1px solid #000; box-shadow: 2px 2px 0px #000;
+    }
+    .more-btn svg { transition: transform 0.2s; }
+    .more-btn.is-open svg { transform: rotate(180deg); }
+
+    .more-dropdown {
+      display: none; position: absolute; top: calc(100% + 8px); right: 0;
+      background: var(--surface); border: 1px solid var(--border2);
+      border-radius: 14px; padding: 8px; min-width: 190px;
+      z-index: 200; box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    }
+    [data-theme="kawaii"] .more-dropdown { border: 3px solid #000; box-shadow: 4px 4px 0px #000; }
+    .more-dropdown.is-open { display: block; }
+    .more-dropdown a {
+      display: flex; align-items: center; gap: 10px;
+      padding: 9px 12px; border-radius: 8px; color: var(--text);
+      text-decoration: none; font-size: 0.85rem; font-family: var(--font-body); transition: background 0.15s;
+    }
+    .more-dropdown a:hover { background: var(--surface2); }
+    [data-theme="kawaii"] .more-dropdown a:hover { background: rgba(232,96,44,0.1); }
+    .more-dropdown a.active { color: var(--accent); font-weight: 700; }
+
+    /* ---- Hamburger ---- */
+    .hamburger {
+      display: none; flex-direction: column; justify-content: center;
+      align-items: center; gap: 5px; width: 38px; height: 38px;
+      cursor: pointer; background: none; border: 1px solid var(--border2);
+      border-radius: 10px; padding: 6px; transition: all 0.2s; flex-shrink: 0;
+    }
+    [data-theme="kawaii"] .hamburger { border: 2.5px solid #000; box-shadow: 2px 2px 0px #000; background: rgba(255,255,255,0.7); }
+    .hamburger:hover { border-color: var(--accent); }
+    .hamburger span { display: block; width: 18px; height: 2px; background: var(--text); border-radius: 2px; transition: all 0.25s; }
+    .hamburger.is-open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.is-open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .hamburger.is-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ---- Mobile drawer ---- */
+    .mobile-drawer {
+      display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 90; background: var(--bg);
+      flex-direction: column; padding-top: 72px; overflow-y: auto;
+    }
+    [data-theme="dark"] .mobile-drawer { backdrop-filter: blur(24px); }
+    .mobile-drawer.is-open { display: flex; }
+    .mob-inner { padding: 1.25rem 1.25rem 3rem; display: flex; flex-direction: column; gap: 4px; }
+    .mob-section { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--hint); font-family: var(--font-body); padding: 0.9rem 12px 0.3rem; }
+    .mobile-drawer a {
+      display: flex; align-items: center; gap: 10px;
+      padding: 11px 14px; border-radius: 12px; color: var(--text);
+      text-decoration: none; font-size: 0.95rem; font-family: var(--font-body); transition: background 0.15s;
+    }
+    .mobile-drawer a:hover, .mobile-drawer a.active { background: var(--surface2); }
+    .mobile-drawer a.active { color: var(--accent); font-weight: 600; }
+    [data-theme="kawaii"] .mobile-drawer a:hover, [data-theme="kawaii"] .mobile-drawer a.active { background: rgba(232,96,44,0.08); }
+    .mob-divider { height: 1px; background: var(--border); margin: 0.6rem 12px; }
+    .mob-style-row { display: flex; gap: 8px; padding: 0.6rem 14px; }
+    .mob-style-btn {
+      flex: 1; padding: 9px; border-radius: 10px; border: 1px solid var(--border2);
+      background: var(--surface); color: var(--text); font-family: var(--font-body);
+      font-size: 0.82rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 7px; transition: all 0.15s;
+    }
+    .mob-style-btn:hover { border-color: var(--accent); }
+    .mob-style-btn.active { border-color: var(--accent); color: var(--accent); font-weight: 600; }
+    [data-theme="kawaii"] .mob-style-btn { border: 2.5px solid #000; box-shadow: 2px 2px 0px #000; background: rgba(255,255,255,0.7); }
+    [data-theme="kawaii"] .mob-style-btn.active { background: var(--accent); color: #000; }
+
+    /* ---- Responsive breakpoints ---- */
+    @media (min-width: 901px) { .hamburger { display: none; } .mobile-drawer { display: none !important; } }
+    @media (max-width: 900px) { nav { display: none; } .hamburger { display: flex; } header { padding: 0.85rem 1.25rem; } }
     @media (max-width: 600px) {
-      header { padding: 0.9rem 1rem; flex-direction: column; align-items: center; gap: 0.6rem; }
       .desktop-only { display: none; }
-      nav {
-        width: 100%;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-        padding-bottom: 2px;
-        flex-wrap: nowrap;
-      }
-      nav::-webkit-scrollbar { display: none; }
-      nav a { padding: 4px 10px; font-size: 0.75rem; white-space: nowrap; }
-      .skin-btn { padding: 4px 10px; font-size: 0.75rem; white-space: nowrap; }
-      .skin-menu { right: auto; left: 0; }
       main { padding: 2rem 1rem 3rem; }
       .page-title { font-size: 1.8rem; }
       .controls { gap: 8px; }
       .btn { padding: 0.8rem 1.4rem; font-size: 0.95rem; min-width: 100px; }
       .tool-grid { grid-template-columns: repeat(3, 1fr) !important; }
     }
-    @media (max-width: 380px) {
-      .tool-grid { grid-template-columns: repeat(2, 1fr) !important; }
-    }
+    @media (max-width: 380px) { .tool-grid { grid-template-columns: repeat(2, 1fr) !important; } }
   </style>
 </head>
 <body>
   <header>
     <a href="/" class="logo">Timerr<span>app</span></a>
+
+    <!-- Desktop nav -->
     <nav>
       <a href="/" >Clock</a>
       <a href="/alarm/" class="active">Alarm</a>
       <a href="/timer/" >Timer</a>
       <a href="/stopwatch/" >Stopwatch</a>
-      <a href="/chess-clock/" >Chess</a>
-      <a href="/binary-clock/" >Binary</a>
-      <a href="/pomodoro/" >Pomodoro</a>
       <a href="/world-clock/" >World Clock</a>
 
-      <!-- Skin Switcher -->
+      <!-- More dropdown -->
+      <div class="more-wrap">
+        <button class="more-btn "
+          id="moreBtn" onclick="toggleMore()">
+          More
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="2,4 6,8 10,4"/></svg>
+        </button>
+        <div class="more-dropdown "
+          id="moreDropdown">
+          <a href="/pomodoro/" >Pomodoro</a>
+          <a href="/adhd-clock/" >ADHD Clock</a>
+          <a href="/chess-clock/" >Chess Clock</a>
+          <a href="/binary-clock/" >Binary Clock</a>
+        </div>
+      </div>
+
+      <!-- Style switcher -->
       <div style="position:relative;">
         <button class="skin-btn" onclick="toggleSkinMenu()" id="skinBtn">
           <i class="ph-fill ph-checkerboard" style="font-size:16px;color:var(--accent);"></i>
@@ -569,7 +651,40 @@
         </div>
       </div>
     </nav>
+
+    <!-- Hamburger (mobile) -->
+    <button class="hamburger" id="hamburger" onclick="toggleDrawer()" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
   </header>
+
+  <!-- Mobile drawer -->
+  <div class="mobile-drawer" id="mobileDrawer">
+    <div class="mob-inner">
+      <div class="mob-section">Core Tools</div>
+      <a href="/"  onclick="closeDrawer()">Clock</a>
+      <a href="/alarm/" class="active" onclick="closeDrawer()">Alarm</a>
+      <a href="/timer/"  onclick="closeDrawer()">Timer</a>
+      <a href="/stopwatch/"  onclick="closeDrawer()">Stopwatch</a>
+      <a href="/world-clock/"  onclick="closeDrawer()">World Clock</a>
+      <div class="mob-divider"></div>
+      <div class="mob-section">Specialty Clocks</div>
+      <a href="/pomodoro/"  onclick="closeDrawer()">Pomodoro</a>
+      <a href="/adhd-clock/"  onclick="closeDrawer()">ADHD Clock</a>
+      <a href="/chess-clock/"  onclick="closeDrawer()">Chess Clock</a>
+      <a href="/binary-clock/"  onclick="closeDrawer()">Binary Clock</a>
+      <div class="mob-divider"></div>
+      <div class="mob-section">Style</div>
+      <div class="mob-style-row">
+        <button class="mob-style-btn" id="mob-opt-kawaii" onclick="setSkin('kawaii')">
+          <span style="width:13px;height:13px;border-radius:50%;background:#e8e0f5;border:2px solid #b0a5cc;display:inline-block;flex-shrink:0;"></span>Style 1
+        </button>
+        <button class="mob-style-btn" id="mob-opt-dark" onclick="setSkin('dark')">
+          <span style="width:13px;height:13px;border-radius:50%;background:#0a0a0f;border:2px solid #444;display:inline-block;flex-shrink:0;"></span>Style 2
+        </button>
+      </div>
+    </div>
+  </div>
 
   <main>
     
@@ -610,7 +725,6 @@
 <!-- Alarm modal -->
 <div id="alarmModal" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.85);align-items:center;justify-content:center;">
   <div id="modalBox" style="background:var(--surface);border:1px solid var(--accent);border-radius:16px;padding:2.5rem 2rem;text-align:center;max-width:340px;width:90%;animation:fadeUp 0.3s ease;">
-    <div id="modalIcon" style="font-size:2.5rem;margin-bottom:1rem;">🔔</div>
     <div style="font-family:var(--font-heading);font-size:1.8rem;margin-bottom:0.4rem;" id="modalTitle">Alarm</div>
     <div style="font-family:var(--font-mono);font-size:2.2rem;font-weight:300;color:var(--accent);margin-bottom:0.5rem;" id="modalTime">--:--</div>
     <div style="font-size:0.85rem;color:var(--muted);margin-bottom:2rem;font-family:var(--font-body);" id="modalLabel"></div>
@@ -620,10 +734,7 @@
 
 <style>
 @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
-@keyframes bellRing { 0%,100%{transform:rotate(-15deg)} 50%{transform:rotate(15deg)} }
-#modalIcon { display:inline-block; }
 #alarmModal.show { display:flex !important; }
-#alarmModal.ringing #modalIcon { animation:bellRing 0.4s ease infinite; }
 </style>
 
 <script>
@@ -752,28 +863,69 @@ renderAlarms();
   </footer>
 
   <script>
+    /* ---- More dropdown ---- */
+    function toggleMore() {
+      const btn = document.getElementById('moreBtn');
+      const drop = document.getElementById('moreDropdown');
+      const open = drop.classList.contains('is-open');
+      closeAllMenus();
+      if (!open) { btn.classList.add('is-open'); drop.classList.add('is-open'); }
+    }
+
     /* ---- Skin switcher ---- */
     function toggleSkinMenu() {
-      document.getElementById('skinMenu').classList.toggle('open');
+      const menu = document.getElementById('skinMenu');
+      const open = menu.classList.contains('open');
+      closeAllMenus();
+      if (!open) menu.classList.add('open');
     }
+
+    function closeAllMenus() {
+      document.getElementById('moreDropdown')?.classList.remove('is-open');
+      document.getElementById('moreBtn')?.classList.remove('is-open');
+      document.getElementById('skinMenu')?.classList.remove('open');
+    }
+
     document.addEventListener('click', function(e) {
-      if (!e.target.closest('.skin-btn') && !e.target.closest('.skin-menu')) {
-        document.getElementById('skinMenu').classList.remove('open');
+      if (!e.target.closest('.more-wrap') && !e.target.closest('.skin-btn') && !e.target.closest('.skin-menu')) {
+        closeAllMenus();
       }
     });
+
     function setSkin(theme) {
       document.documentElement.setAttribute('data-theme', theme);
       localStorage.setItem('timerr_theme', theme);
-      document.getElementById('skinMenu').classList.remove('open');
+      closeAllMenus();
       updateSkinUI(theme);
     }
+
     function updateSkinUI(theme) {
       document.querySelectorAll('.skin-option').forEach(o => o.classList.remove('active'));
+      document.querySelectorAll('.mob-style-btn').forEach(o => o.classList.remove('active'));
       var opt = document.getElementById('opt-' + theme);
       if (opt) opt.classList.add('active');
+      var mobOpt = document.getElementById('mob-opt-' + theme);
+      if (mobOpt) mobOpt.classList.add('active');
     }
+
     var currentTheme = localStorage.getItem('timerr_theme') || 'dark';
     updateSkinUI(currentTheme);
+
+    /* ---- Hamburger / drawer ---- */
+    function toggleDrawer() {
+      const drawer = document.getElementById('mobileDrawer');
+      const ham    = document.getElementById('hamburger');
+      if (drawer.classList.contains('is-open')) { closeDrawer(); }
+      else { drawer.classList.add('is-open'); ham.classList.add('is-open'); document.body.style.overflow = 'hidden'; }
+    }
+    function closeDrawer() {
+      document.getElementById('mobileDrawer')?.classList.remove('is-open');
+      document.getElementById('hamburger')?.classList.remove('is-open');
+      document.body.style.overflow = '';
+    }
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') { closeDrawer(); closeAllMenus(); }
+    });
 
     /* ---- Sound engine ---- */
     function playSound(type) {
