@@ -40,36 +40,49 @@ relatedTools:
   - /alarm/ — for fixed end-time exams
   ============================================================ -->
 
-<h2>The Case for a Simple Browser Timer</h2>
+<p>A browser countdown timer is one of the most practical tools for proctoring a timed exam — and most teachers don't realize their computer already has everything they need. No app purchase, no school IT request, no account setup. This guide walks through exactly how to run a timed exam using a free online timer, covering setup, display, common questions, and what to do when things go wrong.</p>
 
-<p>[PLACEHOLDER — Explain why many teachers and HR professionals prefer a browser-based countdown timer over purpose-built proctoring software for standard timed exercises: no installation required, no accounts, no IT dependencies, works on any device in the room, and can be displayed on a projector or smartboard instantly.]</p>
+<h2>Setting up the timer before the exam</h2>
 
-<h2>Setting Up the Timer</h2>
+<p>Open <a href="https://timerrapp.com/timer/">timerrapp.com/timer</a> in your browser. Use the Hours, Minutes, and Seconds inputs to set the exact exam duration. For a 45-minute exam, set 0 hours, 45 minutes, 0 seconds. For a 90-minute exam, set 1 hour, 30 minutes, 0 seconds. Set the sound to whatever the class environment requires — Chime or Bells are softer choices if students are in the same room; Alarm or Beep carry further if the room is large.</p>
 
-<p>[PLACEHOLDER — Walk through the setup: open <a href="/timer/">Timerrapp's timer page</a>, set the exam duration (common lengths: <a href="/timer/30-minutes/">30 minutes</a>, <a href="/timer/45-minutes/">45 minutes</a>, or <a href="/timer/1-hour/">1 hour</a>), click Start, then press F11 to go fullscreen so the timer fills the entire screen or projector display. The countdown is readable from the back of a classroom.]</p>
+<p>Do not press Start until students have their materials ready and you're ready to begin. Starting early and resetting wastes time and creates confusion.</p>
 
-<h2>The Sound Alert</h2>
+<h2>Going fullscreen for a smartboard or projector</h2>
 
-<p>[PLACEHOLDER — Explain that Timerrapp's timer plays a clear audio alert when time expires. Describe how to test the sound before the exam using the sound test button on the main timer page. Note that volume should be set at the system level beforehand. Mention that the alert fires even if the browser tab is in the background, as long as it's not closed.]</p>
+<p>Once the timer is set and you're ready to begin, press F11 on Windows or Ctrl+Command+F on Mac to enter fullscreen mode. The browser chrome disappears and the timer fills the entire screen. This is what you display on the projector or smartboard — students can see the countdown from anywhere in the room without straining.</p>
 
-<h2>Frequently Asked Questions</h2>
+<p>Press Start to begin the countdown. The timer shows hours, minutes, and seconds counting down. In the final ten seconds, the display shifts to red automatically, providing a visual alert that time is almost up. When it reaches zero, the sound you chose plays.</p>
 
-<h3>Will it work on a Chromebook?</h3>
-<p>[PLACEHOLDER — Yes. Timerrapp runs entirely in the Chrome browser, which is the default on Chromebooks. No installation or extensions required. Just navigate to the page.]</p>
+<p>To exit fullscreen at any time, press Escape or F11 again.</p>
 
-<h3>What happens if the internet goes out?</h3>
-<p>[PLACEHOLDER — Once the page loads, the timer runs entirely in the browser using JavaScript. An internet outage during the exam will not stop or reset the timer. The countdown continues independently of the network connection.]</p>
+<h2>Will it work on a Chromebook?</h2>
 
-<h3>Can students see it on a classroom projector?</h3>
-<p>[PLACEHOLDER — Yes. Connect your laptop or desktop to the projector, open the timer, and press F11 (Windows/Chromebook) or use the browser's fullscreen button. The large digital display is designed to be visible from across a room.]</p>
+<p>Yes. The timer runs entirely in the browser using standard JavaScript and Web Audio — no plugins or extensions required. It works on Chrome, Firefox, Safari, and Edge on any device, including Chromebooks and iPads. The fullscreen shortcut on a Chromebook is the Fullscreen key (or F4 on some models).</p>
 
-<h3>What if the tab accidentally closes?</h3>
-<p>[PLACEHOLDER — If the browser tab is closed, the timer stops. To prevent this, suggest right-clicking the tab and selecting "Pin tab" — pinned tabs are harder to accidentally close and stay available across browser restarts.]</p>
+<h2>What if the internet goes out during the exam?</h2>
 
-<h2>Timer vs. Alarm: Which to Use for Exams?</h2>
+<p>Once the timer page has loaded, it runs entirely on your device — it does not require an active internet connection to count down. If your connection drops mid-exam, the timer continues without interruption. The only thing that requires internet is the initial page load.</p>
 
-<p>[PLACEHOLDER — Explain the difference in practical terms: use a countdown timer when the exam starts the moment you click Start (variable start time). Use the <a href="/alarm/">alarm clock</a> when the exam must end at a specific wall-clock time regardless of when it started — for example, all students must stop at 10:45 AM. For most classroom exams, the timer is simpler and more reliable.]</p>
+<h2>Can students see it on a projector?</h2>
 
-<h2>Using a Timer for HR Assessments</h2>
+<p>The timer is designed to be readable at a distance. The countdown display is large-format by default, and in fullscreen mode it scales to fill whatever screen it's on. For very large classrooms or lecture halls, the font size at fullscreen will be limited by the projector's native resolution rather than the software — a 1080p projector in a standard classroom displays clearly at 15 to 20 meters.</p>
 
-<p>[PLACEHOLDER — Describe the HR use case: timed writing exercises, logic puzzles with a hard stop, timed presentations, or speed-reading assessments. Explain how to use the timer for in-person or video-call assessments. Suggest sharing the timer URL with remote candidates so both parties can see the same countdown.]</p>
+<h2>Setting a timer to a specific duration via URL</h2>
+
+<p>Some teachers want to be able to share a pre-configured timer with students for at-home practice. Rather than asking students to manually set a duration, you can link directly to a timer page for common exam lengths:</p>
+
+<ul style="color:var(--muted);font-size:0.9rem;line-height:1.75;margin:1rem 0 1rem 1.5rem;">
+  <li><a href="https://timerrapp.com/timer/30-minutes/">30-minute timer</a></li>
+  <li><a href="https://timerrapp.com/timer/45-minutes/">45-minute timer</a></li>
+  <li><a href="https://timerrapp.com/timer/1-hour/">60-minute timer</a></li>
+  <li><a href="https://timerrapp.com/timer/90-minutes/">90-minute timer</a></li>
+</ul>
+
+<p>Each link opens a pre-set timer ready to start. Students click Start when they begin and Stop when they're done — no configuration needed.</p>
+
+<h2>For HR teams and assessment centers</h2>
+
+<p>The same approach works for in-person skills assessments, timed aptitude tests, or group exercises during hiring processes. Display the timer on a shared screen, go fullscreen, and press Start when the assessment begins. The sound alert at the end means you don't need to watch the timer yourself — you can circulate and observe participants while the timer handles the time boundary.</p>
+
+<p><a href="https://timerrapp.com/timer/">Try the free online timer →</a></p>

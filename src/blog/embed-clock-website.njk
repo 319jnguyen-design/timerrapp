@@ -31,22 +31,41 @@ relatedTools:
   Keep tone practical and educational. No strong promotion.
   ============================================================ -->
 
-<h2>Why Add a Clock to Your Website?</h2>
+<p>Adding a live clock to a website used to require a plugin, a widget account, or writing JavaScript from scratch. None of those are necessary. A working clock can be embedded on any webpage — WordPress, Squarespace, Wix, or plain HTML — in about two minutes using an iframe.</p>
 
-<p>[PLACEHOLDER — Discuss common use cases: event registration pages that show countdown or current time, scheduling pages for consultants and coaches showing their local time, time zone reference pages for global teams, and online exam portals that display the current time for test-takers.]</p>
+<h2>What an iframe embed is</h2>
 
-<h2>How Embedded Clock Widgets Work</h2>
+<p>An iframe (inline frame) is an HTML element that displays another webpage inside your own. When you embed a clock using an iframe, visitors to your site see a live, working clock — but the clock itself is running on the source page. You don't maintain any code; you just include the embed snippet.</p>
 
-<p>[PLACEHOLDER — Explain the iframe: a small block of HTML code that loads a separate webpage inside your page. Clock widgets work by loading the clock's code in an iframe, so the clock runs independently inside your site. Explain that the clock reads time from the visitor's browser, not from a server, which means it shows local time automatically.]</p>
+<h2>The basic embed snippet</h2>
 
-<h2>What to Look For in a Clock Widget</h2>
+<p>To embed a clock on any webpage, add this HTML wherever you want the clock to appear:</p>
 
-<p>[PLACEHOLDER — Cover: no ads (ads in an embedded widget appear on your page and reflect on your brand), lightweight (a heavy widget slows your page), responsive design (must look good on mobile), no third-party trackers, HTTPS support (required for modern browsers to allow iframes), and customizable appearance.]</p>
+<pre style="background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:1rem;font-size:0.82rem;overflow-x:auto;"><code>&lt;iframe
+  src="https://timerrapp.com/"
+  width="400"
+  height="120"
+  frameborder="0"
+  style="border:none;"
+  title="Online clock"&gt;
+&lt;/iframe&gt;</code></pre>
 
-<h2>How to Add an Iframe Widget</h2>
+<p>Adjust the <code>width</code> and <code>height</code> values to fit your layout. The clock will display at the size you specify.</p>
 
-<p>[PLACEHOLDER — Show what a basic iframe snippet looks like (as text, not a code block with live code). Walk through adding it in WordPress (Custom HTML block in Gutenberg), Squarespace (Code block), and plain HTML (paste directly into the page body). Mention that most website builders support custom HTML blocks.]</p>
+<h2>How to add it in WordPress</h2>
 
-<h2>Limitations to Know</h2>
+<p>In the WordPress block editor, add a Custom HTML block wherever you want the clock. Paste the iframe snippet into the block. Switch to Preview to confirm it appears correctly, then publish. For the classic editor, switch to the Text tab (not Visual) before pasting, so the HTML is interpreted rather than displayed as text.</p>
 
-<p>[PLACEHOLDER — Discuss browser security restrictions on iframes (same-origin policy, X-Frame-Options headers), the fact that some clock sites block iframe embedding, and HTTPS requirements. Suggest an alternative: instead of embedding, simply link visitors to a live clock page, which gives them a better experience and is easier to maintain.]</p>
+<h2>How to add it in Squarespace</h2>
+
+<p>Add a Code Block to your page from the block menu. Paste the iframe snippet into the code block. Squarespace renders it in preview automatically. Make sure the block is set to "HTML" mode rather than "Markdown."</p>
+
+<h2>How to add it in plain HTML</h2>
+
+<p>Paste the iframe snippet directly into your HTML file at the location where you want the clock to appear. No additional libraries or dependencies are required.</p>
+
+<h2>What to look for in a clock widget</h2>
+
+<p>Three things matter when choosing what to embed. First, it should be ad-free — ads in an embedded clock look unprofessional and reflect on your site. Second, it should be lightweight: a clock that loads slowly or imports large JavaScript libraries will hurt your page speed. Third, it should be responsive, meaning it displays correctly on both desktop and mobile screen sizes.</p>
+
+<p><a href="https://timerrapp.com/">Timerrapp's clock</a> meets all three: it carries no advertising, loads as a static Eleventy-generated page, and is built with responsive CSS. For embedding a countdown timer rather than a live clock, the same approach applies — use the <a href="https://timerrapp.com/timer/">timer page URL</a> as the iframe source instead.</p>

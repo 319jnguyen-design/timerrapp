@@ -38,24 +38,32 @@ relatedTools:
 
 <h2>Your Computer Has No Internal Sense of Time</h2>
 
-<p>[PLACEHOLDER — Explain that computers don't innately know the time. They have a hardware clock (CMOS clock) that ticks while powered off, but it drifts. Without synchronization, computers lose or gain seconds every day, which becomes a significant problem over time.]</p>
+<p>Your computer knows what time it is right now, to the millisecond, even if you've never set it manually. It knows this when you restart it, when you change time zones, and after a power outage. The mechanism behind this is more interesting than most people expect — and it explains why the time on your device is almost always correct while the clock on your microwave probably isn't.</p>
 
-<h2>NTP: The Internet's Time Synchronization Protocol</h2>
+<h2>The hardware clock that never stops</h2>
 
-<p>[PLACEHOLDER — Explain what NTP (Network Time Protocol) is: a protocol that allows devices to synchronize their clocks with internet time servers. Explain how it works at a high level — a device asks a time server what time it is, the server responds with a timestamp, and the device adjusts its clock accounting for network latency.]</p>
+<p>Inside almost every computer and phone is a small, separate chip called a real-time clock (RTC). It has its own power supply — typically a tiny coin cell battery — that keeps it running even when the main device is completely off. The RTC oscillates at a fixed frequency, counts those oscillations, and maintains a running tally of the current date and time. When you start your computer, one of the first things the operating system does is read the current time from the RTC.</p>
 
-<h2>The Time Server Hierarchy</h2>
+<p>The problem with the hardware clock is that it drifts. The oscillator isn't perfectly precise, and temperature changes affect it. Over days and weeks, a hardware clock running in isolation will drift by seconds, then minutes. For a microwave, this is fine. For a computer coordinating with servers and other devices worldwide, it isn't.</p>
 
-<p>[PLACEHOLDER — Describe the stratum hierarchy: Stratum 0 devices are atomic clocks and GPS receivers — the source of truth. Stratum 1 servers are directly connected to Stratum 0. Stratum 2 servers (like pool.ntp.org) sync from Stratum 1 and serve most of the internet. Your computer or phone syncs to a Stratum 2 or 3 server.]</p>
+<h2>The Network Time Protocol</h2>
 
-<h2>How Accurate Is Your Clock?</h2>
+<p>The solution is the Network Time Protocol, or NTP. Developed by David Mills in the 1980s, NTP is a system that synchronizes clocks across a network by querying servers that maintain extremely accurate time references. When your device connects to the internet, NTP runs quietly in the background, comparing your system clock to a time server and making tiny adjustments to keep them aligned.</p>
 
-<p>[PLACEHOLDER — Explain that a typical device synced via NTP is accurate to within a few milliseconds. Mention that the clock displayed on this page reads from your device's system time, which NTP keeps synchronized. Contrast this with pre-NTP computers, which could drift by minutes per day.]</p>
+<p>The time servers at the top of the NTP hierarchy — called stratum 0 servers — are connected directly to atomic clocks or GPS receivers, which are among the most accurate time sources available. Your device likely synchronizes with a stratum 2 or stratum 3 server, meaning it's two or three steps removed from the primary source. The accuracy at this distance is typically within a few milliseconds — imperceptibly close to perfect for any practical purpose.</p>
 
-<h2>Clock Drift and What Happens Without Sync</h2>
+<h2>Atomic clocks and why they're so accurate</h2>
 
-<p>[PLACEHOLDER — Explain clock drift: crystal oscillators in hardware clocks aren't perfectly precise. They run slightly fast or slow, accumulating error over time. Describe what used to happen before NTP was widespread — servers with timestamps hours apart, log files that made no sense, financial records with incorrect times.]</p>
+<p>Atomic clocks measure time based on the oscillations of atoms — typically cesium-133. These oscillations are extraordinarily regular: one second is defined as exactly 9,192,631,770 oscillations of a cesium atom. An atomic clock accurate to this standard would gain or lose less than one second in 300 million years.</p>
 
-<h2>Leap Seconds: The Edge Case That Breaks Things</h2>
+<p>The international time standard, UTC (Coordinated Universal Time), is maintained by averaging the output of several hundred atomic clocks distributed across the world. When your phone displays the correct time, that time traces back through NTP servers to these clocks.</p>
 
-<p>[PLACEHOLDER — Explain what a leap second is and why it exists: the Earth's rotation is slightly irregular, so occasionally an extra second is inserted into UTC to keep it aligned with astronomical time. Discuss why this causes software problems — systems that expect time to always move forward by exactly one second can crash or behave unpredictably. Note that major tech companies have pushed to abolish the leap second.]</p>
+<h2>GPS as a time source</h2>
+
+<p>GPS satellites are, at their core, precision time systems. Each satellite carries multiple atomic clocks and broadcasts a time signal continuously. GPS receivers on the ground — including the one in your smartphone — use these signals primarily to calculate position, but they also receive an extremely precise timestamp in the process. Many time servers use GPS as their primary time source because it provides atomic-clock accuracy without needing a physical connection to a clock.</p>
+
+<h2>Why your phone is more accurate than your microwave</h2>
+
+<p>Your microwave has a simple oscillator and no connection to any time server. It drifts, and nobody corrects it. Your phone has NTP running automatically, continuously, comparing its clock to multiple servers and correcting for any drift before it becomes noticeable. The clock you see on your phone's home screen reflects a consensus of atomic clocks maintained by institutions around the world, delivered to your device over the internet several times per day.</p>
+
+<p>The next time you wonder what time it is, you can check the <a href="https://timerrapp.com/">online clock</a> — which itself reads the current time from your device's system clock, which got it from NTP, which got it from an atomic clock somewhere in the world. The chain from cesium atom to your screen takes milliseconds and happens without you thinking about it at all.</p>
