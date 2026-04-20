@@ -1,1377 +1,2525 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" data-theme="dark">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ADHD Clock — Time Made Visible | Timerrapp</title>
-  <meta name="description" content="A calm, visual clock designed for ADHD brains. See your day in named zones, get gentle transition warnings, and use a visual focus timer with no distractions.">
-  <link rel="canonical" href="https://timerrapp.com/adhd-clock/">
-  <meta name="google-site-verification" content="l7y9RLTGEQ9oIRfnLf-2oNWYb8G-ovdbaUHeK7o4ko8">
-  <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
-  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400&family=DM+Sans:wght@300;400;500&family=Instrument+Serif:ital@0;1&family=Nunito:wght@400;600;700;800;900&family=Nunito+Sans:wght@400;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      ADHD Timer — Free Visual Timer for Focus & Time Blindness | Timerrapp
+    </title>
+    <meta
+      name="description"
+      content="A free visual timer for ADHD brains. No ticking, no harsh alarms — a calming ring that makes time visible. Designed for time blindness. No download needed."
+    />
+    <link rel="canonical" href="https://timerrapp.com/adhd-clock/" />
+    <meta
+      name="google-site-verification"
+      content="l7y9RLTGEQ9oIRfnLf-2oNWYb8G-ovdbaUHeK7o4ko8"
+    />
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/assets/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/assets/favicon-16x16.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/assets/apple-touch-icon.png"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400&family=DM+Sans:wght@300;400;500&family=Instrument+Serif:ital@0;1&family=Nunito:wght@400;600;700;800;900&family=Nunito+Sans:wght@400;600;700&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
-  <script>
-    (function() {
-      var t = localStorage.getItem('timerr_theme') || 'kawaii';
-      document.documentElement.setAttribute('data-theme', t);
-    })();
-  </script>
+    <script>
+      (function () {
+        var t = localStorage.getItem('timerr_theme') || 'kawaii';
+        document.documentElement.setAttribute('data-theme', t);
+      })();
+    </script>
 
-  <style>
-    /* ===================== DARK THEME (default) ===================== */
-    :root,
-    [data-theme="dark"] {
-      --bg: #0a0a0f;
-      --surface: #13131a;
-      --surface2: #1c1c26;
-      --border: rgba(255,255,255,0.08);
-      --border2: rgba(255,255,255,0.14);
-      --text: #f0ede8;
-      --muted: rgba(240,237,232,0.45);
-      --hint: rgba(240,237,232,0.2);
-      --accent: #c8a96e;
-      --danger: #e05c5c;
-      --success: #5ce0a0;
-      --bg-image: url('/assets/mountain-1.webp');
-      --bg-image-opacity: 0.2;
-      --header-bg: rgba(10,10,15,0.4);
-      --glass-bg: rgba(255,255,255,0.05);
-      --glass-border: rgba(96,96,96,0.1);
-      --font-heading: 'Instrument Serif', serif;
-      --font-body: 'DM Sans', sans-serif;
-      --font-mono: 'DM Mono', monospace;
-      --btn-radius: 10px;
-      --btn-border: none;
-      --btn-shadow: none;
-      --logo-style: italic;
-      --icon-lib: phosphor;
-    }
+    <style>
+      /* ===================== DARK THEME (default) ===================== */
+      :root,
+      [data-theme='dark'] {
+        --bg: #0a0a0f;
+        --surface: #13131a;
+        --surface2: #1c1c26;
+        --border: rgba(255, 255, 255, 0.08);
+        --border2: rgba(255, 255, 255, 0.14);
+        --text: #f0ede8;
+        --muted: rgba(240, 237, 232, 0.45);
+        --hint: rgba(240, 237, 232, 0.2);
+        --accent: #c8a96e;
+        --danger: #e05c5c;
+        --success: #5ce0a0;
+        --bg-image: url('/assets/mountain-1.webp');
+        --bg-image-opacity: 0.2;
+        --header-bg: rgba(10, 10, 15, 0.4);
+        --glass-bg: rgba(255, 255, 255, 0.05);
+        --glass-border: rgba(96, 96, 96, 0.1);
+        --font-heading: 'Instrument Serif', serif;
+        --font-body: 'DM Sans', sans-serif;
+        --font-mono: 'DM Mono', monospace;
+        --btn-radius: 10px;
+        --btn-border: none;
+        --btn-shadow: none;
+        --logo-style: italic;
+        --icon-lib: phosphor;
+      }
 
-    /* ===================== KAWAII THEME ===================== */
-    [data-theme="kawaii"] {
-      --bg: #e8e0f5;
-      --surface: #f2eefb;
-      --surface2: #ede6f8;
-      --border: rgba(100,80,160,0.15);
-      --border2: rgba(100,80,160,0.25);
-      --text: #1a1a2e;
-      --muted: #4a3c6e;
-      --hint: #6a5a9a;
-      --accent: #e8602c;
-      --accent-hover: #f07040;
-      --accent-active: #c94e1e;
-      --danger: #e05c5c;
-      --success: #7ecec8;
-      --bg-image: url('/assets/fun-mtn.webp');
-      --bg-image-opacity: 0.35;
-      --header-bg: rgba(232,224,245,0.7);
-      --glass-bg: rgba(255,255,255,0.55);
-      --glass-border: rgba(0,0,0,1);
-      --font-heading: 'Nunito', sans-serif;
-      --font-body: 'Nunito Sans', sans-serif;
-      --font-mono: 'Space Mono', monospace;
-      --btn-radius: 10px;
-      --btn-border: 3.5px solid #000000;
-      --btn-shadow: 4px 4px 0px #000000;
-      --logo-style: normal;
-      --icon-lib: lucide;
-    }
+      /* ===================== KAWAII THEME ===================== */
+      [data-theme='kawaii'] {
+        --bg: #e8e0f5;
+        --surface: #f2eefb;
+        --surface2: #ede6f8;
+        --border: rgba(100, 80, 160, 0.15);
+        --border2: rgba(100, 80, 160, 0.25);
+        --text: #1a1a2e;
+        --muted: #4a3c6e;
+        --hint: #6a5a9a;
+        --accent: #e8602c;
+        --accent-hover: #f07040;
+        --accent-active: #c94e1e;
+        --danger: #e05c5c;
+        --success: #7ecec8;
+        --bg-image: url('/assets/fun-mtn.webp');
+        --bg-image-opacity: 0.35;
+        --header-bg: rgba(232, 224, 245, 0.7);
+        --glass-bg: rgba(255, 255, 255, 0.55);
+        --glass-border: rgba(0, 0, 0, 1);
+        --font-heading: 'Nunito', sans-serif;
+        --font-body: 'Nunito Sans', sans-serif;
+        --font-mono: 'Space Mono', monospace;
+        --btn-radius: 10px;
+        --btn-border: 3.5px solid #000000;
+        --btn-shadow: 4px 4px 0px #000000;
+        --logo-style: normal;
+        --icon-lib: lucide;
+      }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
 
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: var(--font-body);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      transition: background 0.3s, color 0.3s;
-    }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--font-body);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        transition:
+          background 0.3s,
+          color 0.3s;
+      }
 
-    body::before {
-      content: '';
-      position: fixed; inset: 0;
-      background-image: var(--bg-image);
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      opacity: var(--bg-image-opacity);
-      pointer-events: none;
-      z-index: 0;
-      transition: opacity 0.3s, background-image 0.3s;
-    }
+      body::before {
+        content: '';
+        position: fixed;
+        inset: 0;
+        background-image: var(--bg-image);
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        opacity: var(--bg-image-opacity);
+        pointer-events: none;
+        z-index: 0;
+        transition:
+          opacity 0.3s,
+          background-image 0.3s;
+      }
 
-    [data-theme="dark"] body::after {
-      content: '';
-      position: fixed; inset: 0;
-      background-image:
-        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
-      background-size: 48px 48px;
-      pointer-events: none;
-      z-index: 0;
-    }
+      [data-theme='dark'] body::after {
+        content: '';
+        position: fixed;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+          linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.025) 1px,
+            transparent 1px
+          );
+        background-size: 48px 48px;
+        pointer-events: none;
+        z-index: 0;
+      }
 
-    /* ===================== HEADER ===================== */
-    header {
-      position: relative; z-index: 10;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 1.25rem 2.5rem;
-      border-bottom: 1px solid var(--border);
-      background: var(--header-bg);
-      box-shadow: 0 1px 0 rgba(255,255,255,0.05), 0 4px 24px rgba(0,0,0,0.1);
-      transition: background 0.3s;
-    }
-    [data-theme="dark"] header {
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-    }
-    [data-theme="kawaii"] header {
-      backdrop-filter: none;
-      -webkit-backdrop-filter: none;
-      border-bottom: 2.5px solid #000;
-      box-shadow: 0 3px 0 #000;
-    }
+      /* ===================== HEADER ===================== */
+      header {
+        position: relative;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1.25rem 2.5rem;
+        border-bottom: 1px solid var(--border);
+        background: var(--header-bg);
+        box-shadow:
+          0 1px 0 rgba(255, 255, 255, 0.05),
+          0 4px 24px rgba(0, 0, 0, 0.1);
+        transition: background 0.3s;
+      }
+      [data-theme='dark'] header {
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+      }
+      [data-theme='kawaii'] header {
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        border-bottom: 2.5px solid #000;
+        box-shadow: 0 3px 0 #000;
+      }
 
-    .logo {
-      font-family: var(--font-heading);
-      font-size: 1.85rem;
-      color: var(--text);
-      text-decoration: none;
-      transition: color 0.3s;
-    }
-    [data-theme="dark"] .logo span { color: var(--accent); font-style: italic; }
-    [data-theme="kawaii"] .logo { font-weight: 800; }
-    [data-theme="kawaii"] .logo span { color: var(--accent); font-style: normal; font-weight: 900; }
+      .logo {
+        font-family: var(--font-heading);
+        font-size: 1.85rem;
+        color: var(--text);
+        text-decoration: none;
+        transition: color 0.3s;
+      }
+      [data-theme='dark'] .logo span {
+        color: var(--accent);
+        font-style: italic;
+      }
+      [data-theme='kawaii'] .logo {
+        font-weight: 800;
+      }
+      [data-theme='kawaii'] .logo span {
+        color: var(--accent);
+        font-style: normal;
+        font-weight: 900;
+      }
 
-    nav { display: flex; gap: 4px; align-items: center; }
-    nav a {
-      color: var(--muted);
-      text-decoration: none;
-      padding: 6px 14px;
-      border-radius: 100px;
-      font-size: 0.85rem;
-      border: 1px solid transparent;
-      transition: all 0.2s;
-      font-family: var(--font-body);
-    }
-    [data-theme="dark"] nav a:hover,
-    [data-theme="dark"] nav a.active {
-      color: var(--text);
-      background: var(--glass-bg);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-color: var(--border2);
-    }
-    [data-theme="kawaii"] nav a:hover,
-    [data-theme="kawaii"] nav a.active {
-      color: var(--text);
-      background: rgba(255,255,255,0.85);
-      border: 1px solid #000;
-      box-shadow: 2px 2px 0px #000;
-      backdrop-filter: none;
-    }
+      nav {
+        display: flex;
+        gap: 4px;
+        align-items: center;
+      }
+      nav a {
+        color: var(--muted);
+        text-decoration: none;
+        padding: 6px 14px;
+        border-radius: 100px;
+        font-size: 0.85rem;
+        border: 1px solid transparent;
+        transition: all 0.2s;
+        font-family: var(--font-body);
+      }
+      [data-theme='dark'] nav a:hover,
+      [data-theme='dark'] nav a.active {
+        color: var(--text);
+        background: var(--glass-bg);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-color: var(--border2);
+      }
+      [data-theme='kawaii'] nav a:hover,
+      [data-theme='kawaii'] nav a.active {
+        color: var(--text);
+        background: rgba(255, 255, 255, 0.85);
+        border: 1px solid #000;
+        box-shadow: 2px 2px 0px #000;
+        backdrop-filter: none;
+      }
 
-    /* ===================== SKIN SWITCHER ===================== */
-    .skin-btn {
-      border-radius: 100px;
-      padding: 6px 12px;
-      cursor: pointer;
-      font-size: 0.8rem;
-      font-family: var(--font-body);
-      display: flex; align-items: center; gap: 6px;
-      transition: all 0.2s;
-      white-space: nowrap;
-    }
-    [data-theme="dark"] .skin-btn {
-      background: var(--glass-bg);
-      border: 1px solid var(--border2);
-      color: var(--muted);
-    }
-    [data-theme="dark"] .skin-btn:hover { color: var(--text); border-color: var(--accent); }
-    [data-theme="kawaii"] .skin-btn {
-      border: 2.5px solid #000;
-      box-shadow: 2px 2px 0px #000;
-      background: rgba(255,255,255,0.85);
-      color: #000;
-      font-weight: 700;
-    }
-    [data-theme="kawaii"] .skin-btn:hover {
-      background: var(--accent);
-      transform: translate(-1px,-1px);
-      box-shadow: 3px 3px 0px #000;
-    }
-    [data-theme="kawaii"] .skin-btn:hover i{
-      color: #000 !important;
-    }
+      /* ===================== SKIN SWITCHER ===================== */
+      .skin-btn {
+        border-radius: 100px;
+        padding: 6px 12px;
+        cursor: pointer;
+        font-size: 0.8rem;
+        font-family: var(--font-body);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        transition: all 0.2s;
+        white-space: nowrap;
+      }
+      [data-theme='dark'] .skin-btn {
+        background: var(--glass-bg);
+        border: 1px solid var(--border2);
+        color: var(--muted);
+      }
+      [data-theme='dark'] .skin-btn:hover {
+        color: var(--text);
+        border-color: var(--accent);
+      }
+      [data-theme='kawaii'] .skin-btn {
+        border: 2.5px solid #000;
+        box-shadow: 2px 2px 0px #000;
+        background: rgba(255, 255, 255, 0.85);
+        color: #000;
+        font-weight: 700;
+      }
+      [data-theme='kawaii'] .skin-btn:hover {
+        background: var(--accent);
+        transform: translate(-1px, -1px);
+        box-shadow: 3px 3px 0px #000;
+      }
+      [data-theme='kawaii'] .skin-btn:hover i {
+        color: #000 !important;
+      }
 
-    .skin-menu {
-      display: none;
-      position: absolute;
-      top: calc(100% + 10px);
-      right: 0;
-      background: var(--surface);
-      border: 1px solid var(--border2);
-      border-radius: 14px;
-      padding: 8px;
-      min-width: 180px;
-      z-index: 100;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-    }
-    [data-theme="kawaii"] .skin-menu {
-      border: 3px solid #000;
-      box-shadow: 4px 4px 0px #000;
-      border-radius: 14px;
-    }
-    .skin-menu.open { display: block; }
+      .skin-menu {
+        display: none;
+        position: absolute;
+        top: calc(100% + 10px);
+        right: 0;
+        background: var(--surface);
+        border: 1px solid var(--border2);
+        border-radius: 14px;
+        padding: 8px;
+        min-width: 180px;
+        z-index: 100;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      }
+      [data-theme='kawaii'] .skin-menu {
+        border: 3px solid #000;
+        box-shadow: 4px 4px 0px #000;
+        border-radius: 14px;
+      }
+      .skin-menu.open {
+        display: block;
+      }
 
-    .skin-option { 
-      display: flex; align-items: center; gap: 10px;
-      padding: 9px 12px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 0.85rem;
-      color: var(--text);
-      font-family: var(--font-body);
-      transition: background 0.15s;
-      border: none;
-      background: none;
-      width: 100%;
-      text-align: left;
-    }
-    .skin-option:hover { background: var(--surface2); }
-    .skin-option.active {
-      color: var(--accent);
-      font-weight: 700;
-      background: var(--surface2);
-    }
-    .skin-option .check {
-      margin-left: auto;
-      opacity: 0;
-      font-size: 14px;
-      color: var(--accent);
-    }
-    .skin-option.active .check { opacity: 1; }
-    .skin-swatch {
-      width: 18px; height: 18px;
-      border-radius: 50%;
-      border: 2px solid var(--border2);
-      flex-shrink: 0;
-    }
-    [data-theme="kawaii"] .skin-option:hover { background: rgba(232,96,44,0.1); }
-    [data-theme="kawaii"] .skin-option.active { color: var(--accent); background: rgba(232,96,44,0.08); }
+      .skin-option {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 9px 12px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 0.85rem;
+        color: var(--text);
+        font-family: var(--font-body);
+        transition: background 0.15s;
+        border: none;
+        background: none;
+        width: 100%;
+        text-align: left;
+      }
+      .skin-option:hover {
+        background: var(--surface2);
+      }
+      .skin-option.active {
+        color: var(--accent);
+        font-weight: 700;
+        background: var(--surface2);
+      }
+      .skin-option .check {
+        margin-left: auto;
+        opacity: 0;
+        font-size: 14px;
+        color: var(--accent);
+      }
+      .skin-option.active .check {
+        opacity: 1;
+      }
+      .skin-swatch {
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        border: 2px solid var(--border2);
+        flex-shrink: 0;
+      }
+      [data-theme='kawaii'] .skin-option:hover {
+        background: rgba(232, 96, 44, 0.1);
+      }
+      [data-theme='kawaii'] .skin-option.active {
+        color: var(--accent);
+        background: rgba(232, 96, 44, 0.08);
+      }
 
-    /* ===================== MAIN ===================== */
-    main {
-      position: relative; z-index: 1;
-      flex: 1;
-      max-width: 680px;
-      width: 100%;
-      margin: 0 auto;
-      padding: 3rem 2rem 5rem;
-      text-align: center;
-    }
+      /* ===================== MAIN ===================== */
+      main {
+        position: relative;
+        z-index: 1;
+        flex: 1;
+        max-width: 680px;
+        width: 100%;
+        margin: 0 auto;
+        padding: 3rem 2rem 5rem;
+        text-align: center;
+      }
 
-    .page-title {
-      font-family: var(--font-heading);
-      font-size: 2.4rem;
-      font-weight: 400;
-      margin-bottom: 0.4rem;
-      color: var(--text);
-    }
-    [data-theme="kawaii"] .page-title { font-weight: 900; }
+      .page-title {
+        font-family: var(--font-heading);
+        font-size: 2.4rem;
+        font-weight: 400;
+        margin-bottom: 0.4rem;
+        color: var(--text);
+      }
+      [data-theme='kawaii'] .page-title {
+        font-weight: 900;
+      }
 
-    .page-subtitle {
-      color: var(--muted);
-      font-size: 0.95rem;
-      margin-bottom: 2.5rem;
-      font-family: var(--font-body);
-    }
+      .page-subtitle {
+        color: var(--muted);
+        font-size: 0.95rem;
+        margin-bottom: 2.5rem;
+        font-family: var(--font-body);
+      }
 
-    /* ===================== BUTTONS ===================== */
-    .btn {
-      padding: 0.9rem 2.2rem;
-      border-radius: var(--btn-radius);
-      font-family: var(--font-body);
-      font-size: 1.05rem;
-      cursor: pointer;
-      font-weight: 500;
-      transition: all 0.15s;
-      min-width: 120px;
-      display: inline-block;
-    }
+      /* ===================== BUTTONS ===================== */
+      .btn {
+        padding: 0.9rem 2.2rem;
+        border-radius: var(--btn-radius);
+        font-family: var(--font-body);
+        font-size: 1.05rem;
+        cursor: pointer;
+        font-weight: 500;
+        transition: all 0.15s;
+        min-width: 120px;
+        display: inline-block;
+      }
 
-    /* Dark theme buttons */
-    [data-theme="dark"] .btn-primary {
-      background: var(--accent);
-      color: #0a0a0f;
-      border: none;
-    }
-    [data-theme="dark"] .btn-primary:hover { opacity: 0.85; }
-    [data-theme="dark"] .btn-secondary {
-      background: rgba(255,255,255,0.05);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(96,96,96,0.1);
-      color: var(--text);
-    }
-    [data-theme="dark"] .btn-secondary:hover { background: rgba(255,255,255,0.09); }
-    [data-theme="dark"] .btn-danger { background: transparent; border: 1px solid var(--danger); color: var(--danger); }
+      /* Dark theme buttons */
+      [data-theme='dark'] .btn-primary {
+        background: var(--accent);
+        color: #0a0a0f;
+        border: none;
+      }
+      [data-theme='dark'] .btn-primary:hover {
+        opacity: 0.85;
+      }
+      [data-theme='dark'] .btn-secondary {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(96, 96, 96, 0.1);
+        color: var(--text);
+      }
+      [data-theme='dark'] .btn-secondary:hover {
+        background: rgba(255, 255, 255, 0.09);
+      }
+      [data-theme='dark'] .btn-danger {
+        background: transparent;
+        border: 1px solid var(--danger);
+        color: var(--danger);
+      }
 
-    /* Kawaii theme buttons */
-    [data-theme="kawaii"] .btn-primary,
-    [data-theme="kawaii"] .btn-secondary,
-    [data-theme="kawaii"] .btn-danger {
-      background: var(--accent);
-      color: #000000 !important;
-      -webkit-text-fill-color: #000000;
-      border: 3.5px solid #000000;
-      box-shadow: 4px 4px 0px #000000;
-      font-weight: 800;
-      font-family: var(--font-body);
-    }
-    [data-theme="kawaii"] .btn-primary:hover,
-    [data-theme="kawaii"] .btn-secondary:hover {
-      background: var(--accent-hover);
-      transform: translate(-1px, -1px);
-      box-shadow: 5px 5px 0px #000000;
-    }
-    [data-theme="kawaii"] .btn-primary:active,
-    [data-theme="kawaii"] .btn-secondary:active {
-      background: var(--accent-active);
-      transform: translate(3px, 3px);
-      box-shadow: 1px 1px 0px #000000;
-    }
-    [data-theme="kawaii"] .btn-danger {
-      background: #ffb3b3;
-    }
+      /* Kawaii theme buttons */
+      [data-theme='kawaii'] .btn-primary,
+      [data-theme='kawaii'] .btn-secondary,
+      [data-theme='kawaii'] .btn-danger {
+        background: var(--accent);
+        color: #000000 !important;
+        -webkit-text-fill-color: #000000;
+        border: 3.5px solid #000000;
+        box-shadow: 4px 4px 0px #000000;
+        font-weight: 800;
+        font-family: var(--font-body);
+      }
+      [data-theme='kawaii'] .btn-primary:hover,
+      [data-theme='kawaii'] .btn-secondary:hover {
+        background: var(--accent-hover);
+        transform: translate(-1px, -1px);
+        box-shadow: 5px 5px 0px #000000;
+      }
+      [data-theme='kawaii'] .btn-primary:active,
+      [data-theme='kawaii'] .btn-secondary:active {
+        background: var(--accent-active);
+        transform: translate(3px, 3px);
+        box-shadow: 1px 1px 0px #000000;
+      }
+      [data-theme='kawaii'] .btn-danger {
+        background: #ffb3b3;
+      }
 
-    /* ===================== INPUTS ===================== */
-    .input-field {
-      width: 100%;
-      background: var(--surface);
-      border: 1px solid var(--border2);
-      border-radius: 10px;
-      color: var(--text);
-      padding: 0.75rem 1rem;
-      font-family: var(--font-mono);
-      font-size: 1rem;
-      outline: none;
-      transition: border-color 0.2s;
-      text-align: center;
-    }
-    .input-field:focus { border-color: var(--accent); }
-    [data-theme="kawaii"] .input-field {
-      border: 2.5px solid #000;
-      background: rgba(255,255,255,0.7);
-      color: #1a1a2e;
-      font-family: var(--font-mono);
-      border-radius: 10px;
-    }
-    [data-theme="kawaii"] .input-field:focus { border-color: var(--accent); box-shadow: 3px 3px 0px #000; }
+      /* ===================== INPUTS ===================== */
+      .input-field {
+        width: 100%;
+        background: var(--surface);
+        border: 1px solid var(--border2);
+        border-radius: 10px;
+        color: var(--text);
+        padding: 0.75rem 1rem;
+        font-family: var(--font-mono);
+        font-size: 1rem;
+        outline: none;
+        transition: border-color 0.2s;
+        text-align: center;
+      }
+      .input-field:focus {
+        border-color: var(--accent);
+      }
+      [data-theme='kawaii'] .input-field {
+        border: 2.5px solid #000;
+        background: rgba(255, 255, 255, 0.7);
+        color: #1a1a2e;
+        font-family: var(--font-mono);
+        border-radius: 10px;
+      }
+      [data-theme='kawaii'] .input-field:focus {
+        border-color: var(--accent);
+        box-shadow: 3px 3px 0px #000;
+      }
 
-    .field-label {
-      display: block;
-      font-size: 0.72rem;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-bottom: 6px;
-      text-align: center;
-      font-family: var(--font-body);
-    }
+      .field-label {
+        display: block;
+        font-size: 0.72rem;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        margin-bottom: 6px;
+        text-align: center;
+        font-family: var(--font-body);
+      }
 
-    /* ===================== SOUND ROW ===================== */
-    .sound-row {
-      display: flex; align-items: center; justify-content: center;
-      gap: 10px; margin: 1.25rem 0; flex-wrap: wrap;
-    }
-    .sound-row label { font-size: 0.8rem; color: var(--muted); font-family: var(--font-body); }
+      /* ===================== SOUND ROW ===================== */
+      .sound-row {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin: 1.25rem 0;
+        flex-wrap: wrap;
+      }
+      .sound-row label {
+        font-size: 0.8rem;
+        color: var(--muted);
+        font-family: var(--font-body);
+      }
 
-    .sound-select {
-      background: var(--surface);
-      border: 1px solid var(--border2);
-      border-radius: 8px;
-      color: var(--text);
-      padding: 6px 12px;
-      font-family: var(--font-body);
-      font-size: 0.85rem;
-      outline: none;
-      cursor: pointer;
-    }
-    [data-theme="kawaii"] .sound-select {
-      border: 2.5px solid #000;
-      background: rgba(255,255,255,0.7);
-      color: #1a1a2e;
-      border-radius: 8px;
-    }
+      .sound-select {
+        background: var(--surface);
+        border: 1px solid var(--border2);
+        border-radius: 8px;
+        color: var(--text);
+        padding: 6px 12px;
+        font-family: var(--font-body);
+        font-size: 0.85rem;
+        outline: none;
+        cursor: pointer;
+      }
+      [data-theme='kawaii'] .sound-select {
+        border: 2.5px solid #000;
+        background: rgba(255, 255, 255, 0.7);
+        color: #1a1a2e;
+        border-radius: 8px;
+      }
 
-    .btn-test {
-      padding: 6px 14px;
-      border-radius: 8px;
-      border: 1px solid var(--border2);
-      background: transparent;
-      color: var(--muted);
-      font-size: 0.8rem;
-      cursor: pointer;
-      font-family: var(--font-body);
-      transition: all 0.15s;
-    }
-    .btn-test:hover { border-color: var(--accent); color: var(--accent); }
-    [data-theme="kawaii"] .btn-test {
-      border: 2.5px solid #000;
-      color: #000;
-      background: rgba(255,255,255,0.5);
-      border-radius: 8px;
-      font-weight: 700;
-    }
-    [data-theme="kawaii"] .btn-test:hover { background: var(--accent); box-shadow: 2px 2px 0px #000; }
+      .btn-test {
+        padding: 6px 14px;
+        border-radius: 8px;
+        border: 1px solid var(--border2);
+        background: transparent;
+        color: var(--muted);
+        font-size: 0.8rem;
+        cursor: pointer;
+        font-family: var(--font-body);
+        transition: all 0.15s;
+      }
+      .btn-test:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+      [data-theme='kawaii'] .btn-test {
+        border: 2.5px solid #000;
+        color: #000;
+        background: rgba(255, 255, 255, 0.5);
+        border-radius: 8px;
+        font-weight: 700;
+      }
+      [data-theme='kawaii'] .btn-test:hover {
+        background: var(--accent);
+        box-shadow: 2px 2px 0px #000;
+      }
 
-    /* ===================== CHIPS ===================== */
-    .chips { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 1.5rem; }
-    .chip {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 100px;
-      padding: 5px 16px;
-      font-size: 0.82rem;
-      color: var(--muted);
-      cursor: pointer;
-      font-family: var(--font-mono);
-      transition: all 0.15s;
-    }
-    .chip:hover { border-color: var(--accent); color: var(--accent); }
-    [data-theme="kawaii"] .chip {
-      background: rgba(255,255,255,0.7);
-      border: 2.5px solid #000;
-      border-radius: 10px;
-      color: #000;
-      font-weight: 700;
-      box-shadow: 2px 2px 0px #000;
-    }
-    [data-theme="kawaii"] .chip:hover {
-      background: var(--accent);
-      transform: translate(-1px, -1px);
-      box-shadow: 3px 3px 0px #000;
-      color: #000;
-    }
+      /* ===================== CHIPS ===================== */
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: center;
+        margin-bottom: 1.5rem;
+      }
+      .chip {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 100px;
+        padding: 5px 16px;
+        font-size: 0.82rem;
+        color: var(--muted);
+        cursor: pointer;
+        font-family: var(--font-mono);
+        transition: all 0.15s;
+      }
+      .chip:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+      [data-theme='kawaii'] .chip {
+        background: rgba(255, 255, 255, 0.7);
+        border: 2.5px solid #000;
+        border-radius: 10px;
+        color: #000;
+        font-weight: 700;
+        box-shadow: 2px 2px 0px #000;
+      }
+      [data-theme='kawaii'] .chip:hover {
+        background: var(--accent);
+        transform: translate(-1px, -1px);
+        box-shadow: 3px 3px 0px #000;
+        color: #000;
+      }
 
-    /* ===================== GLASS CARDS ===================== */
-    .glass {
-      border-radius: 16px;
-      transition: background 0.2s, border-color 0.2s;
-    }
-    [data-theme="dark"] .glass {
-      background: var(--glass-bg);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid var(--glass-border);
-    }
-    [data-theme="dark"] .glass:hover { background: rgba(255,255,255,0.09); }
-    [data-theme="kawaii"] .glass {
-      background: rgba(255,255,255,0.75);
-      backdrop-filter: none;
-      -webkit-backdrop-filter: none;
-      border: 2.5px solid #000;
-      box-shadow: 3px 3px 0px #000;
-      border-radius: 16px;
-    }
-    [data-theme="kawaii"] .glass:hover {
-      background: rgba(255,255,255,0.95);
-      transform: translate(-1px, -1px);
-      box-shadow: 4px 4px 0px #000;
-    }
+      /* ===================== GLASS CARDS ===================== */
+      .glass {
+        border-radius: 16px;
+        transition:
+          background 0.2s,
+          border-color 0.2s;
+      }
+      [data-theme='dark'] .glass {
+        background: var(--glass-bg);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid var(--glass-border);
+      }
+      [data-theme='dark'] .glass:hover {
+        background: rgba(255, 255, 255, 0.09);
+      }
+      [data-theme='kawaii'] .glass {
+        background: rgba(255, 255, 255, 0.75);
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        border: 2.5px solid #000;
+        box-shadow: 3px 3px 0px #000;
+        border-radius: 16px;
+      }
+      [data-theme='kawaii'] .glass:hover {
+        background: rgba(255, 255, 255, 0.95);
+        transform: translate(-1px, -1px);
+        box-shadow: 4px 4px 0px #000;
+      }
 
-    /* ===================== MISC ===================== */
-    .controls { display: flex; gap: 10px; justify-content: center; margin-top: 1.5rem; flex-wrap: wrap; }
-    .divider { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
-    .section-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--hint); margin-bottom: 1rem; font-family: var(--font-body); }
+      /* ===================== MISC ===================== */
+      .controls {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        margin-top: 1.5rem;
+        flex-wrap: wrap;
+      }
+      .divider {
+        border: none;
+        border-top: 1px solid var(--border);
+        margin: 2rem 0;
+      }
+      .section-label {
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--hint);
+        margin-bottom: 1rem;
+        font-family: var(--font-body);
+      }
 
-    /* ===================== FOOTER ===================== */
-    footer {
-      position: relative; z-index: 1;
-      text-align: center;
-      padding: 1.5rem;
-      font-size: 0.78rem;
-      color: var(--hint);
-      border-top: 1px solid var(--border);
-      font-family: var(--font-body);
-    }
-    footer a { color: var(--hint); text-decoration: none; }
-    footer a:hover { color: var(--accent); }
+      /* ===================== FOOTER ===================== */
+      footer {
+        position: relative;
+        z-index: 1;
+        text-align: center;
+        padding: 1.5rem;
+        font-size: 0.78rem;
+        color: var(--hint);
+        border-top: 1px solid var(--border);
+        font-family: var(--font-body);
+      }
+      footer a {
+        color: var(--hint);
+        text-decoration: none;
+      }
+      footer a:hover {
+        color: var(--accent);
+      }
 
-    /* ===================== RESPONSIVE ===================== */
-    * { max-width: 100%; }
-    body { overflow-x: hidden; }
+      /* ===================== RESPONSIVE ===================== */
+      * {
+        max-width: 100%;
+      }
+      body {
+        overflow-x: hidden;
+      }
 
-    /* ---- More dropdown ---- */
-    .more-wrap { position: relative; }
-    .more-btn {
-      display: flex; align-items: center; gap: 5px;
-      color: var(--muted); padding: 6px 13px; border-radius: 100px;
-      font-size: 0.85rem; border: 1px solid transparent;
-      background: none; cursor: pointer; font-family: var(--font-body);
-      transition: all 0.2s; white-space: nowrap;
-    }
-    [data-theme="dark"] .more-btn:hover, [data-theme="dark"] .more-btn.is-open {
-      color: var(--text); background: var(--glass-bg); border-color: var(--border2);
-    }
-    [data-theme="kawaii"] .more-btn:hover, [data-theme="kawaii"] .more-btn.is-open {
-      color: var(--text); background: rgba(255,255,255,0.85); border: 1px solid #000; box-shadow: 2px 2px 0px #000;
-    }
-    .more-btn svg { transition: transform 0.2s; }
-    .more-btn.is-open svg { transform: rotate(180deg); }
+      /* ---- More dropdown ---- */
+      .more-wrap {
+        position: relative;
+      }
+      .more-btn {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        color: var(--muted);
+        padding: 6px 13px;
+        border-radius: 100px;
+        font-size: 0.85rem;
+        border: 1px solid transparent;
+        background: none;
+        cursor: pointer;
+        font-family: var(--font-body);
+        transition: all 0.2s;
+        white-space: nowrap;
+      }
+      [data-theme='dark'] .more-btn:hover,
+      [data-theme='dark'] .more-btn.is-open {
+        color: var(--text);
+        background: var(--glass-bg);
+        border-color: var(--border2);
+      }
+      [data-theme='kawaii'] .more-btn:hover,
+      [data-theme='kawaii'] .more-btn.is-open {
+        color: var(--text);
+        background: rgba(255, 255, 255, 0.85);
+        border: 1px solid #000;
+        box-shadow: 2px 2px 0px #000;
+      }
+      .more-btn svg {
+        transition: transform 0.2s;
+      }
+      .more-btn.is-open svg {
+        transform: rotate(180deg);
+      }
 
-    .more-dropdown {
-      display: none; position: absolute; top: calc(100% + 8px); right: 0;
-      background: var(--surface); border: 1px solid var(--border2);
-      border-radius: 14px; padding: 8px; min-width: 190px;
-      z-index: 200; box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-    }
-    [data-theme="kawaii"] .more-dropdown { border: 3px solid #000; box-shadow: 4px 4px 0px #000; }
-    .more-dropdown.is-open { display: block; }
-    .more-dropdown a {
-      display: flex; align-items: center; gap: 10px;
-      padding: 9px 12px; border-radius: 8px; color: var(--text);
-      text-decoration: none; font-size: 0.85rem; font-family: var(--font-body); transition: background 0.15s;
-    }
-    .more-dropdown a:hover { background: var(--surface2); }
-    [data-theme="kawaii"] .more-dropdown a:hover { background: rgba(232,96,44,0.1); }
-    .more-dropdown a.active { color: var(--accent); font-weight: 700; }
+      .more-dropdown {
+        display: none;
+        position: absolute;
+        top: calc(100% + 8px);
+        right: 0;
+        background: var(--surface);
+        border: 1px solid var(--border2);
+        border-radius: 14px;
+        padding: 8px;
+        min-width: 190px;
+        z-index: 200;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      }
+      [data-theme='kawaii'] .more-dropdown {
+        border: 3px solid #000;
+        box-shadow: 4px 4px 0px #000;
+      }
+      .more-dropdown.is-open {
+        display: block;
+      }
+      .more-dropdown a {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 9px 12px;
+        border-radius: 8px;
+        color: var(--text);
+        text-decoration: none;
+        font-size: 0.85rem;
+        font-family: var(--font-body);
+        transition: background 0.15s;
+      }
+      .more-dropdown a:hover {
+        background: var(--surface2);
+      }
+      [data-theme='kawaii'] .more-dropdown a:hover {
+        background: rgba(232, 96, 44, 0.1);
+      }
+      .more-dropdown a.active {
+        color: var(--accent);
+        font-weight: 700;
+      }
 
-    /* ---- Hamburger ---- */
-    .hamburger {
-      display: none; flex-direction: column; justify-content: center;
-      align-items: center; gap: 5px; width: 38px; height: 38px;
-      cursor: pointer; background: none; border: 1px solid var(--border2);
-      border-radius: 10px; padding: 6px; transition: all 0.2s; flex-shrink: 0;
-    }
-    [data-theme="kawaii"] .hamburger { border: 2.5px solid #000; box-shadow: 2px 2px 0px #000; background: rgba(255,255,255,0.7); }
-    .hamburger:hover { border-color: var(--accent); }
-    .hamburger span { display: block; width: 18px; height: 2px; background: var(--text); border-radius: 2px; transition: all 0.25s; }
-    .hamburger.is-open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-    .hamburger.is-open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
-    .hamburger.is-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+      /* ---- Hamburger ---- */
+      .hamburger {
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 5px;
+        width: 38px;
+        height: 38px;
+        cursor: pointer;
+        background: none;
+        border: 1px solid var(--border2);
+        border-radius: 10px;
+        padding: 6px;
+        transition: all 0.2s;
+        flex-shrink: 0;
+      }
+      [data-theme='kawaii'] .hamburger {
+        border: 2.5px solid #000;
+        box-shadow: 2px 2px 0px #000;
+        background: rgba(255, 255, 255, 0.7);
+      }
+      .hamburger:hover {
+        border-color: var(--accent);
+      }
+      .hamburger span {
+        display: block;
+        width: 18px;
+        height: 2px;
+        background: var(--text);
+        border-radius: 2px;
+        transition: all 0.25s;
+      }
+      .hamburger.is-open span:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
+      }
+      .hamburger.is-open span:nth-child(2) {
+        opacity: 0;
+        transform: scaleX(0);
+      }
+      .hamburger.is-open span:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);
+      }
 
-    /* ---- Mobile drawer ---- */
-    .mobile-drawer {
-      display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-      z-index: 90; background: var(--bg);
-      flex-direction: column; padding-top: 72px; overflow-y: auto;
-    }
-    [data-theme="dark"] .mobile-drawer { backdrop-filter: blur(24px); }
-    .mobile-drawer.is-open { display: flex; }
-    .mob-inner { padding: 1.25rem 1.25rem 3rem; display: flex; flex-direction: column; gap: 4px; }
-    .mob-section { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--hint); font-family: var(--font-body); padding: 0.9rem 12px 0.3rem; }
-    .mobile-drawer a {
-      display: flex; align-items: center; gap: 10px;
-      padding: 11px 14px; border-radius: 12px; color: var(--text);
-      text-decoration: none; font-size: 0.95rem; font-family: var(--font-body); transition: background 0.15s;
-    }
-    .mobile-drawer a:hover, .mobile-drawer a.active { background: var(--surface2); }
-    .mobile-drawer a.active { color: var(--accent); font-weight: 600; }
-    [data-theme="kawaii"] .mobile-drawer a:hover, [data-theme="kawaii"] .mobile-drawer a.active { background: rgba(232,96,44,0.08); }
-    .mob-divider { height: 1px; background: var(--border); margin: 0.6rem 12px; }
-    .mob-style-row { display: flex; gap: 8px; padding: 0.6rem 14px; }
-    .mob-style-btn {
-      flex: 1; padding: 9px; border-radius: 10px; border: 1px solid var(--border2);
-      background: var(--surface); color: var(--text); font-family: var(--font-body);
-      font-size: 0.82rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 7px; transition: all 0.15s;
-    }
-    .mob-style-btn:hover { border-color: var(--accent); }
-    .mob-style-btn.active { border-color: var(--accent); color: var(--accent); font-weight: 600; }
-    [data-theme="kawaii"] .mob-style-btn { border: 2.5px solid #000; box-shadow: 2px 2px 0px #000; background: rgba(255,255,255,0.7); }
-    [data-theme="kawaii"] .mob-style-btn.active { background: var(--accent); color: #000; }
+      /* ---- Mobile drawer ---- */
+      .mobile-drawer {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 90;
+        background: var(--bg);
+        flex-direction: column;
+        padding-top: 72px;
+        overflow-y: auto;
+      }
+      [data-theme='dark'] .mobile-drawer {
+        backdrop-filter: blur(24px);
+      }
+      .mobile-drawer.is-open {
+        display: flex;
+      }
+      .mob-inner {
+        padding: 1.25rem 1.25rem 3rem;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      .mob-section {
+        font-size: 0.65rem;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: var(--hint);
+        font-family: var(--font-body);
+        padding: 0.9rem 12px 0.3rem;
+      }
+      .mobile-drawer a {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 11px 14px;
+        border-radius: 12px;
+        color: var(--text);
+        text-decoration: none;
+        font-size: 0.95rem;
+        font-family: var(--font-body);
+        transition: background 0.15s;
+      }
+      .mobile-drawer a:hover,
+      .mobile-drawer a.active {
+        background: var(--surface2);
+      }
+      .mobile-drawer a.active {
+        color: var(--accent);
+        font-weight: 600;
+      }
+      [data-theme='kawaii'] .mobile-drawer a:hover,
+      [data-theme='kawaii'] .mobile-drawer a.active {
+        background: rgba(232, 96, 44, 0.08);
+      }
+      .mob-divider {
+        height: 1px;
+        background: var(--border);
+        margin: 0.6rem 12px;
+      }
+      .mob-style-row {
+        display: flex;
+        gap: 8px;
+        padding: 0.6rem 14px;
+      }
+      .mob-style-btn {
+        flex: 1;
+        padding: 9px;
+        border-radius: 10px;
+        border: 1px solid var(--border2);
+        background: var(--surface);
+        color: var(--text);
+        font-family: var(--font-body);
+        font-size: 0.82rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        transition: all 0.15s;
+      }
+      .mob-style-btn:hover {
+        border-color: var(--accent);
+      }
+      .mob-style-btn.active {
+        border-color: var(--accent);
+        color: var(--accent);
+        font-weight: 600;
+      }
+      [data-theme='kawaii'] .mob-style-btn {
+        border: 2.5px solid #000;
+        box-shadow: 2px 2px 0px #000;
+        background: rgba(255, 255, 255, 0.7);
+      }
+      [data-theme='kawaii'] .mob-style-btn.active {
+        background: var(--accent);
+        color: #000;
+      }
 
-    /* ---- Responsive breakpoints ---- */
-    @media (min-width: 901px) { .hamburger { display: none; } .mobile-drawer { display: none !important; } }
-    @media (max-width: 900px) { nav { display: none; } .hamburger { display: flex; } header { padding: 0.85rem 1.25rem; } }
-    @media (max-width: 600px) {
-      .desktop-only { display: none; }
-      main { padding: 2rem 1rem 3rem; }
-      .page-title { font-size: 1.8rem; }
-      .controls { gap: 8px; }
-      .btn { padding: 0.8rem 1.4rem; font-size: 0.95rem; min-width: 100px; }
-      .tool-grid { grid-template-columns: repeat(3, 1fr) !important; }
-    }
-    @media (max-width: 380px) { .tool-grid { grid-template-columns: repeat(2, 1fr) !important; } }
-  </style>
-</head>
-<body>
-  <header>
-    <a href="/" class="logo">Timerr<span>app</span></a>
+      /* ---- Responsive breakpoints ---- */
+      @media (min-width: 901px) {
+        .hamburger {
+          display: none;
+        }
+        .mobile-drawer {
+          display: none !important;
+        }
+      }
+      @media (max-width: 900px) {
+        nav {
+          display: none;
+        }
+        .hamburger {
+          display: flex;
+        }
+        header {
+          padding: 0.85rem 1.25rem;
+        }
+      }
+      @media (max-width: 600px) {
+        .desktop-only {
+          display: none;
+        }
+        main {
+          padding: 2rem 1rem 3rem;
+        }
+        .page-title {
+          font-size: 1.8rem;
+        }
+        .controls {
+          gap: 8px;
+        }
+        .btn {
+          padding: 0.8rem 1.4rem;
+          font-size: 0.95rem;
+          min-width: 100px;
+        }
+        .tool-grid {
+          grid-template-columns: repeat(3, 1fr) !important;
+        }
+      }
+      @media (max-width: 380px) {
+        .tool-grid {
+          grid-template-columns: repeat(2, 1fr) !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <a href="/" class="logo">Timerr<span>app</span></a>
 
-    <!-- Desktop nav -->
-    <nav>
-      <a href="/" >Clock</a>
-      <a href="/alarm/" >Alarm</a>
-      <a href="/timer/" >Timer</a>
-      <a href="/stopwatch/" >Stopwatch</a>
-      <a href="/world-clock/" >World Clock</a>
+      <!-- Desktop nav -->
+      <nav>
+        <a href="/">Clock</a>
+        <a href="/alarm/">Alarm</a>
+        <a href="/timer/">Timer</a>
+        <a href="/stopwatch/">Stopwatch</a>
+        <a href="/world-clock/">World Clock</a>
 
-      <!-- More dropdown -->
-      <div class="more-wrap">
-        <button class="more-btn is-open"
-          id="moreBtn" onclick="toggleMore()">
-          More
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="2,4 6,8 10,4"/></svg>
-        </button>
-        <div class="more-dropdown is-open"
-          id="moreDropdown">
-          <a href="/pomodoro/" >Pomodoro</a>
-          <a href="/adhd-clock/" class="active">ADHD Clock</a>
-          <a href="/chess-clock/" >Chess Clock</a>
-          <a href="/binary-clock/" >Binary Clock</a>
+        <!-- More dropdown -->
+        <div class="more-wrap">
+          <button class="more-btn is-open" id="moreBtn" onclick="toggleMore()">
+            More
+            <svg
+              width="12"
+              height="12"
+              viewBox="0 0 12 12"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            >
+              <polyline points="2,4 6,8 10,4" />
+            </svg>
+          </button>
+          <div class="more-dropdown is-open" id="moreDropdown">
+            <a href="/pomodoro/">Pomodoro</a>
+            <a href="/adhd-clock/" class="active">ADHD Clock</a>
+            <a href="/chess-clock/">Chess Clock</a>
+            <a href="/binary-clock/">Binary Clock</a>
+          </div>
+        </div>
+
+        <!-- Style switcher -->
+        <div style="position: relative">
+          <button class="skin-btn" onclick="toggleSkinMenu()" id="skinBtn">
+            <i
+              class="ph-fill ph-checkerboard"
+              style="font-size: 16px; color: var(--accent)"
+            ></i>
+            <span>Style</span>
+          </button>
+          <div class="skin-menu" id="skinMenu">
+            <button
+              class="skin-option"
+              onclick="setSkin('kawaii')"
+              id="opt-kawaii"
+            >
+              <span
+                class="skin-swatch"
+                style="background: #e8e0f5; border-color: #b0a5cc"
+              ></span>
+              Style 1
+              <i class="ph-bold ph-check check"></i>
+            </button>
+            <button class="skin-option" onclick="setSkin('dark')" id="opt-dark">
+              <span class="skin-swatch" style="background: #0a0a0f"></span>
+              Style 2
+              <i class="ph-bold ph-check check"></i>
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Hamburger (mobile) -->
+      <button
+        class="hamburger"
+        id="hamburger"
+        onclick="toggleDrawer()"
+        aria-label="Open menu"
+      >
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <!-- Mobile drawer -->
+    <div class="mobile-drawer" id="mobileDrawer">
+      <div class="mob-inner">
+        <div class="mob-section">Core Tools</div>
+        <a href="/" onclick="closeDrawer()">Clock</a>
+        <a href="/alarm/" onclick="closeDrawer()">Alarm</a>
+        <a href="/timer/" onclick="closeDrawer()">Timer</a>
+        <a href="/stopwatch/" onclick="closeDrawer()">Stopwatch</a>
+        <a href="/world-clock/" onclick="closeDrawer()">World Clock</a>
+        <div class="mob-divider"></div>
+        <div class="mob-section">Specialty Clocks</div>
+        <a href="/pomodoro/" onclick="closeDrawer()">Pomodoro</a>
+        <a href="/adhd-clock/" class="active" onclick="closeDrawer()"
+          >ADHD Clock</a
+        >
+        <a href="/chess-clock/" onclick="closeDrawer()">Chess Clock</a>
+        <a href="/binary-clock/" onclick="closeDrawer()">Binary Clock</a>
+        <div class="mob-divider"></div>
+        <div class="mob-section">Style</div>
+        <div class="mob-style-row">
+          <button
+            class="mob-style-btn"
+            id="mob-opt-kawaii"
+            onclick="setSkin('kawaii')"
+          >
+            <span
+              style="
+                width: 13px;
+                height: 13px;
+                border-radius: 50%;
+                background: #e8e0f5;
+                border: 2px solid #b0a5cc;
+                display: inline-block;
+                flex-shrink: 0;
+              "
+            ></span
+            >Style 1
+          </button>
+          <button
+            class="mob-style-btn"
+            id="mob-opt-dark"
+            onclick="setSkin('dark')"
+          >
+            <span
+              style="
+                width: 13px;
+                height: 13px;
+                border-radius: 50%;
+                background: #0a0a0f;
+                border: 2px solid #444;
+                display: inline-block;
+                flex-shrink: 0;
+              "
+            ></span
+            >Style 2
+          </button>
         </div>
       </div>
-
-      <!-- Style switcher -->
-      <div style="position:relative;">
-        <button class="skin-btn" onclick="toggleSkinMenu()" id="skinBtn">
-          <i class="ph-fill ph-checkerboard" style="font-size:16px;color:var(--accent);"></i>
-          <span>Style</span>
-        </button>
-        <div class="skin-menu" id="skinMenu">
-          <button class="skin-option" onclick="setSkin('kawaii')" id="opt-kawaii">
-            <span class="skin-swatch" style="background:#e8e0f5;border-color:#b0a5cc;"></span>
-            Style 1
-            <i class="ph-bold ph-check check"></i>
-          </button>
-          <button class="skin-option" onclick="setSkin('dark')" id="opt-dark">
-            <span class="skin-swatch" style="background:#0a0a0f;"></span>
-            Style 2
-            <i class="ph-bold ph-check check"></i>
-          </button>
-        </div>
-      </div>
-    </nav>
-
-    <!-- Hamburger (mobile) -->
-    <button class="hamburger" id="hamburger" onclick="toggleDrawer()" aria-label="Open menu">
-      <span></span><span></span><span></span>
-    </button>
-  </header>
-
-  <!-- Mobile drawer -->
-  <div class="mobile-drawer" id="mobileDrawer">
-    <div class="mob-inner">
-      <div class="mob-section">Core Tools</div>
-      <a href="/"  onclick="closeDrawer()">Clock</a>
-      <a href="/alarm/"  onclick="closeDrawer()">Alarm</a>
-      <a href="/timer/"  onclick="closeDrawer()">Timer</a>
-      <a href="/stopwatch/"  onclick="closeDrawer()">Stopwatch</a>
-      <a href="/world-clock/"  onclick="closeDrawer()">World Clock</a>
-      <div class="mob-divider"></div>
-      <div class="mob-section">Specialty Clocks</div>
-      <a href="/pomodoro/"  onclick="closeDrawer()">Pomodoro</a>
-      <a href="/adhd-clock/" class="active" onclick="closeDrawer()">ADHD Clock</a>
-      <a href="/chess-clock/"  onclick="closeDrawer()">Chess Clock</a>
-      <a href="/binary-clock/"  onclick="closeDrawer()">Binary Clock</a>
-      <div class="mob-divider"></div>
-      <div class="mob-section">Style</div>
-      <div class="mob-style-row">
-        <button class="mob-style-btn" id="mob-opt-kawaii" onclick="setSkin('kawaii')">
-          <span style="width:13px;height:13px;border-radius:50%;background:#e8e0f5;border:2px solid #b0a5cc;display:inline-block;flex-shrink:0;"></span>Style 1
-        </button>
-        <button class="mob-style-btn" id="mob-opt-dark" onclick="setSkin('dark')">
-          <span style="width:13px;height:13px;border-radius:50%;background:#0a0a0f;border:2px solid #444;display:inline-block;flex-shrink:0;"></span>Style 2
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <main>
-    
-<style>
-.adhd-wrap {
-  max-width: 520px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  text-align: left;
-}
-
-.adhd-card {
-  background: var(--surface);
-  border: 1px solid var(--border2);
-  border-radius: 20px;
-  padding: 1.5rem;
-  position: relative;
-  transition: border-color 0.3s;
-}
-[data-theme="kawaii"] .adhd-card {
-  background: rgba(255,255,255,0.82);
-  border: 2.5px solid #000;
-  box-shadow: 3px 3px 0px #000;
-}
-
-/* Ring */
-.ring-wrap { display: flex; align-items: center; justify-content: center; position: relative; margin-bottom: 1rem; }
-.ring-svg { transform: rotate(-90deg); }
-.ring-bg { fill: none; stroke: var(--surface2); stroke-width: 14; }
-.ring-arc { fill: none; stroke-width: 14; stroke-linecap: round; transition: stroke-dashoffset 1s linear, stroke 0.8s ease; }
-.ring-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); text-align: center; pointer-events: none; }
-.ring-time { font-family: var(--font-mono); font-size: 2rem; font-weight: 300; letter-spacing: -0.02em; line-height: 1; color: var(--text); }
-.ring-ampm { font-family: var(--font-mono); font-size: 0.85rem; color: var(--accent); margin-top: 2px; }
-.ring-date { font-size: 0.72rem; color: var(--muted); font-family: var(--font-body); margin-top: 4px; }
-
-/* Zone badge */
-.zone-badge {
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 5px 14px; border-radius: 100px;
-  font-size: 0.82rem; font-weight: 600; font-family: var(--font-body);
-  border: 2px solid currentColor; margin-bottom: 0.75rem;
-  letter-spacing: 0.04em;
-}
-
-/* Anchor panel */
-.anchor-panel { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.anchor-item { background: var(--surface2); border-radius: 12px; padding: 10px 14px; }
-[data-theme="kawaii"] .anchor-item { background: rgba(255,255,255,0.6); border: 1.5px solid rgba(0,0,0,0.1); }
-.anchor-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--hint); font-family: var(--font-body); margin-bottom: 4px; }
-.anchor-value { font-size: 0.92rem; font-weight: 600; color: var(--text); font-family: var(--font-body); }
-.anchor-sub { font-size: 0.75rem; color: var(--muted); font-family: var(--font-body); margin-top: 2px; }
-
-/* Focus timer */
-.focus-ring-wrap { display: flex; align-items: center; justify-content: center; position: relative; margin: 0.5rem 0; }
-.focus-arc { fill: none; stroke-width: 10; stroke-linecap: round; transition: stroke-dashoffset 1s linear, stroke 0.5s ease; }
-.focus-bg-arc { fill: none; stroke: var(--surface2); stroke-width: 10; }
-.focus-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); text-align: center; }
-.focus-display { font-family: var(--font-mono); font-size: 2.4rem; font-weight: 300; letter-spacing: -0.02em; line-height: 1; transition: color 0.5s; }
-.focus-status { font-size: 0.72rem; color: var(--muted); font-family: var(--font-body); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 4px; }
-
-.focus-presets { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; margin-bottom: 0.75rem; }
-.preset-btn {
-  padding: 5px 14px; border-radius: 100px;
-  border: 1px solid var(--border2); background: transparent;
-  color: var(--muted); font-size: 0.8rem; cursor: pointer;
-  font-family: var(--font-body); transition: all 0.15s;
-}
-.preset-btn:hover, .preset-btn.sel { border-color: var(--accent); color: var(--accent); background: rgba(200,169,110,0.08); }
-[data-theme="kawaii"] .preset-btn { border: 2px solid #000; color: #000; font-weight: 700; background: rgba(255,255,255,0.5); border-radius: 8px; }
-[data-theme="kawaii"] .preset-btn:hover, [data-theme="kawaii"] .preset-btn.sel { background: var(--accent); color: #000; }
-
-.focus-controls { display: flex; gap: 8px; justify-content: center; }
-.fc-btn {
-  flex: 1; padding: 10px; border-radius: 12px;
-  font-family: var(--font-body); font-size: 0.9rem; font-weight: 600;
-  cursor: pointer; border: 1px solid var(--border2);
-  background: var(--surface2); color: var(--text);
-  transition: all 0.15s; max-width: 120px;
-}
-.fc-btn:hover { border-color: var(--accent); }
-.fc-btn.primary { background: var(--accent); color: #0a0a0f; border-color: transparent; }
-.fc-btn.primary:hover { opacity: 0.88; }
-[data-theme="kawaii"] .fc-btn { border: 2.5px solid #000; box-shadow: 2px 2px 0px #000; font-weight: 800; }
-[data-theme="kawaii"] .fc-btn.primary { background: var(--accent); color: #000; }
-[data-theme="kawaii"] .fc-btn:hover { transform: translate(-1px,-1px); box-shadow: 3px 3px 0px #000; }
-
-/* Settings */
-.settings-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border); }
-.settings-row:last-child { border-bottom: none; }
-.settings-label { font-size: 0.88rem; color: var(--text); font-family: var(--font-body); }
-.settings-sub { font-size: 0.72rem; color: var(--muted); margin-top: 2px; font-family: var(--font-body); }
-.toggle-switch { width: 42px; height: 24px; border-radius: 100px; border: 1px solid var(--border2); background: transparent; cursor: pointer; position: relative; transition: all 0.2s; flex-shrink: 0; }
-.toggle-switch.on { background: var(--accent); border-color: var(--accent); }
-.toggle-dot { position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; border-radius: 50%; background: var(--muted); transition: all 0.2s; }
-.toggle-switch.on .toggle-dot { transform: translateX(18px); background: #0a0a0f; }
-[data-theme="kawaii"] .toggle-switch.on .toggle-dot { background: #fff; }
-.warn-slider { width: 110px; accent-color: var(--accent); cursor: pointer; }
-
-/* Toast — truly hidden until .show applied */
-.adhd-toast {
-  position: fixed;
-  bottom: 2rem; left: 50%;
-  transform: translateX(-50%);
-  background: var(--surface);
-  border: 1px solid var(--border2);
-  border-radius: 16px;
-  padding: 1rem 1.5rem;
-  max-width: 320px; width: 90%;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.25);
-  z-index: 500;
-  text-align: center;
-  opacity: 0;
-  pointer-events: none;
-  visibility: hidden;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
-}
-.adhd-toast.show { opacity: 1; pointer-events: auto; visibility: visible; }
-[data-theme="kawaii"] .adhd-toast { border: 2.5px solid #000; box-shadow: 4px 4px 0px #000; background: rgba(255,255,255,0.97); }
-.toast-msg { font-size: 0.9rem; color: var(--text); font-family: var(--font-body); line-height: 1.5; }
-.toast-close { margin-top: 10px; padding: 5px 16px; border-radius: 100px; border: 1px solid var(--border2); background: transparent; color: var(--muted); font-size: 0.8rem; cursor: pointer; font-family: var(--font-body); transition: all 0.15s; }
-.toast-close:hover { border-color: var(--accent); color: var(--accent); }
-
-/* Breathing overlay */
-.breathing-overlay { display: none; position: fixed; inset: 0; z-index: 600; background: rgba(10,10,15,0.93); align-items: center; justify-content: center; flex-direction: column; gap: 1.5rem; text-align: center; }
-[data-theme="kawaii"] .breathing-overlay { background: rgba(232,224,245,0.97); }
-.breathing-overlay.show { display: flex; }
-.breath-circle { width: 120px; height: 120px; border-radius: 50%; background: rgba(200,169,110,0.15); border: 2px solid var(--accent); display: flex; align-items: center; justify-content: center; transition: transform 4s ease-in-out, background 4s ease-in-out; }
-.breath-circle.expand { transform: scale(1.65); background: rgba(200,169,110,0.3); }
-.breath-circle.hold { transform: scale(1.65); background: rgba(200,169,110,0.45); }
-.breath-circle.shrink { transform: scale(1); background: rgba(200,169,110,0.08); }
-.breath-instruction { font-family: var(--font-heading); font-size: 1.8rem; color: var(--text); }
-[data-theme="kawaii"] .breath-instruction { font-weight: 800; color: #1a1a2e; }
-.breath-count { font-family: var(--font-mono); font-size: 3rem; font-weight: 300; color: var(--accent); }
-.breath-sub { font-size: 0.85rem; color: var(--muted); font-family: var(--font-body); }
-.breath-stop { padding: 8px 24px; border-radius: 100px; border: 1px solid var(--border2); background: transparent; color: var(--muted); font-size: 0.85rem; cursor: pointer; font-family: var(--font-body); margin-top: 0.5rem; transition: all 0.15s; }
-.breath-stop:hover { border-color: var(--accent); color: var(--accent); }
-
-/* Soft action buttons */
-.soft-btn {
-  width: 100%; padding: 13px; border-radius: 14px;
-  border: 1px solid var(--border2); background: transparent;
-  color: var(--muted); font-family: var(--font-body); font-size: 0.88rem;
-  cursor: pointer; transition: all 0.2s; text-align: center;
-}
-.soft-btn:hover { border-color: var(--accent); color: var(--accent); background: rgba(200,169,110,0.04); }
-[data-theme="kawaii"] .soft-btn { border: 2px solid rgba(0,0,0,0.2); color: var(--muted); background: rgba(255,255,255,0.4); }
-[data-theme="kawaii"] .soft-btn:hover { border-color: var(--accent); color: var(--accent); }
-
-/* Reorient panel */
-.reorient-panel { display: none; background: var(--surface2); border-radius: 12px; padding: 1.1rem 1.25rem; margin-top: 10px; border-left: 3px solid var(--accent); text-align: left; }
-.reorient-panel.show { display: block; }
-.reorient-panel p { font-size: 0.88rem; color: var(--text); font-family: var(--font-body); line-height: 1.65; }
-
-/* Pulse */
-@keyframes gentlePulse { 0%,100% { box-shadow: 0 0 0 0 rgba(200,169,110,0); } 50% { box-shadow: 0 0 0 8px rgba(200,169,110,0.1); } }
-.pulse-on { animation: gentlePulse 3.5s ease-in-out infinite; }
-</style>
-
-<div style="text-align:center;margin-bottom:1.5rem;">
-  <h1 class="page-title" style="margin-bottom:0.3rem;">ADHD Clock</h1>
-  <p class="page-subtitle" style="margin-bottom:0;">Time made visible, calm, and structured.</p>
-</div>
-
-<div class="adhd-wrap">
-
-  <!-- 1. DAY RING + ZONE ANCHOR -->
-  <div class="adhd-card" id="zoneCard">
-    <div class="zone-badge" id="zoneBadge" style="color:#6366f1;border-color:#6366f133;background:#6366f111;">Loading…</div>
-    <div style="font-size:0.82rem;color:var(--muted);font-family:var(--font-body);margin-bottom:1rem;" id="zoneDesc">Detecting your current zone…</div>
-
-    <div class="ring-wrap">
-      <svg class="ring-svg" width="200" height="200" viewBox="0 0 200 200" role="img" aria-label="Day progress ring">
-        <circle class="ring-bg" cx="100" cy="100" r="82"/>
-        <circle class="ring-arc" id="ringArc" cx="100" cy="100" r="82" stroke-dasharray="515.2" stroke-dashoffset="515.2" stroke="#c8a96e"/>
-      </svg>
-      <div class="ring-center">
-        <div class="ring-time" id="ringTime">--:--</div>
-        <div class="ring-ampm" id="ringAmpm">--</div>
-        <div class="ring-date" id="ringDate">--</div>
-      </div>
     </div>
 
-    <div class="anchor-panel">
-      <div class="anchor-item">
-        <div class="anchor-label">Right now</div>
-        <div class="anchor-value" id="anchorZone">--</div>
-        <div class="anchor-sub" id="anchorDesc">--</div>
-      </div>
-      <div class="anchor-item">
-        <div class="anchor-label">Coming up</div>
-        <div class="anchor-value" id="anchorNext">--</div>
-        <div class="anchor-sub" id="anchorMins">-- min away</div>
-      </div>
-    </div>
+    <main>
+      <style>
+        .adhd-wrap {
+          max-width: 520px;
+          margin: 0 auto;
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+          text-align: left;
+        }
 
-    <button class="soft-btn" style="margin-top:12px;border-style:dashed;" onclick="lostTrack()">
-      I lost track of time — where am I?
-    </button>
-    <div class="reorient-panel" id="reorientPanel">
-      <p id="reorientMsg"></p>
-    </div>
-  </div>
+        .adhd-card {
+          background: var(--surface);
+          border: 1px solid var(--border2);
+          border-radius: 20px;
+          padding: 1.5rem;
+          position: relative;
+          transition: border-color 0.3s;
+        }
+        [data-theme='kawaii'] .adhd-card {
+          background: rgba(255, 255, 255, 0.82);
+          border: 2.5px solid #000;
+          box-shadow: 3px 3px 0px #000;
+        }
 
-  <!-- 2. FOCUS TIMER -->
-  <div class="adhd-card">
-    <div style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--hint);margin-bottom:0.75rem;font-family:var(--font-body);">Focus Timer</div>
+        /* Ring */
+        .ring-wrap {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+          margin-bottom: 1rem;
+        }
+        .ring-svg {
+          transform: rotate(-90deg);
+        }
+        .ring-bg {
+          fill: none;
+          stroke: var(--surface2);
+          stroke-width: 14;
+        }
+        .ring-arc {
+          fill: none;
+          stroke-width: 14;
+          stroke-linecap: round;
+          transition:
+            stroke-dashoffset 1s linear,
+            stroke 0.8s ease;
+        }
+        .ring-center {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          text-align: center;
+          pointer-events: none;
+        }
+        .ring-time {
+          font-family: var(--font-mono);
+          font-size: 2rem;
+          font-weight: 300;
+          letter-spacing: -0.02em;
+          line-height: 1;
+          color: var(--text);
+        }
+        .ring-ampm {
+          font-family: var(--font-mono);
+          font-size: 0.85rem;
+          color: var(--accent);
+          margin-top: 2px;
+        }
+        .ring-date {
+          font-size: 0.72rem;
+          color: var(--muted);
+          font-family: var(--font-body);
+          margin-top: 4px;
+        }
 
-    <div class="focus-presets">
-      <button class="preset-btn" onclick="setFocus(5,this)">5 min</button>
-      <button class="preset-btn sel" onclick="setFocus(10,this)">10 min</button>
-      <button class="preset-btn" onclick="setFocus(15,this)">15 min</button>
-      <button class="preset-btn" onclick="setFocus(25,this)">25 min</button>
-      <button class="preset-btn" onclick="setFocus(45,this)">45 min</button>
-    </div>
+        /* Zone badge */
+        .zone-badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          padding: 5px 14px;
+          border-radius: 100px;
+          font-size: 0.82rem;
+          font-weight: 600;
+          font-family: var(--font-body);
+          border: 2px solid currentColor;
+          margin-bottom: 0.75rem;
+          letter-spacing: 0.04em;
+        }
 
-    <div class="focus-ring-wrap">
-      <svg width="160" height="160" viewBox="0 0 160 160" role="img" aria-label="Focus timer progress">
-        <circle class="focus-bg-arc" cx="80" cy="80" r="68" transform="rotate(-90 80 80)"/>
-        <circle class="focus-arc" id="focusArc" cx="80" cy="80" r="68"
-          stroke-dasharray="427.3" stroke-dashoffset="0" stroke="#8b5cf6" transform="rotate(-90 80 80)"/>
-      </svg>
-      <div class="focus-center">
-        <div class="focus-display" id="focusDisplay">10:00</div>
-        <div class="focus-status" id="focusStatus">Ready</div>
-      </div>
-    </div>
+        /* Anchor panel */
+        .anchor-panel {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 10px;
+        }
+        .anchor-item {
+          background: var(--surface2);
+          border-radius: 12px;
+          padding: 10px 14px;
+        }
+        [data-theme='kawaii'] .anchor-item {
+          background: rgba(255, 255, 255, 0.6);
+          border: 1.5px solid rgba(0, 0, 0, 0.1);
+        }
+        .anchor-label {
+          font-size: 0.65rem;
+          text-transform: uppercase;
+          letter-spacing: 0.1em;
+          color: var(--hint);
+          font-family: var(--font-body);
+          margin-bottom: 4px;
+        }
+        .anchor-value {
+          font-size: 0.92rem;
+          font-weight: 600;
+          color: var(--text);
+          font-family: var(--font-body);
+        }
+        .anchor-sub {
+          font-size: 0.75rem;
+          color: var(--muted);
+          font-family: var(--font-body);
+          margin-top: 2px;
+        }
 
-    <div class="focus-controls">
-      <button class="fc-btn primary" id="focusStartBtn" onclick="toggleFocus()">Start</button>
-      <button class="fc-btn" onclick="resetFocus()">Reset</button>
-    </div>
-  </div>
+        /* Focus timer */
+        .focus-ring-wrap {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+          margin: 0.5rem 0;
+        }
+        .focus-arc {
+          fill: none;
+          stroke-width: 10;
+          stroke-linecap: round;
+          transition:
+            stroke-dashoffset 1s linear,
+            stroke 0.5s ease;
+        }
+        .focus-bg-arc {
+          fill: none;
+          stroke: var(--surface2);
+          stroke-width: 10;
+        }
+        .focus-center {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          text-align: center;
+        }
+        .focus-display {
+          font-family: var(--font-mono);
+          font-size: 2.4rem;
+          font-weight: 300;
+          letter-spacing: -0.02em;
+          line-height: 1;
+          transition: color 0.5s;
+        }
+        .focus-status {
+          font-size: 0.72rem;
+          color: var(--muted);
+          font-family: var(--font-body);
+          text-transform: uppercase;
+          letter-spacing: 0.08em;
+          margin-top: 4px;
+        }
 
-  <!-- 3. BREATHING BUTTON -->
-  <button class="soft-btn" style="padding:14px;" onclick="startBreathing()">
-    Take a breathing pause
-  </button>
+        .focus-presets {
+          display: flex;
+          gap: 6px;
+          flex-wrap: wrap;
+          justify-content: center;
+          margin-bottom: 0.75rem;
+        }
+        .preset-btn {
+          padding: 5px 14px;
+          border-radius: 100px;
+          border: 1px solid var(--border2);
+          background: transparent;
+          color: var(--muted);
+          font-size: 0.8rem;
+          cursor: pointer;
+          font-family: var(--font-body);
+          transition: all 0.15s;
+        }
+        .preset-btn:hover,
+        .preset-btn.sel {
+          border-color: var(--accent);
+          color: var(--accent);
+          background: rgba(200, 169, 110, 0.08);
+        }
+        [data-theme='kawaii'] .preset-btn {
+          border: 2px solid #000;
+          color: #000;
+          font-weight: 700;
+          background: rgba(255, 255, 255, 0.5);
+          border-radius: 8px;
+        }
+        [data-theme='kawaii'] .preset-btn:hover,
+        [data-theme='kawaii'] .preset-btn.sel {
+          background: var(--accent);
+          color: #000;
+        }
 
-  <!-- 4. SETTINGS -->
-  <div class="adhd-card">
-    <div style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--hint);margin-bottom:0.75rem;font-family:var(--font-body);">Settings</div>
+        .focus-controls {
+          display: flex;
+          gap: 8px;
+          justify-content: center;
+        }
+        .fc-btn {
+          flex: 1;
+          padding: 10px;
+          border-radius: 12px;
+          font-family: var(--font-body);
+          font-size: 0.9rem;
+          font-weight: 600;
+          cursor: pointer;
+          border: 1px solid var(--border2);
+          background: var(--surface2);
+          color: var(--text);
+          transition: all 0.15s;
+          max-width: 120px;
+        }
+        .fc-btn:hover {
+          border-color: var(--accent);
+        }
+        .fc-btn.primary {
+          background: var(--accent);
+          color: #0a0a0f;
+          border-color: transparent;
+        }
+        .fc-btn.primary:hover {
+          opacity: 0.88;
+        }
+        [data-theme='kawaii'] .fc-btn {
+          border: 2.5px solid #000;
+          box-shadow: 2px 2px 0px #000;
+          font-weight: 800;
+        }
+        [data-theme='kawaii'] .fc-btn.primary {
+          background: var(--accent);
+          color: #000;
+        }
+        [data-theme='kawaii'] .fc-btn:hover {
+          transform: translate(-1px, -1px);
+          box-shadow: 3px 3px 0px #000;
+        }
 
-    <div class="settings-row">
-      <div>
-        <div class="settings-label">Sound cues</div>
-        <div class="settings-sub">Gentle tone on zone transition</div>
-      </div>
-      <div class="toggle-switch on" id="soundToggle" onclick="toggleSetting('sound')" role="switch" aria-checked="true" aria-label="Sound cues">
-        <div class="toggle-dot"></div>
-      </div>
-    </div>
+        /* Settings */
+        .settings-row {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 10px 0;
+          border-bottom: 1px solid var(--border);
+        }
+        .settings-row:last-child {
+          border-bottom: none;
+        }
+        .settings-label {
+          font-size: 0.88rem;
+          color: var(--text);
+          font-family: var(--font-body);
+        }
+        .settings-sub {
+          font-size: 0.72rem;
+          color: var(--muted);
+          margin-top: 2px;
+          font-family: var(--font-body);
+        }
+        .toggle-switch {
+          width: 42px;
+          height: 24px;
+          border-radius: 100px;
+          border: 1px solid var(--border2);
+          background: transparent;
+          cursor: pointer;
+          position: relative;
+          transition: all 0.2s;
+          flex-shrink: 0;
+        }
+        .toggle-switch.on {
+          background: var(--accent);
+          border-color: var(--accent);
+        }
+        .toggle-dot {
+          position: absolute;
+          top: 3px;
+          left: 3px;
+          width: 16px;
+          height: 16px;
+          border-radius: 50%;
+          background: var(--muted);
+          transition: all 0.2s;
+        }
+        .toggle-switch.on .toggle-dot {
+          transform: translateX(18px);
+          background: #0a0a0f;
+        }
+        [data-theme='kawaii'] .toggle-switch.on .toggle-dot {
+          background: #fff;
+        }
+        .warn-slider {
+          width: 110px;
+          accent-color: var(--accent);
+          cursor: pointer;
+        }
 
-    <div class="settings-row">
-      <div>
-        <div class="settings-label">Pulse animation</div>
-        <div class="settings-sub">Soft glow on the zone card</div>
-      </div>
-      <div class="toggle-switch on" id="pulseToggle" onclick="toggleSetting('pulse')" role="switch" aria-checked="true" aria-label="Pulse animation">
-        <div class="toggle-dot"></div>
-      </div>
-    </div>
+        /* Toast — truly hidden until .show applied */
+        .adhd-toast {
+          position: fixed;
+          bottom: 2rem;
+          left: 50%;
+          transform: translateX(-50%);
+          background: var(--surface);
+          border: 1px solid var(--border2);
+          border-radius: 16px;
+          padding: 1rem 1.5rem;
+          max-width: 320px;
+          width: 90%;
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+          z-index: 500;
+          text-align: center;
+          opacity: 0;
+          pointer-events: none;
+          visibility: hidden;
+          transition:
+            opacity 0.3s ease,
+            visibility 0.3s ease;
+        }
+        .adhd-toast.show {
+          opacity: 1;
+          pointer-events: auto;
+          visibility: visible;
+        }
+        [data-theme='kawaii'] .adhd-toast {
+          border: 2.5px solid #000;
+          box-shadow: 4px 4px 0px #000;
+          background: rgba(255, 255, 255, 0.97);
+        }
+        .toast-msg {
+          font-size: 0.9rem;
+          color: var(--text);
+          font-family: var(--font-body);
+          line-height: 1.5;
+        }
+        .toast-close {
+          margin-top: 10px;
+          padding: 5px 16px;
+          border-radius: 100px;
+          border: 1px solid var(--border2);
+          background: transparent;
+          color: var(--muted);
+          font-size: 0.8rem;
+          cursor: pointer;
+          font-family: var(--font-body);
+          transition: all 0.15s;
+        }
+        .toast-close:hover {
+          border-color: var(--accent);
+          color: var(--accent);
+        }
 
-    <div class="settings-row">
-      <div>
-        <div class="settings-label">Warn <span id="warnLabel">5</span> min before zone ends</div>
-        <div class="settings-sub">Gentle notification before transitions</div>
-      </div>
-      <input type="range" class="warn-slider" id="warnSlider" min="1" max="15" value="5"
-        oninput="updateWarnThreshold(this.value)" aria-label="Warning threshold in minutes">
-    </div>
-  </div>
+        /* Breathing overlay */
+        .breathing-overlay {
+          display: none;
+          position: fixed;
+          inset: 0;
+          z-index: 600;
+          background: rgba(10, 10, 15, 0.93);
+          align-items: center;
+          justify-content: center;
+          flex-direction: column;
+          gap: 1.5rem;
+          text-align: center;
+        }
+        [data-theme='kawaii'] .breathing-overlay {
+          background: rgba(232, 224, 245, 0.97);
+        }
+        .breathing-overlay.show {
+          display: flex;
+        }
+        .breath-circle {
+          width: 120px;
+          height: 120px;
+          border-radius: 50%;
+          background: rgba(200, 169, 110, 0.15);
+          border: 2px solid var(--accent);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition:
+            transform 4s ease-in-out,
+            background 4s ease-in-out;
+        }
+        .breath-circle.expand {
+          transform: scale(1.65);
+          background: rgba(200, 169, 110, 0.3);
+        }
+        .breath-circle.hold {
+          transform: scale(1.65);
+          background: rgba(200, 169, 110, 0.45);
+        }
+        .breath-circle.shrink {
+          transform: scale(1);
+          background: rgba(200, 169, 110, 0.08);
+        }
+        .breath-instruction {
+          font-family: var(--font-heading);
+          font-size: 1.8rem;
+          color: var(--text);
+        }
+        [data-theme='kawaii'] .breath-instruction {
+          font-weight: 800;
+          color: #1a1a2e;
+        }
+        .breath-count {
+          font-family: var(--font-mono);
+          font-size: 3rem;
+          font-weight: 300;
+          color: var(--accent);
+        }
+        .breath-sub {
+          font-size: 0.85rem;
+          color: var(--muted);
+          font-family: var(--font-body);
+        }
+        .breath-stop {
+          padding: 8px 24px;
+          border-radius: 100px;
+          border: 1px solid var(--border2);
+          background: transparent;
+          color: var(--muted);
+          font-size: 0.85rem;
+          cursor: pointer;
+          font-family: var(--font-body);
+          margin-top: 0.5rem;
+          transition: all 0.15s;
+        }
+        .breath-stop:hover {
+          border-color: var(--accent);
+          color: var(--accent);
+        }
 
-</div><!-- end .adhd-wrap -->
+        /* Soft action buttons */
+        .soft-btn {
+          width: 100%;
+          padding: 13px;
+          border-radius: 14px;
+          border: 1px solid var(--border2);
+          background: transparent;
+          color: var(--muted);
+          font-family: var(--font-body);
+          font-size: 0.88rem;
+          cursor: pointer;
+          transition: all 0.2s;
+          text-align: center;
+        }
+        .soft-btn:hover {
+          border-color: var(--accent);
+          color: var(--accent);
+          background: rgba(200, 169, 110, 0.04);
+        }
+        [data-theme='kawaii'] .soft-btn {
+          border: 2px solid rgba(0, 0, 0, 0.2);
+          color: var(--muted);
+          background: rgba(255, 255, 255, 0.4);
+        }
+        [data-theme='kawaii'] .soft-btn:hover {
+          border-color: var(--accent);
+          color: var(--accent);
+        }
 
-<!-- Toast — invisible until triggered -->
-<div class="adhd-toast" id="adhdToast" role="alert" aria-live="polite">
-  <div class="toast-msg" id="toastMsg">Zone transition coming up.</div>
-  <button class="toast-close" onclick="closeToast()">Got it</button>
-</div>
+        /* Reorient panel */
+        .reorient-panel {
+          display: none;
+          background: var(--surface2);
+          border-radius: 12px;
+          padding: 1.1rem 1.25rem;
+          margin-top: 10px;
+          border-left: 3px solid var(--accent);
+          text-align: left;
+        }
+        .reorient-panel.show {
+          display: block;
+        }
+        .reorient-panel p {
+          font-size: 0.88rem;
+          color: var(--text);
+          font-family: var(--font-body);
+          line-height: 1.65;
+        }
 
-<!-- Breathing overlay -->
-<div class="breathing-overlay" id="breathOverlay" role="dialog" aria-modal="true" aria-label="Breathing exercise">
-  <div class="breath-circle" id="breathCircle">
-    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5">
-      <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/>
-      <path d="M8 12h8M12 8v8"/>
-    </svg>
-  </div>
-  <div class="breath-instruction" id="breathInstruction">Get ready</div>
-  <div class="breath-count" id="breathCount">·</div>
-  <div class="breath-sub" id="breathSub">Find a comfortable position</div>
-  <button class="breath-stop" onclick="stopBreathing()">Stop</button>
-</div>
-
-<script>
-const ZONES = [
-  { name:'Night',   start:0,  end:6,  color:'#6366f1', desc:'Rest time. You don\'t have to be productive right now.' },
-  { name:'Morning', start:6,  end:11, color:'#f59e0b', desc:'Ease in. Good for lighter tasks and planning.' },
-  { name:'Focus',   start:11, end:16, color:'#10b981', desc:'Peak energy window. Great for deep work.' },
-  { name:'Break',   start:16, end:17, color:'#ec4899', desc:'Step away. Rest your brain for a bit.' },
-  { name:'Evening', start:17, end:21, color:'#8b5cf6', desc:'Wind down. Creative or social tasks fit well here.' },
-];
-
-const CIRC_RING  = 515.2;
-const CIRC_FOCUS = 427.3;
-
-// Settings from localStorage
-let settings        = JSON.parse(localStorage.getItem('adhd_settings') || '{}');
-let soundOn         = settings.sound !== false;
-let pulseOn         = settings.pulse !== false;
-let warnMins        = settings.warn  || 5;
-
-// Focus timer state
-let focusTotal   = 10 * 60;
-let focusRemain  = focusTotal;
-let focusRunning = false;
-let focusIv      = null;
-
-// Zone transition state
-let warnFired      = {};
-let currentZoneName = '';
-let toastTimer     = null;
-
-// Breathing state
-let breathIv    = null;
-let breathStep  = 0;
-let breathCycle = 0;
-const BREATH_TOTAL = 3;
-const BREATH_SEQ = [
-  { phase:'Breathe in',  dur:4, sub:'Through your nose',        circle:'expand' },
-  { name:'Hold',         dur:4, sub:'Stay still',               circle:'hold'   },
-  { phase:'Breathe out', dur:4, sub:'Slowly through your mouth',circle:'shrink' },
-];
-// fix missing phase key on hold
-BREATH_SEQ[1].phase = 'Hold';
-
-// ---- Helpers ----
-function getZone(h) { return ZONES.find(z => z.start <= h && h < z.end) || ZONES[0]; }
-function getNextZone(z) { return ZONES[(ZONES.indexOf(z) + 1) % ZONES.length]; }
-function minsUntil(h, m, zone) {
-  let diff = zone.end * 60 - (h * 60 + m);
-  if (diff < 0) diff += 1440;
-  return diff;
-}
-function fmt12(h, m) {
-  const ampm = h >= 12 ? 'PM' : 'AM';
-  const h12  = h % 12 || 12;
-  return { time: String(h12).padStart(2,'0') + ':' + String(m).padStart(2,'0'), ampm };
-}
-function fmtFocus(s) {
-  return String(Math.floor(s/60)).padStart(2,'0') + ':' + String(s%60).padStart(2,'0');
-}
-
-// ---- Zone ring ----
-function updateZone() {
-  const now  = new Date();
-  const h = now.getHours(), m = now.getMinutes(), s = now.getSeconds();
-  const zone = getZone(h);
-  const next = getNextZone(zone);
-
-  // Clock
-  const { time, ampm } = fmt12(h, m);
-  document.getElementById('ringTime').textContent = time;
-  document.getElementById('ringAmpm').textContent = ampm;
-  document.getElementById('ringDate').textContent =
-    now.toLocaleDateString('en-US', { weekday:'short', month:'short', day:'numeric' });
-
-  // Arc — minutes since midnight / 1440
-  const pct = (h * 60 + m) / 1440;
-  document.getElementById('ringArc').style.strokeDashoffset = CIRC_RING * (1 - pct);
-  document.getElementById('ringArc').style.stroke = zone.color;
-
-  // Zone badge
-  const badge = document.getElementById('zoneBadge');
-  badge.textContent = zone.name;
-  badge.style.color = zone.color;
-  badge.style.borderColor = zone.color + '44';
-  badge.style.background  = zone.color + '11';
-  document.getElementById('zoneDesc').textContent = zone.desc;
-  document.getElementById('zoneCard').style.borderColor = zone.color + '44';
-
-  // Anchor
-  document.getElementById('anchorZone').textContent = zone.name;
-  document.getElementById('anchorDesc').textContent = zone.desc;
-  document.getElementById('anchorNext').textContent = next.name;
-  const ml = minsUntil(h, m, zone);
-  document.getElementById('anchorMins').textContent = ml + ' min away';
-
-  // Pulse
-  const card = document.getElementById('zoneCard');
-  if (pulseOn) card.classList.add('pulse-on'); else card.classList.remove('pulse-on');
-
-  // Zone change
-  if (zone.name !== currentZoneName) { currentZoneName = zone.name; warnFired = {}; }
-
-  // Transition warning (check every minute at s===0)
-  if (s === 0 && ml === warnMins && !warnFired[zone.name + warnMins]) {
-    warnFired[zone.name + warnMins] = true;
-    showToast(zone.name + ' ends in ' + warnMins + ' min — ' + next.name + ' is next. ' + next.desc);
-    if (soundOn) playTone();
-  }
-}
-
-// ---- Focus timer ----
-function setFocus(mins, btn) {
-  resetFocus();
-  focusTotal = focusRemain = mins * 60;
-  document.getElementById('focusDisplay').textContent = fmtFocus(focusRemain);
-  document.getElementById('focusDisplay').style.color = 'var(--text)';
-  document.getElementById('focusArc').style.stroke = '#8b5cf6';
-  document.getElementById('focusArc').style.strokeDashoffset = 0;
-  document.getElementById('focusStatus').textContent = 'Ready';
-  document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('sel'));
-  if (btn) btn.classList.add('sel');
-}
-
-function toggleFocus() {
-  if (!focusRunning) {
-    focusRunning = true;
-    document.getElementById('focusStartBtn').textContent = 'Pause';
-    document.getElementById('focusStatus').textContent = 'Focusing…';
-    focusIv = setInterval(() => {
-      focusRemain--;
-      updateFocusDisplay();
-      if (focusRemain <= 0) {
-        clearInterval(focusIv); focusRunning = false;
-        document.getElementById('focusStartBtn').textContent = 'Start';
-        document.getElementById('focusStatus').textContent = 'Done — take a break.';
-        showToast('Focus session complete. Take a proper break before starting another.');
-        if (soundOn) playTone();
-      }
-    }, 1000);
-  } else {
-    clearInterval(focusIv); focusRunning = false;
-    document.getElementById('focusStartBtn').textContent = 'Resume';
-    document.getElementById('focusStatus').textContent = 'Paused';
-  }
-}
-
-function resetFocus() {
-  clearInterval(focusIv); focusRunning = false; focusRemain = focusTotal;
-  document.getElementById('focusStartBtn').textContent = 'Start';
-  document.getElementById('focusDisplay').textContent = fmtFocus(focusRemain);
-  document.getElementById('focusDisplay').style.color = 'var(--text)';
-  document.getElementById('focusArc').style.stroke = '#8b5cf6';
-  document.getElementById('focusArc').style.strokeDashoffset = 0;
-  document.getElementById('focusStatus').textContent = 'Ready';
-  if (!focusRunning) document.title = 'ADHD Clock — Time Made Visible | Timerrapp';
-}
-
-function updateFocusDisplay() {
-  const pct = focusTotal > 0 ? focusRemain / focusTotal : 0;
-  const color = pct < 0.2 ? '#ef4444' : pct < 0.5 ? '#f59e0b' : '#8b5cf6';
-  document.getElementById('focusArc').style.stroke = color;
-  document.getElementById('focusArc').style.strokeDashoffset = CIRC_FOCUS * (1 - pct);
-  document.getElementById('focusDisplay').textContent = fmtFocus(focusRemain);
-  document.getElementById('focusDisplay').style.color = pct < 0.2 ? '#ef4444' : 'var(--text)';
-  if (focusRunning) document.title = fmtFocus(focusRemain) + ' — ADHD Clock | Timerrapp';
-}
-
-// ---- Settings ----
-function toggleSetting(key) {
-  if (key === 'sound') {
-    soundOn = !soundOn;
-    const el = document.getElementById('soundToggle');
-    el.classList.toggle('on', soundOn); el.setAttribute('aria-checked', soundOn);
-    settings.sound = soundOn;
-  } else if (key === 'pulse') {
-    pulseOn = !pulseOn;
-    const el = document.getElementById('pulseToggle');
-    el.classList.toggle('on', pulseOn); el.setAttribute('aria-checked', pulseOn);
-    settings.pulse = pulseOn;
-    document.getElementById('zoneCard').classList.toggle('pulse-on', pulseOn);
-  }
-  localStorage.setItem('adhd_settings', JSON.stringify(settings));
-}
-
-function updateWarnThreshold(val) {
-  warnMins = parseInt(val);
-  document.getElementById('warnLabel').textContent = val;
-  settings.warn = warnMins; warnFired = {};
-  localStorage.setItem('adhd_settings', JSON.stringify(settings));
-}
-
-function initSettings() {
-  document.getElementById('soundToggle').classList.toggle('on', soundOn);
-  document.getElementById('pulseToggle').classList.toggle('on', pulseOn);
-  document.getElementById('warnSlider').value = warnMins;
-  document.getElementById('warnLabel').textContent = warnMins;
-}
-
-// ---- Toast ----
-function showToast(msg) {
-  document.getElementById('toastMsg').textContent = msg;
-  const toast = document.getElementById('adhdToast');
-  toast.classList.add('show');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(closeToast, 8000);
-}
-function closeToast() { document.getElementById('adhdToast').classList.remove('show'); }
-
-// ---- Lost track ----
-function lostTrack() {
-  const now = new Date();
-  const h = now.getHours(), m = now.getMinutes();
-  const zone = getZone(h);
-  const next = getNextZone(zone);
-  const ml = minsUntil(h, m, zone);
-  const { time, ampm } = fmt12(h, m);
-  const msgs = [
-    `No worries — it's ${time} ${ampm}. You're in ${zone.name} time. ${zone.desc} ${next.name} is ${ml} minutes away.`,
-    `All good. The clock says ${time} ${ampm}. You're in your ${zone.name} zone — ${zone.desc.toLowerCase()} ${next.name} begins in about ${ml} minutes.`,
-    `That's okay. Right now it's ${time} ${ampm}. ${zone.name} zone: ${zone.desc} ${next.name} is up in ${ml} min.`,
-  ];
-  document.getElementById('reorientMsg').textContent = msgs[Math.floor(Math.random() * msgs.length)];
-  const panel = document.getElementById('reorientPanel');
-  panel.classList.add('show');
-  setTimeout(() => panel.classList.remove('show'), 12000);
-}
-
-// ---- Breathing ----
-function startBreathing() {
-  breathStep = 0; breathCycle = 0;
-  document.getElementById('breathOverlay').classList.add('show');
-  document.body.style.overflow = 'hidden';
-  runBreathStep();
-}
-function runBreathStep() {
-  const phase = BREATH_SEQ[breathStep % 3];
-  document.getElementById('breathInstruction').textContent = phase.phase;
-  document.getElementById('breathSub').textContent = phase.sub;
-  const circle = document.getElementById('breathCircle');
-  circle.className = 'breath-circle';
-  void circle.offsetWidth; // reflow
-  circle.classList.add(phase.circle);
-  let cd = phase.dur;
-  document.getElementById('breathCount').textContent = cd;
-  breathIv = setInterval(() => {
-    cd--;
-    document.getElementById('breathCount').textContent = cd || '·';
-    if (cd <= 0) {
-      clearInterval(breathIv);
-      breathStep++;
-      if (breathStep % 3 === 0) breathCycle++;
-      if (breathCycle >= BREATH_TOTAL) {
-        stopBreathing();
-        showToast('Breathing complete. Take a moment before diving back in.');
-      } else { runBreathStep(); }
-    }
-  }, 1000);
-}
-function stopBreathing() {
-  clearInterval(breathIv);
-  document.getElementById('breathOverlay').classList.remove('show');
-  document.getElementById('breathCircle').className = 'breath-circle';
-  document.body.style.overflow = '';
-}
-
-// ---- Gentle tone ----
-function playTone() {
-  try {
-    const ctx = new (window.AudioContext || window.webkitAudioContext)();
-    [523, 659, 784].forEach((freq, i) => {
-      const o = ctx.createOscillator(), g = ctx.createGain();
-      o.connect(g); g.connect(ctx.destination);
-      o.type = 'sine'; o.frequency.value = freq;
-      const t = ctx.currentTime + i * 0.22;
-      g.gain.setValueAtTime(0, t);
-      g.gain.linearRampToValueAtTime(0.1, t + 0.08);
-      g.gain.exponentialRampToValueAtTime(0.001, t + 0.7);
-      o.start(t); o.stop(t + 0.8);
-    });
-  } catch(e) {}
-}
-
-// ---- Boot ----
-initSettings();
-updateZone();
-setInterval(updateZone, 1000);
-</script>
-
-  </main>
-
-  <footer>
-    <p>© 2026 Timerrapp.com &nbsp;·&nbsp; <a href="/about/">About</a></p>
-  </footer>
-
-  <script>
-    /* ---- More dropdown ---- */
-    function toggleMore() {
-      const btn = document.getElementById('moreBtn');
-      const drop = document.getElementById('moreDropdown');
-      const open = drop.classList.contains('is-open');
-      closeAllMenus();
-      if (!open) { btn.classList.add('is-open'); drop.classList.add('is-open'); }
-    }
-
-    /* ---- Skin switcher ---- */
-    function toggleSkinMenu() {
-      const menu = document.getElementById('skinMenu');
-      const open = menu.classList.contains('open');
-      closeAllMenus();
-      if (!open) menu.classList.add('open');
-    }
-
-    function closeAllMenus() {
-      document.getElementById('moreDropdown')?.classList.remove('is-open');
-      document.getElementById('moreBtn')?.classList.remove('is-open');
-      document.getElementById('skinMenu')?.classList.remove('open');
-    }
-
-    document.addEventListener('click', function(e) {
-      if (!e.target.closest('.more-wrap') && !e.target.closest('.skin-btn') && !e.target.closest('.skin-menu')) {
-        closeAllMenus();
-      }
-    });
-
-    function setSkin(theme) {
-      document.documentElement.setAttribute('data-theme', theme);
-      localStorage.setItem('timerr_theme', theme);
-      closeAllMenus();
-      updateSkinUI(theme);
-    }
-
-    function updateSkinUI(theme) {
-      document.querySelectorAll('.skin-option').forEach(o => o.classList.remove('active'));
-      document.querySelectorAll('.mob-style-btn').forEach(o => o.classList.remove('active'));
-      var opt = document.getElementById('opt-' + theme);
-      if (opt) opt.classList.add('active');
-      var mobOpt = document.getElementById('mob-opt-' + theme);
-      if (mobOpt) mobOpt.classList.add('active');
-    }
-
-    var currentTheme = localStorage.getItem('timerr_theme') || 'dark';
-    updateSkinUI(currentTheme);
-
-    /* ---- Hamburger / drawer ---- */
-    function toggleDrawer() {
-      const drawer = document.getElementById('mobileDrawer');
-      const ham    = document.getElementById('hamburger');
-      if (drawer.classList.contains('is-open')) { closeDrawer(); }
-      else { drawer.classList.add('is-open'); ham.classList.add('is-open'); document.body.style.overflow = 'hidden'; }
-    }
-    function closeDrawer() {
-      document.getElementById('mobileDrawer')?.classList.remove('is-open');
-      document.getElementById('hamburger')?.classList.remove('is-open');
-      document.body.style.overflow = '';
-    }
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') { closeDrawer(); closeAllMenus(); }
-    });
-
-    /* ---- Sound engine ---- */
-    function playSound(type) {
-      try {
-        const ctx = new (window.AudioContext || window.webkitAudioContext)();
-        const t = ctx.currentTime;
-        if (type === 'beep') {
-          tone(ctx, 880, t, 0.5, 'sine');
-        } else if (type === 'digital') {
-          tone(ctx, 1047, t, 0.15, 'square');
-          tone(ctx, 1047, t+0.2, 0.15, 'square');
-          tone(ctx, 1047, t+0.4, 0.15, 'square');
-        } else if (type === 'bells') {
-          tone(ctx, 1318, t, 0.6, 'sine');
-          tone(ctx, 1568, t+0.15, 0.6, 'sine');
-          tone(ctx, 2093, t+0.3, 0.8, 'sine');
-        } else if (type === 'chime') {
-          [523, 659, 784, 1047].forEach((f, i) => tone(ctx, f, t + i*0.18, 0.5, 'sine'));
-        } else if (type === 'alarm') {
-          for (let i = 0; i < 6; i++) {
-            tone(ctx, i%2===0 ? 880 : 1100, t + i*0.18, 0.16, 'sawtooth');
+        /* Pulse */
+        @keyframes gentlePulse {
+          0%,
+          100% {
+            box-shadow: 0 0 0 0 rgba(200, 169, 110, 0);
+          }
+          50% {
+            box-shadow: 0 0 0 8px rgba(200, 169, 110, 0.1);
           }
         }
-      } catch(e) {}
-    }
-    function tone(ctx, freq, start, dur, type) {
-      const o = ctx.createOscillator();
-      const g = ctx.createGain();
-      o.connect(g); g.connect(ctx.destination);
-      o.frequency.value = freq; o.type = type;
-      g.gain.setValueAtTime(0.25, start);
-      g.gain.exponentialRampToValueAtTime(0.001, start + dur);
-      o.start(start); o.stop(start + dur);
-    }
-  </script>
-</body>
+        .pulse-on {
+          animation: gentlePulse 3.5s ease-in-out infinite;
+        }
+      </style>
+
+      <div style="text-align: center; margin-bottom: 1.5rem">
+        <h1 class="page-title" style="margin-bottom: 0.3rem">ADHD Clock</h1>
+        <p class="page-subtitle" style="margin-bottom: 0">
+          Time made visible, calm, and structured.
+        </p>
+      </div>
+
+      <div class="adhd-wrap">
+        <!-- 1. DAY RING + ZONE ANCHOR -->
+        <div class="adhd-card" id="zoneCard">
+          <div
+            class="zone-badge"
+            id="zoneBadge"
+            style="
+              color: #6366f1;
+              border-color: #6366f133;
+              background: #6366f111;
+            "
+          >
+            Loading…
+          </div>
+          <div
+            style="
+              font-size: 0.82rem;
+              color: var(--muted);
+              font-family: var(--font-body);
+              margin-bottom: 1rem;
+            "
+            id="zoneDesc"
+          >
+            Detecting your current zone…
+          </div>
+
+          <div class="ring-wrap">
+            <svg
+              class="ring-svg"
+              width="200"
+              height="200"
+              viewBox="0 0 200 200"
+              role="img"
+              aria-label="Day progress ring"
+            >
+              <circle class="ring-bg" cx="100" cy="100" r="82" />
+              <circle
+                class="ring-arc"
+                id="ringArc"
+                cx="100"
+                cy="100"
+                r="82"
+                stroke-dasharray="515.2"
+                stroke-dashoffset="515.2"
+                stroke="#c8a96e"
+              />
+            </svg>
+            <div class="ring-center">
+              <div class="ring-time" id="ringTime">--:--</div>
+              <div class="ring-ampm" id="ringAmpm">--</div>
+              <div class="ring-date" id="ringDate">--</div>
+            </div>
+          </div>
+
+          <div class="anchor-panel">
+            <div class="anchor-item">
+              <div class="anchor-label">Right now</div>
+              <div class="anchor-value" id="anchorZone">--</div>
+              <div class="anchor-sub" id="anchorDesc">--</div>
+            </div>
+            <div class="anchor-item">
+              <div class="anchor-label">Coming up</div>
+              <div class="anchor-value" id="anchorNext">--</div>
+              <div class="anchor-sub" id="anchorMins">-- min away</div>
+            </div>
+          </div>
+
+          <button
+            class="soft-btn"
+            style="margin-top: 12px; border-style: dashed"
+            onclick="lostTrack()"
+          >
+            I lost track of time — where am I?
+          </button>
+          <div class="reorient-panel" id="reorientPanel">
+            <p id="reorientMsg"></p>
+          </div>
+        </div>
+
+        <!-- 2. FOCUS TIMER -->
+        <div class="adhd-card">
+          <div
+            style="
+              font-size: 0.72rem;
+              text-transform: uppercase;
+              letter-spacing: 0.1em;
+              color: var(--hint);
+              margin-bottom: 0.75rem;
+              font-family: var(--font-body);
+            "
+          >
+            Focus Timer
+          </div>
+
+          <div class="focus-presets">
+            <button class="preset-btn" onclick="setFocus(5, this)">
+              5 min
+            </button>
+            <button class="preset-btn sel" onclick="setFocus(10, this)">
+              10 min
+            </button>
+            <button class="preset-btn" onclick="setFocus(15, this)">
+              15 min
+            </button>
+            <button class="preset-btn" onclick="setFocus(25, this)">
+              25 min
+            </button>
+            <button class="preset-btn" onclick="setFocus(45, this)">
+              45 min
+            </button>
+          </div>
+
+          <div class="focus-ring-wrap">
+            <svg
+              width="160"
+              height="160"
+              viewBox="0 0 160 160"
+              role="img"
+              aria-label="Focus timer progress"
+            >
+              <circle
+                class="focus-bg-arc"
+                cx="80"
+                cy="80"
+                r="68"
+                transform="rotate(-90 80 80)"
+              />
+              <circle
+                class="focus-arc"
+                id="focusArc"
+                cx="80"
+                cy="80"
+                r="68"
+                stroke-dasharray="427.3"
+                stroke-dashoffset="0"
+                stroke="#8b5cf6"
+                transform="rotate(-90 80 80)"
+              />
+            </svg>
+            <div class="focus-center">
+              <div class="focus-display" id="focusDisplay">10:00</div>
+              <div class="focus-status" id="focusStatus">Ready</div>
+            </div>
+          </div>
+
+          <div class="focus-controls">
+            <button
+              class="fc-btn primary"
+              id="focusStartBtn"
+              onclick="toggleFocus()"
+            >
+              Start
+            </button>
+            <button class="fc-btn" onclick="resetFocus()">Reset</button>
+          </div>
+        </div>
+
+        <!-- 3. BREATHING BUTTON -->
+        <button
+          class="soft-btn"
+          style="padding: 14px"
+          onclick="startBreathing()"
+        >
+          Take a breathing pause
+        </button>
+
+        <!-- 4. SETTINGS -->
+        <div class="adhd-card">
+          <div
+            style="
+              font-size: 0.72rem;
+              text-transform: uppercase;
+              letter-spacing: 0.1em;
+              color: var(--hint);
+              margin-bottom: 0.75rem;
+              font-family: var(--font-body);
+            "
+          >
+            Settings
+          </div>
+
+          <div class="settings-row">
+            <div>
+              <div class="settings-label">Sound cues</div>
+              <div class="settings-sub">Gentle tone on zone transition</div>
+            </div>
+            <div
+              class="toggle-switch on"
+              id="soundToggle"
+              onclick="toggleSetting('sound')"
+              role="switch"
+              aria-checked="true"
+              aria-label="Sound cues"
+            >
+              <div class="toggle-dot"></div>
+            </div>
+          </div>
+
+          <div class="settings-row">
+            <div>
+              <div class="settings-label">Pulse animation</div>
+              <div class="settings-sub">Soft glow on the zone card</div>
+            </div>
+            <div
+              class="toggle-switch on"
+              id="pulseToggle"
+              onclick="toggleSetting('pulse')"
+              role="switch"
+              aria-checked="true"
+              aria-label="Pulse animation"
+            >
+              <div class="toggle-dot"></div>
+            </div>
+          </div>
+
+          <div class="settings-row">
+            <div>
+              <div class="settings-label">
+                Warn <span id="warnLabel">5</span> min before zone ends
+              </div>
+              <div class="settings-sub">
+                Gentle notification before transitions
+              </div>
+            </div>
+            <input
+              type="range"
+              class="warn-slider"
+              id="warnSlider"
+              min="1"
+              max="15"
+              value="5"
+              oninput="updateWarnThreshold(this.value)"
+              aria-label="Warning threshold in minutes"
+            />
+          </div>
+        </div>
+
+        <section
+          style="
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            text-align: left;
+          "
+        >
+          <h2
+            style="
+              font-family: var(--font-heading);
+              font-size: 1.3rem;
+              font-weight: 400;
+              margin-bottom: 0.75rem;
+            "
+          >
+            Free visual timer for ADHD and time blindness
+          </h2>
+          <p
+            style="
+              color: var(--muted);
+              font-size: 0.9rem;
+              line-height: 1.75;
+              font-family: var(--font-body);
+              margin-bottom: 1rem;
+            "
+          >
+            This ADHD timer makes time visible instead of abstract. Rather than
+            showing a number counting down, a shrinking ring lets you see at a
+            glance how much time remains — no mental math, no guessing. It's
+            designed specifically for the way ADHD brains experience time:
+            either "now" or "not now," with nothing reliable in between.
+          </p>
+
+          <h3
+            style="
+              font-family: var(--font-heading);
+              font-size: 1.1rem;
+              font-weight: 400;
+              margin-bottom: 0.5rem;
+            "
+          >
+            What is time blindness?
+          </h3>
+          <p
+            style="
+              color: var(--muted);
+              font-size: 0.9rem;
+              line-height: 1.75;
+              font-family: var(--font-body);
+              margin-bottom: 1rem;
+            "
+          >
+            Time blindness is a well-documented challenge common in ADHD — the
+            inability to sense how much time has passed or accurately estimate
+            how long a task will take. A standard digital clock showing "14:37"
+            doesn't help, because the number requires mental processing. A
+            visual timer that shrinks as time passes gives your brain a
+            concrete, immediate signal it can actually use.
+          </p>
+
+          <h3
+            style="
+              font-family: var(--font-heading);
+              font-size: 1.1rem;
+              font-weight: 400;
+              margin-bottom: 0.5rem;
+            "
+          >
+            How to use this timer for focus sessions
+          </h3>
+          <p
+            style="
+              color: var(--muted);
+              font-size: 0.9rem;
+              line-height: 1.75;
+              font-family: var(--font-body);
+              margin-bottom: 1rem;
+            "
+          >
+            Start with 10 or 15 minutes — short enough to feel manageable, long
+            enough to make real progress. Type one task in the box. Press Start.
+            The ring handles the rest. When it ends, take the break the timer
+            offers — skipping breaks leads to burnout, and the break is part of
+            why the system works. The +2 min and +5 min buttons are there for
+            when you're in flow and need a little more time without stopping to
+            reset.
+          </p>
+
+          <h3
+            style="
+              font-family: var(--font-heading);
+              font-size: 1.1rem;
+              font-weight: 400;
+              margin-bottom: 0.5rem;
+            "
+          >
+            Why no ticking?
+          </h3>
+          <p
+            style="
+              color: var(--muted);
+              font-size: 0.9rem;
+              line-height: 1.75;
+              font-family: var(--font-body);
+            "
+          >
+            Ticking sounds are grounding for some people and actively
+            distracting for others — particularly for those with sensory
+            sensitivities common in ADHD and autism. This timer produces no
+            ticking at any point. The only sounds are the optional gentle chime
+            at completion and the soft tone on zone transitions, both of which
+            can be turned off entirely in Settings.
+          </p>
+        </section>
+      </div>
+      <!-- end .adhd-wrap -->
+
+      <!-- Toast — invisible until triggered -->
+      <div class="adhd-toast" id="adhdToast" role="alert" aria-live="polite">
+        <div class="toast-msg" id="toastMsg">Zone transition coming up.</div>
+        <button class="toast-close" onclick="closeToast()">Got it</button>
+      </div>
+
+      <!-- Breathing overlay -->
+      <div
+        class="breathing-overlay"
+        id="breathOverlay"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Breathing exercise"
+      >
+        <div class="breath-circle" id="breathCircle">
+          <svg
+            width="28"
+            height="28"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="var(--accent)"
+            stroke-width="1.5"
+          >
+            <path
+              d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"
+            />
+            <path d="M8 12h8M12 8v8" />
+          </svg>
+        </div>
+        <div class="breath-instruction" id="breathInstruction">Get ready</div>
+        <div class="breath-count" id="breathCount">·</div>
+        <div class="breath-sub" id="breathSub">Find a comfortable position</div>
+        <button class="breath-stop" onclick="stopBreathing()">Stop</button>
+      </div>
+
+      <script>
+        const ZONES = [
+          {
+            name: 'Night',
+            start: 0,
+            end: 6,
+            color: '#6366f1',
+            desc: "Rest time. You don't have to be productive right now."
+          },
+          {
+            name: 'Morning',
+            start: 6,
+            end: 11,
+            color: '#f59e0b',
+            desc: 'Ease in. Good for lighter tasks and planning.'
+          },
+          {
+            name: 'Focus',
+            start: 11,
+            end: 16,
+            color: '#10b981',
+            desc: 'Peak energy window. Great for deep work.'
+          },
+          {
+            name: 'Break',
+            start: 16,
+            end: 17,
+            color: '#ec4899',
+            desc: 'Step away. Rest your brain for a bit.'
+          },
+          {
+            name: 'Evening',
+            start: 17,
+            end: 21,
+            color: '#8b5cf6',
+            desc: 'Wind down. Creative or social tasks fit well here.'
+          }
+        ];
+
+        const CIRC_RING = 515.2;
+        const CIRC_FOCUS = 427.3;
+
+        // Settings from localStorage
+        let settings = JSON.parse(
+          localStorage.getItem('adhd_settings') || '{}'
+        );
+        let soundOn = settings.sound !== false;
+        let pulseOn = settings.pulse !== false;
+        let warnMins = settings.warn || 5;
+
+        // Focus timer state
+        let focusTotal = 10 * 60;
+        let focusRemain = focusTotal;
+        let focusRunning = false;
+        let focusIv = null;
+
+        // Zone transition state
+        let warnFired = {};
+        let currentZoneName = '';
+        let toastTimer = null;
+
+        // Breathing state
+        let breathIv = null;
+        let breathStep = 0;
+        let breathCycle = 0;
+        const BREATH_TOTAL = 3;
+        const BREATH_SEQ = [
+          {
+            phase: 'Breathe in',
+            dur: 4,
+            sub: 'Through your nose',
+            circle: 'expand'
+          },
+          { name: 'Hold', dur: 4, sub: 'Stay still', circle: 'hold' },
+          {
+            phase: 'Breathe out',
+            dur: 4,
+            sub: 'Slowly through your mouth',
+            circle: 'shrink'
+          }
+        ];
+        // fix missing phase key on hold
+        BREATH_SEQ[1].phase = 'Hold';
+
+        // ---- Helpers ----
+        function getZone(h) {
+          return ZONES.find((z) => z.start <= h && h < z.end) || ZONES[0];
+        }
+        function getNextZone(z) {
+          return ZONES[(ZONES.indexOf(z) + 1) % ZONES.length];
+        }
+        function minsUntil(h, m, zone) {
+          let diff = zone.end * 60 - (h * 60 + m);
+          if (diff < 0) diff += 1440;
+          return diff;
+        }
+        function fmt12(h, m) {
+          const ampm = h >= 12 ? 'PM' : 'AM';
+          const h12 = h % 12 || 12;
+          return {
+            time:
+              String(h12).padStart(2, '0') + ':' + String(m).padStart(2, '0'),
+            ampm
+          };
+        }
+        function fmtFocus(s) {
+          return (
+            String(Math.floor(s / 60)).padStart(2, '0') +
+            ':' +
+            String(s % 60).padStart(2, '0')
+          );
+        }
+
+        // ---- Zone ring ----
+        function updateZone() {
+          const now = new Date();
+          const h = now.getHours(),
+            m = now.getMinutes(),
+            s = now.getSeconds();
+          const zone = getZone(h);
+          const next = getNextZone(zone);
+
+          // Clock
+          const { time, ampm } = fmt12(h, m);
+          document.getElementById('ringTime').textContent = time;
+          document.getElementById('ringAmpm').textContent = ampm;
+          document.getElementById('ringDate').textContent =
+            now.toLocaleDateString('en-US', {
+              weekday: 'short',
+              month: 'short',
+              day: 'numeric'
+            });
+
+          // Arc — minutes since midnight / 1440
+          const pct = (h * 60 + m) / 1440;
+          document.getElementById('ringArc').style.strokeDashoffset =
+            CIRC_RING * (1 - pct);
+          document.getElementById('ringArc').style.stroke = zone.color;
+
+          // Zone badge
+          const badge = document.getElementById('zoneBadge');
+          badge.textContent = zone.name;
+          badge.style.color = zone.color;
+          badge.style.borderColor = zone.color + '44';
+          badge.style.background = zone.color + '11';
+          document.getElementById('zoneDesc').textContent = zone.desc;
+          document.getElementById('zoneCard').style.borderColor =
+            zone.color + '44';
+
+          // Anchor
+          document.getElementById('anchorZone').textContent = zone.name;
+          document.getElementById('anchorDesc').textContent = zone.desc;
+          document.getElementById('anchorNext').textContent = next.name;
+          const ml = minsUntil(h, m, zone);
+          document.getElementById('anchorMins').textContent = ml + ' min away';
+
+          // Pulse
+          const card = document.getElementById('zoneCard');
+          if (pulseOn) card.classList.add('pulse-on');
+          else card.classList.remove('pulse-on');
+
+          // Zone change
+          if (zone.name !== currentZoneName) {
+            currentZoneName = zone.name;
+            warnFired = {};
+          }
+
+          // Transition warning (check every minute at s===0)
+          if (s === 0 && ml === warnMins && !warnFired[zone.name + warnMins]) {
+            warnFired[zone.name + warnMins] = true;
+            showToast(
+              zone.name +
+                ' ends in ' +
+                warnMins +
+                ' min — ' +
+                next.name +
+                ' is next. ' +
+                next.desc
+            );
+            if (soundOn) playTone();
+          }
+        }
+
+        // ---- Focus timer ----
+        function setFocus(mins, btn) {
+          resetFocus();
+          focusTotal = focusRemain = mins * 60;
+          document.getElementById('focusDisplay').textContent =
+            fmtFocus(focusRemain);
+          document.getElementById('focusDisplay').style.color = 'var(--text)';
+          document.getElementById('focusArc').style.stroke = '#8b5cf6';
+          document.getElementById('focusArc').style.strokeDashoffset = 0;
+          document.getElementById('focusStatus').textContent = 'Ready';
+          document
+            .querySelectorAll('.preset-btn')
+            .forEach((b) => b.classList.remove('sel'));
+          if (btn) btn.classList.add('sel');
+        }
+
+        function toggleFocus() {
+          if (!focusRunning) {
+            focusRunning = true;
+            document.getElementById('focusStartBtn').textContent = 'Pause';
+            document.getElementById('focusStatus').textContent = 'Focusing…';
+            focusIv = setInterval(() => {
+              focusRemain--;
+              updateFocusDisplay();
+              if (focusRemain <= 0) {
+                clearInterval(focusIv);
+                focusRunning = false;
+                document.getElementById('focusStartBtn').textContent = 'Start';
+                document.getElementById('focusStatus').textContent =
+                  'Done — take a break.';
+                showToast(
+                  'Focus session complete. Take a proper break before starting another.'
+                );
+                if (soundOn) playTone();
+              }
+            }, 1000);
+          } else {
+            clearInterval(focusIv);
+            focusRunning = false;
+            document.getElementById('focusStartBtn').textContent = 'Resume';
+            document.getElementById('focusStatus').textContent = 'Paused';
+          }
+        }
+
+        function resetFocus() {
+          clearInterval(focusIv);
+          focusRunning = false;
+          focusRemain = focusTotal;
+          document.getElementById('focusStartBtn').textContent = 'Start';
+          document.getElementById('focusDisplay').textContent =
+            fmtFocus(focusRemain);
+          document.getElementById('focusDisplay').style.color = 'var(--text)';
+          document.getElementById('focusArc').style.stroke = '#8b5cf6';
+          document.getElementById('focusArc').style.strokeDashoffset = 0;
+          document.getElementById('focusStatus').textContent = 'Ready';
+          if (!focusRunning)
+            document.title = 'ADHD Clock — Time Made Visible | Timerrapp';
+        }
+
+        function updateFocusDisplay() {
+          const pct = focusTotal > 0 ? focusRemain / focusTotal : 0;
+          const color =
+            pct < 0.2 ? '#ef4444' : pct < 0.5 ? '#f59e0b' : '#8b5cf6';
+          document.getElementById('focusArc').style.stroke = color;
+          document.getElementById('focusArc').style.strokeDashoffset =
+            CIRC_FOCUS * (1 - pct);
+          document.getElementById('focusDisplay').textContent =
+            fmtFocus(focusRemain);
+          document.getElementById('focusDisplay').style.color =
+            pct < 0.2 ? '#ef4444' : 'var(--text)';
+          if (focusRunning)
+            document.title =
+              fmtFocus(focusRemain) + ' — ADHD Clock | Timerrapp';
+        }
+
+        // ---- Settings ----
+        function toggleSetting(key) {
+          if (key === 'sound') {
+            soundOn = !soundOn;
+            const el = document.getElementById('soundToggle');
+            el.classList.toggle('on', soundOn);
+            el.setAttribute('aria-checked', soundOn);
+            settings.sound = soundOn;
+          } else if (key === 'pulse') {
+            pulseOn = !pulseOn;
+            const el = document.getElementById('pulseToggle');
+            el.classList.toggle('on', pulseOn);
+            el.setAttribute('aria-checked', pulseOn);
+            settings.pulse = pulseOn;
+            document
+              .getElementById('zoneCard')
+              .classList.toggle('pulse-on', pulseOn);
+          }
+          localStorage.setItem('adhd_settings', JSON.stringify(settings));
+        }
+
+        function updateWarnThreshold(val) {
+          warnMins = parseInt(val);
+          document.getElementById('warnLabel').textContent = val;
+          settings.warn = warnMins;
+          warnFired = {};
+          localStorage.setItem('adhd_settings', JSON.stringify(settings));
+        }
+
+        function initSettings() {
+          document
+            .getElementById('soundToggle')
+            .classList.toggle('on', soundOn);
+          document
+            .getElementById('pulseToggle')
+            .classList.toggle('on', pulseOn);
+          document.getElementById('warnSlider').value = warnMins;
+          document.getElementById('warnLabel').textContent = warnMins;
+        }
+
+        // ---- Toast ----
+        function showToast(msg) {
+          document.getElementById('toastMsg').textContent = msg;
+          const toast = document.getElementById('adhdToast');
+          toast.classList.add('show');
+          clearTimeout(toastTimer);
+          toastTimer = setTimeout(closeToast, 8000);
+        }
+        function closeToast() {
+          document.getElementById('adhdToast').classList.remove('show');
+        }
+
+        // ---- Lost track ----
+        function lostTrack() {
+          const now = new Date();
+          const h = now.getHours(),
+            m = now.getMinutes();
+          const zone = getZone(h);
+          const next = getNextZone(zone);
+          const ml = minsUntil(h, m, zone);
+          const { time, ampm } = fmt12(h, m);
+          const msgs = [
+            `No worries — it's ${time} ${ampm}. You're in ${zone.name} time. ${zone.desc} ${next.name} is ${ml} minutes away.`,
+            `All good. The clock says ${time} ${ampm}. You're in your ${zone.name} zone — ${zone.desc.toLowerCase()} ${next.name} begins in about ${ml} minutes.`,
+            `That's okay. Right now it's ${time} ${ampm}. ${zone.name} zone: ${zone.desc} ${next.name} is up in ${ml} min.`
+          ];
+          document.getElementById('reorientMsg').textContent =
+            msgs[Math.floor(Math.random() * msgs.length)];
+          const panel = document.getElementById('reorientPanel');
+          panel.classList.add('show');
+          setTimeout(() => panel.classList.remove('show'), 12000);
+        }
+
+        // ---- Breathing ----
+        function startBreathing() {
+          breathStep = 0;
+          breathCycle = 0;
+          document.getElementById('breathOverlay').classList.add('show');
+          document.body.style.overflow = 'hidden';
+          runBreathStep();
+        }
+        function runBreathStep() {
+          const phase = BREATH_SEQ[breathStep % 3];
+          document.getElementById('breathInstruction').textContent =
+            phase.phase;
+          document.getElementById('breathSub').textContent = phase.sub;
+          const circle = document.getElementById('breathCircle');
+          circle.className = 'breath-circle';
+          void circle.offsetWidth; // reflow
+          circle.classList.add(phase.circle);
+          let cd = phase.dur;
+          document.getElementById('breathCount').textContent = cd;
+          breathIv = setInterval(() => {
+            cd--;
+            document.getElementById('breathCount').textContent = cd || '·';
+            if (cd <= 0) {
+              clearInterval(breathIv);
+              breathStep++;
+              if (breathStep % 3 === 0) breathCycle++;
+              if (breathCycle >= BREATH_TOTAL) {
+                stopBreathing();
+                showToast(
+                  'Breathing complete. Take a moment before diving back in.'
+                );
+              } else {
+                runBreathStep();
+              }
+            }
+          }, 1000);
+        }
+        function stopBreathing() {
+          clearInterval(breathIv);
+          document.getElementById('breathOverlay').classList.remove('show');
+          document.getElementById('breathCircle').className = 'breath-circle';
+          document.body.style.overflow = '';
+        }
+
+        // ---- Gentle tone ----
+        function playTone() {
+          try {
+            const ctx = new (
+              window.AudioContext || window.webkitAudioContext
+            )();
+            [523, 659, 784].forEach((freq, i) => {
+              const o = ctx.createOscillator(),
+                g = ctx.createGain();
+              o.connect(g);
+              g.connect(ctx.destination);
+              o.type = 'sine';
+              o.frequency.value = freq;
+              const t = ctx.currentTime + i * 0.22;
+              g.gain.setValueAtTime(0, t);
+              g.gain.linearRampToValueAtTime(0.1, t + 0.08);
+              g.gain.exponentialRampToValueAtTime(0.001, t + 0.7);
+              o.start(t);
+              o.stop(t + 0.8);
+            });
+          } catch (e) {}
+        }
+
+        // ---- Boot ----
+        initSettings();
+        updateZone();
+        setInterval(updateZone, 1000);
+      </script>
+    </main>
+
+    <footer>
+      <p>© 2026 Timerrapp.com &nbsp;·&nbsp; <a href="/about/">About</a></p>
+    </footer>
+
+    <script>
+      /* ---- More dropdown ---- */
+      function toggleMore() {
+        const btn = document.getElementById('moreBtn');
+        const drop = document.getElementById('moreDropdown');
+        const open = drop.classList.contains('is-open');
+        closeAllMenus();
+        if (!open) {
+          btn.classList.add('is-open');
+          drop.classList.add('is-open');
+        }
+      }
+
+      /* ---- Skin switcher ---- */
+      function toggleSkinMenu() {
+        const menu = document.getElementById('skinMenu');
+        const open = menu.classList.contains('open');
+        closeAllMenus();
+        if (!open) menu.classList.add('open');
+      }
+
+      function closeAllMenus() {
+        document.getElementById('moreDropdown')?.classList.remove('is-open');
+        document.getElementById('moreBtn')?.classList.remove('is-open');
+        document.getElementById('skinMenu')?.classList.remove('open');
+      }
+
+      document.addEventListener('click', function (e) {
+        if (
+          !e.target.closest('.more-wrap') &&
+          !e.target.closest('.skin-btn') &&
+          !e.target.closest('.skin-menu')
+        ) {
+          closeAllMenus();
+        }
+      });
+
+      function setSkin(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem('timerr_theme', theme);
+        closeAllMenus();
+        updateSkinUI(theme);
+      }
+
+      function updateSkinUI(theme) {
+        document
+          .querySelectorAll('.skin-option')
+          .forEach((o) => o.classList.remove('active'));
+        document
+          .querySelectorAll('.mob-style-btn')
+          .forEach((o) => o.classList.remove('active'));
+        var opt = document.getElementById('opt-' + theme);
+        if (opt) opt.classList.add('active');
+        var mobOpt = document.getElementById('mob-opt-' + theme);
+        if (mobOpt) mobOpt.classList.add('active');
+      }
+
+      var currentTheme = localStorage.getItem('timerr_theme') || 'dark';
+      updateSkinUI(currentTheme);
+
+      /* ---- Hamburger / drawer ---- */
+      function toggleDrawer() {
+        const drawer = document.getElementById('mobileDrawer');
+        const ham = document.getElementById('hamburger');
+        if (drawer.classList.contains('is-open')) {
+          closeDrawer();
+        } else {
+          drawer.classList.add('is-open');
+          ham.classList.add('is-open');
+          document.body.style.overflow = 'hidden';
+        }
+      }
+      function closeDrawer() {
+        document.getElementById('mobileDrawer')?.classList.remove('is-open');
+        document.getElementById('hamburger')?.classList.remove('is-open');
+        document.body.style.overflow = '';
+      }
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') {
+          closeDrawer();
+          closeAllMenus();
+        }
+      });
+
+      /* ---- Sound engine ---- */
+      function playSound(type) {
+        try {
+          const ctx = new (window.AudioContext || window.webkitAudioContext)();
+          const t = ctx.currentTime;
+          if (type === 'beep') {
+            tone(ctx, 880, t, 0.5, 'sine');
+          } else if (type === 'digital') {
+            tone(ctx, 1047, t, 0.15, 'square');
+            tone(ctx, 1047, t + 0.2, 0.15, 'square');
+            tone(ctx, 1047, t + 0.4, 0.15, 'square');
+          } else if (type === 'bells') {
+            tone(ctx, 1318, t, 0.6, 'sine');
+            tone(ctx, 1568, t + 0.15, 0.6, 'sine');
+            tone(ctx, 2093, t + 0.3, 0.8, 'sine');
+          } else if (type === 'chime') {
+            [523, 659, 784, 1047].forEach((f, i) =>
+              tone(ctx, f, t + i * 0.18, 0.5, 'sine')
+            );
+          } else if (type === 'alarm') {
+            for (let i = 0; i < 6; i++) {
+              tone(
+                ctx,
+                i % 2 === 0 ? 880 : 1100,
+                t + i * 0.18,
+                0.16,
+                'sawtooth'
+              );
+            }
+          }
+        } catch (e) {}
+      }
+      function tone(ctx, freq, start, dur, type) {
+        const o = ctx.createOscillator();
+        const g = ctx.createGain();
+        o.connect(g);
+        g.connect(ctx.destination);
+        o.frequency.value = freq;
+        o.type = type;
+        g.gain.setValueAtTime(0.25, start);
+        g.gain.exponentialRampToValueAtTime(0.001, start + dur);
+        o.start(start);
+        o.stop(start + dur);
+      }
+    </script>
+  </body>
 </html>

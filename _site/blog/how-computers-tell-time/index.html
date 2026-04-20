@@ -1,801 +1,1205 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" data-theme="dark">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How Does Your Computer Know What Time It Is?</title>
-  <meta name="description" content="NTP, atomic clocks, leap seconds, and why your computer&#39;s clock is almost certainly accurate to within a fraction of a second — explained simply.">
-  <link rel="canonical" href="https://timerrapp.com/blog/how-computers-tell-time/">
-  <meta name="google-site-verification" content="l7y9RLTGEQ9oIRfnLf-2oNWYb8G-ovdbaUHeK7o4ko8">
-  <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
-  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400&family=DM+Sans:wght@300;400;500&family=Instrument+Serif:ital@0;1&family=Nunito:wght@400;600;700;800;900&family=Nunito+Sans:wght@400;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>How Does Your Computer Know What Time It Is?</title>
+    <meta
+      name="description"
+      content="NTP, atomic clocks, leap seconds, and why your computer&#39;s clock is almost certainly accurate to within a fraction of a second — explained simply."
+    />
+    <link
+      rel="canonical"
+      href="https://timerrapp.com/blog/how-computers-tell-time/"
+    />
+    <meta
+      name="google-site-verification"
+      content="l7y9RLTGEQ9oIRfnLf-2oNWYb8G-ovdbaUHeK7o4ko8"
+    />
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/assets/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/assets/favicon-16x16.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/assets/apple-touch-icon.png"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400&family=DM+Sans:wght@300;400;500&family=Instrument+Serif:ital@0;1&family=Nunito:wght@400;600;700;800;900&family=Nunito+Sans:wght@400;600;700&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
-  <script>
-    (function() {
-      var t = localStorage.getItem('timerr_theme') || 'kawaii';
-      document.documentElement.setAttribute('data-theme', t);
-    })();
-  </script>
+    <script>
+      (function () {
+        var t = localStorage.getItem('timerr_theme') || 'kawaii';
+        document.documentElement.setAttribute('data-theme', t);
+      })();
+    </script>
 
-  <style>
-    /* ===================== DARK THEME (default) ===================== */
-    :root,
-    [data-theme="dark"] {
-      --bg: #0a0a0f;
-      --surface: #13131a;
-      --surface2: #1c1c26;
-      --border: rgba(255,255,255,0.08);
-      --border2: rgba(255,255,255,0.14);
-      --text: #f0ede8;
-      --muted: rgba(240,237,232,0.45);
-      --hint: rgba(240,237,232,0.2);
-      --accent: #c8a96e;
-      --danger: #e05c5c;
-      --success: #5ce0a0;
-      --bg-image: url('/assets/mountain-1.webp');
-      --bg-image-opacity: 0.2;
-      --header-bg: rgba(10,10,15,0.4);
-      --glass-bg: rgba(255,255,255,0.05);
-      --glass-border: rgba(96,96,96,0.1);
-      --font-heading: 'Instrument Serif', serif;
-      --font-body: 'DM Sans', sans-serif;
-      --font-mono: 'DM Mono', monospace;
-      --btn-radius: 10px;
-      --btn-border: none;
-      --btn-shadow: none;
-      --logo-style: italic;
-      --icon-lib: phosphor;
-    }
+    <style>
+      /* ===================== DARK THEME (default) ===================== */
+      :root,
+      [data-theme='dark'] {
+        --bg: #0a0a0f;
+        --surface: #13131a;
+        --surface2: #1c1c26;
+        --border: rgba(255, 255, 255, 0.08);
+        --border2: rgba(255, 255, 255, 0.14);
+        --text: #f0ede8;
+        --muted: rgba(240, 237, 232, 0.45);
+        --hint: rgba(240, 237, 232, 0.2);
+        --accent: #c8a96e;
+        --danger: #e05c5c;
+        --success: #5ce0a0;
+        --bg-image: url('/assets/mountain-1.webp');
+        --bg-image-opacity: 0.2;
+        --header-bg: rgba(10, 10, 15, 0.4);
+        --glass-bg: rgba(255, 255, 255, 0.05);
+        --glass-border: rgba(96, 96, 96, 0.1);
+        --font-heading: 'Instrument Serif', serif;
+        --font-body: 'DM Sans', sans-serif;
+        --font-mono: 'DM Mono', monospace;
+        --btn-radius: 10px;
+        --btn-border: none;
+        --btn-shadow: none;
+        --logo-style: italic;
+        --icon-lib: phosphor;
+      }
 
-    /* ===================== KAWAII THEME ===================== */
-    [data-theme="kawaii"] {
-      --bg: #e8e0f5;
-      --surface: #f2eefb;
-      --surface2: #ede6f8;
-      --border: rgba(100,80,160,0.15);
-      --border2: rgba(100,80,160,0.25);
-      --text: #1a1a2e;
-      --muted: #4a3c6e;
-      --hint: #6a5a9a;
-      --accent: #e8602c;
-      --accent-hover: #f07040;
-      --accent-active: #c94e1e;
-      --danger: #e05c5c;
-      --success: #7ecec8;
-      --bg-image: url('/assets/fun-mtn.webp');
-      --bg-image-opacity: 0.35;
-      --header-bg: rgba(232,224,245,0.7);
-      --glass-bg: rgba(255,255,255,0.55);
-      --glass-border: rgba(0,0,0,1);
-      --font-heading: 'Nunito', sans-serif;
-      --font-body: 'Nunito Sans', sans-serif;
-      --font-mono: 'Space Mono', monospace;
-      --btn-radius: 10px;
-      --btn-border: 3.5px solid #000000;
-      --btn-shadow: 4px 4px 0px #000000;
-      --logo-style: normal;
-      --icon-lib: lucide;
-    }
+      /* ===================== KAWAII THEME ===================== */
+      [data-theme='kawaii'] {
+        --bg: #e8e0f5;
+        --surface: #f2eefb;
+        --surface2: #ede6f8;
+        --border: rgba(100, 80, 160, 0.15);
+        --border2: rgba(100, 80, 160, 0.25);
+        --text: #1a1a2e;
+        --muted: #4a3c6e;
+        --hint: #6a5a9a;
+        --accent: #e8602c;
+        --accent-hover: #f07040;
+        --accent-active: #c94e1e;
+        --danger: #e05c5c;
+        --success: #7ecec8;
+        --bg-image: url('/assets/fun-mtn.webp');
+        --bg-image-opacity: 0.35;
+        --header-bg: rgba(232, 224, 245, 0.7);
+        --glass-bg: rgba(255, 255, 255, 0.55);
+        --glass-border: rgba(0, 0, 0, 1);
+        --font-heading: 'Nunito', sans-serif;
+        --font-body: 'Nunito Sans', sans-serif;
+        --font-mono: 'Space Mono', monospace;
+        --btn-radius: 10px;
+        --btn-border: 3.5px solid #000000;
+        --btn-shadow: 4px 4px 0px #000000;
+        --logo-style: normal;
+        --icon-lib: lucide;
+      }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
 
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: var(--font-body);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      transition: background 0.3s, color 0.3s;
-    }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--font-body);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        transition:
+          background 0.3s,
+          color 0.3s;
+      }
 
-    body::before {
-      content: '';
-      position: fixed; inset: 0;
-      background-image: var(--bg-image);
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      opacity: var(--bg-image-opacity);
-      pointer-events: none;
-      z-index: 0;
-      transition: opacity 0.3s, background-image 0.3s;
-    }
+      body::before {
+        content: '';
+        position: fixed;
+        inset: 0;
+        background-image: var(--bg-image);
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        opacity: var(--bg-image-opacity);
+        pointer-events: none;
+        z-index: 0;
+        transition:
+          opacity 0.3s,
+          background-image 0.3s;
+      }
 
-    [data-theme="dark"] body::after {
-      content: '';
-      position: fixed; inset: 0;
-      background-image:
-        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
-      background-size: 48px 48px;
-      pointer-events: none;
-      z-index: 0;
-    }
+      [data-theme='dark'] body::after {
+        content: '';
+        position: fixed;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+          linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.025) 1px,
+            transparent 1px
+          );
+        background-size: 48px 48px;
+        pointer-events: none;
+        z-index: 0;
+      }
 
-    /* ===================== HEADER ===================== */
-    header {
-      position: relative; z-index: 10;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 1.25rem 2.5rem;
-      border-bottom: 1px solid var(--border);
-      background: var(--header-bg);
-      box-shadow: 0 1px 0 rgba(255,255,255,0.05), 0 4px 24px rgba(0,0,0,0.1);
-      transition: background 0.3s;
-    }
-    [data-theme="dark"] header {
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-    }
-    [data-theme="kawaii"] header {
-      backdrop-filter: none;
-      -webkit-backdrop-filter: none;
-      border-bottom: 2.5px solid #000;
-      box-shadow: 0 3px 0 #000;
-    }
+      /* ===================== HEADER ===================== */
+      header {
+        position: relative;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1.25rem 2.5rem;
+        border-bottom: 1px solid var(--border);
+        background: var(--header-bg);
+        box-shadow:
+          0 1px 0 rgba(255, 255, 255, 0.05),
+          0 4px 24px rgba(0, 0, 0, 0.1);
+        transition: background 0.3s;
+      }
+      [data-theme='dark'] header {
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+      }
+      [data-theme='kawaii'] header {
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        border-bottom: 2.5px solid #000;
+        box-shadow: 0 3px 0 #000;
+      }
 
-    .logo {
-      font-family: var(--font-heading);
-      font-size: 1.85rem;
-      color: var(--text);
-      text-decoration: none;
-      transition: color 0.3s;
-    }
-    [data-theme="dark"] .logo span { color: var(--accent); font-style: italic; }
-    [data-theme="kawaii"] .logo { font-weight: 800; }
-    [data-theme="kawaii"] .logo span { color: var(--accent); font-style: normal; font-weight: 900; }
+      .logo {
+        font-family: var(--font-heading);
+        font-size: 1.85rem;
+        color: var(--text);
+        text-decoration: none;
+        transition: color 0.3s;
+      }
+      [data-theme='dark'] .logo span {
+        color: var(--accent);
+        font-style: italic;
+      }
+      [data-theme='kawaii'] .logo {
+        font-weight: 800;
+      }
+      [data-theme='kawaii'] .logo span {
+        color: var(--accent);
+        font-style: normal;
+        font-weight: 900;
+      }
 
-    nav { display: flex; gap: 4px; align-items: center; }
-    nav a {
-      color: var(--muted);
-      text-decoration: none;
-      padding: 6px 14px;
-      border-radius: 100px;
-      font-size: 0.85rem;
-      border: 1px solid transparent;
-      transition: all 0.2s;
-      font-family: var(--font-body);
-    }
-    [data-theme="dark"] nav a:hover,
-    [data-theme="dark"] nav a.active {
-      color: var(--text);
-      background: var(--glass-bg);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-color: var(--border2);
-    }
-    [data-theme="kawaii"] nav a:hover,
-    [data-theme="kawaii"] nav a.active {
-      color: var(--text);
-      background: rgba(255,255,255,0.85);
-      border: 1px solid #000;
-      box-shadow: 2px 2px 0px #000;
-      backdrop-filter: none;
-    }
+      nav {
+        display: flex;
+        gap: 4px;
+        align-items: center;
+      }
+      nav a {
+        color: var(--muted);
+        text-decoration: none;
+        padding: 6px 14px;
+        border-radius: 100px;
+        font-size: 0.85rem;
+        border: 1px solid transparent;
+        transition: all 0.2s;
+        font-family: var(--font-body);
+      }
+      [data-theme='dark'] nav a:hover,
+      [data-theme='dark'] nav a.active {
+        color: var(--text);
+        background: var(--glass-bg);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-color: var(--border2);
+      }
+      [data-theme='kawaii'] nav a:hover,
+      [data-theme='kawaii'] nav a.active {
+        color: var(--text);
+        background: rgba(255, 255, 255, 0.85);
+        border: 1px solid #000;
+        box-shadow: 2px 2px 0px #000;
+        backdrop-filter: none;
+      }
 
-    /* ===================== SKIN SWITCHER ===================== */
-    .skin-btn {
-      border-radius: 100px;
-      padding: 6px 12px;
-      cursor: pointer;
-      font-size: 0.8rem;
-      font-family: var(--font-body);
-      display: flex; align-items: center; gap: 6px;
-      transition: all 0.2s;
-      white-space: nowrap;
-    }
-    [data-theme="dark"] .skin-btn {
-      background: var(--glass-bg);
-      border: 1px solid var(--border2);
-      color: var(--muted);
-    }
-    [data-theme="dark"] .skin-btn:hover { color: var(--text); border-color: var(--accent); }
-    [data-theme="kawaii"] .skin-btn {
-      border: 2.5px solid #000;
-      box-shadow: 2px 2px 0px #000;
-      background: rgba(255,255,255,0.85);
-      color: #000;
-      font-weight: 700;
-    }
-    [data-theme="kawaii"] .skin-btn:hover {
-      background: var(--accent);
-      transform: translate(-1px,-1px);
-      box-shadow: 3px 3px 0px #000;
-    }
-    [data-theme="kawaii"] .skin-btn:hover i{
-      color: #000 !important;
-    }
+      /* ===================== SKIN SWITCHER ===================== */
+      .skin-btn {
+        border-radius: 100px;
+        padding: 6px 12px;
+        cursor: pointer;
+        font-size: 0.8rem;
+        font-family: var(--font-body);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        transition: all 0.2s;
+        white-space: nowrap;
+      }
+      [data-theme='dark'] .skin-btn {
+        background: var(--glass-bg);
+        border: 1px solid var(--border2);
+        color: var(--muted);
+      }
+      [data-theme='dark'] .skin-btn:hover {
+        color: var(--text);
+        border-color: var(--accent);
+      }
+      [data-theme='kawaii'] .skin-btn {
+        border: 2.5px solid #000;
+        box-shadow: 2px 2px 0px #000;
+        background: rgba(255, 255, 255, 0.85);
+        color: #000;
+        font-weight: 700;
+      }
+      [data-theme='kawaii'] .skin-btn:hover {
+        background: var(--accent);
+        transform: translate(-1px, -1px);
+        box-shadow: 3px 3px 0px #000;
+      }
+      [data-theme='kawaii'] .skin-btn:hover i {
+        color: #000 !important;
+      }
 
-    .skin-menu {
-      display: none;
-      position: absolute;
-      top: calc(100% + 10px);
-      right: 0;
-      background: var(--surface);
-      border: 1px solid var(--border2);
-      border-radius: 14px;
-      padding: 8px;
-      min-width: 180px;
-      z-index: 100;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-    }
-    [data-theme="kawaii"] .skin-menu {
-      border: 3px solid #000;
-      box-shadow: 4px 4px 0px #000;
-      border-radius: 14px;
-    }
-    .skin-menu.open { display: block; }
+      .skin-menu {
+        display: none;
+        position: absolute;
+        top: calc(100% + 10px);
+        right: 0;
+        background: var(--surface);
+        border: 1px solid var(--border2);
+        border-radius: 14px;
+        padding: 8px;
+        min-width: 180px;
+        z-index: 100;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      }
+      [data-theme='kawaii'] .skin-menu {
+        border: 3px solid #000;
+        box-shadow: 4px 4px 0px #000;
+        border-radius: 14px;
+      }
+      .skin-menu.open {
+        display: block;
+      }
 
-    .skin-option { 
-      display: flex; align-items: center; gap: 10px;
-      padding: 9px 12px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 0.85rem;
-      color: var(--text);
-      font-family: var(--font-body);
-      transition: background 0.15s;
-      border: none;
-      background: none;
-      width: 100%;
-      text-align: left;
-    }
-    .skin-option:hover { background: var(--surface2); }
-    .skin-option.active {
-      color: var(--accent);
-      font-weight: 700;
-      background: var(--surface2);
-    }
-    .skin-option .check {
-      margin-left: auto;
-      opacity: 0;
-      font-size: 14px;
-      color: var(--accent);
-    }
-    .skin-option.active .check { opacity: 1; }
-    .skin-swatch {
-      width: 18px; height: 18px;
-      border-radius: 50%;
-      border: 2px solid var(--border2);
-      flex-shrink: 0;
-    }
-    [data-theme="kawaii"] .skin-option:hover { background: rgba(232,96,44,0.1); }
-    [data-theme="kawaii"] .skin-option.active { color: var(--accent); background: rgba(232,96,44,0.08); }
+      .skin-option {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 9px 12px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 0.85rem;
+        color: var(--text);
+        font-family: var(--font-body);
+        transition: background 0.15s;
+        border: none;
+        background: none;
+        width: 100%;
+        text-align: left;
+      }
+      .skin-option:hover {
+        background: var(--surface2);
+      }
+      .skin-option.active {
+        color: var(--accent);
+        font-weight: 700;
+        background: var(--surface2);
+      }
+      .skin-option .check {
+        margin-left: auto;
+        opacity: 0;
+        font-size: 14px;
+        color: var(--accent);
+      }
+      .skin-option.active .check {
+        opacity: 1;
+      }
+      .skin-swatch {
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        border: 2px solid var(--border2);
+        flex-shrink: 0;
+      }
+      [data-theme='kawaii'] .skin-option:hover {
+        background: rgba(232, 96, 44, 0.1);
+      }
+      [data-theme='kawaii'] .skin-option.active {
+        color: var(--accent);
+        background: rgba(232, 96, 44, 0.08);
+      }
 
-    /* ===================== MAIN ===================== */
-    main {
-      position: relative; z-index: 1;
-      flex: 1;
-      max-width: 680px;
-      width: 100%;
-      margin: 0 auto;
-      padding: 3rem 2rem 5rem;
-      text-align: center;
-    }
+      /* ===================== MAIN ===================== */
+      main {
+        position: relative;
+        z-index: 1;
+        flex: 1;
+        max-width: 680px;
+        width: 100%;
+        margin: 0 auto;
+        padding: 3rem 2rem 5rem;
+        text-align: center;
+      }
 
-    .page-title {
-      font-family: var(--font-heading);
-      font-size: 2.4rem;
-      font-weight: 400;
-      margin-bottom: 0.4rem;
-      color: var(--text);
-    }
-    [data-theme="kawaii"] .page-title { font-weight: 900; }
+      .page-title {
+        font-family: var(--font-heading);
+        font-size: 2.4rem;
+        font-weight: 400;
+        margin-bottom: 0.4rem;
+        color: var(--text);
+      }
+      [data-theme='kawaii'] .page-title {
+        font-weight: 900;
+      }
 
-    .page-subtitle {
-      color: var(--muted);
-      font-size: 0.95rem;
-      margin-bottom: 2.5rem;
-      font-family: var(--font-body);
-    }
+      .page-subtitle {
+        color: var(--muted);
+        font-size: 0.95rem;
+        margin-bottom: 2.5rem;
+        font-family: var(--font-body);
+      }
 
-    /* ===================== BUTTONS ===================== */
-    .btn {
-      padding: 0.9rem 2.2rem;
-      border-radius: var(--btn-radius);
-      font-family: var(--font-body);
-      font-size: 1.05rem;
-      cursor: pointer;
-      font-weight: 500;
-      transition: all 0.15s;
-      min-width: 120px;
-      display: inline-block;
-    }
+      /* ===================== BUTTONS ===================== */
+      .btn {
+        padding: 0.9rem 2.2rem;
+        border-radius: var(--btn-radius);
+        font-family: var(--font-body);
+        font-size: 1.05rem;
+        cursor: pointer;
+        font-weight: 500;
+        transition: all 0.15s;
+        min-width: 120px;
+        display: inline-block;
+      }
 
-    /* Dark theme buttons */
-    [data-theme="dark"] .btn-primary {
-      background: var(--accent);
-      color: #0a0a0f;
-      border: none;
-    }
-    [data-theme="dark"] .btn-primary:hover { opacity: 0.85; }
-    [data-theme="dark"] .btn-secondary {
-      background: rgba(255,255,255,0.05);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(96,96,96,0.1);
-      color: var(--text);
-    }
-    [data-theme="dark"] .btn-secondary:hover { background: rgba(255,255,255,0.09); }
-    [data-theme="dark"] .btn-danger { background: transparent; border: 1px solid var(--danger); color: var(--danger); }
+      /* Dark theme buttons */
+      [data-theme='dark'] .btn-primary {
+        background: var(--accent);
+        color: #0a0a0f;
+        border: none;
+      }
+      [data-theme='dark'] .btn-primary:hover {
+        opacity: 0.85;
+      }
+      [data-theme='dark'] .btn-secondary {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(96, 96, 96, 0.1);
+        color: var(--text);
+      }
+      [data-theme='dark'] .btn-secondary:hover {
+        background: rgba(255, 255, 255, 0.09);
+      }
+      [data-theme='dark'] .btn-danger {
+        background: transparent;
+        border: 1px solid var(--danger);
+        color: var(--danger);
+      }
 
-    /* Kawaii theme buttons */
-    [data-theme="kawaii"] .btn-primary,
-    [data-theme="kawaii"] .btn-secondary,
-    [data-theme="kawaii"] .btn-danger {
-      background: var(--accent);
-      color: #000000 !important;
-      -webkit-text-fill-color: #000000;
-      border: 3.5px solid #000000;
-      box-shadow: 4px 4px 0px #000000;
-      font-weight: 800;
-      font-family: var(--font-body);
-    }
-    [data-theme="kawaii"] .btn-primary:hover,
-    [data-theme="kawaii"] .btn-secondary:hover {
-      background: var(--accent-hover);
-      transform: translate(-1px, -1px);
-      box-shadow: 5px 5px 0px #000000;
-    }
-    [data-theme="kawaii"] .btn-primary:active,
-    [data-theme="kawaii"] .btn-secondary:active {
-      background: var(--accent-active);
-      transform: translate(3px, 3px);
-      box-shadow: 1px 1px 0px #000000;
-    }
-    [data-theme="kawaii"] .btn-danger {
-      background: #ffb3b3;
-    }
+      /* Kawaii theme buttons */
+      [data-theme='kawaii'] .btn-primary,
+      [data-theme='kawaii'] .btn-secondary,
+      [data-theme='kawaii'] .btn-danger {
+        background: var(--accent);
+        color: #000000 !important;
+        -webkit-text-fill-color: #000000;
+        border: 3.5px solid #000000;
+        box-shadow: 4px 4px 0px #000000;
+        font-weight: 800;
+        font-family: var(--font-body);
+      }
+      [data-theme='kawaii'] .btn-primary:hover,
+      [data-theme='kawaii'] .btn-secondary:hover {
+        background: var(--accent-hover);
+        transform: translate(-1px, -1px);
+        box-shadow: 5px 5px 0px #000000;
+      }
+      [data-theme='kawaii'] .btn-primary:active,
+      [data-theme='kawaii'] .btn-secondary:active {
+        background: var(--accent-active);
+        transform: translate(3px, 3px);
+        box-shadow: 1px 1px 0px #000000;
+      }
+      [data-theme='kawaii'] .btn-danger {
+        background: #ffb3b3;
+      }
 
-    /* ===================== INPUTS ===================== */
-    .input-field {
-      width: 100%;
-      background: var(--surface);
-      border: 1px solid var(--border2);
-      border-radius: 10px;
-      color: var(--text);
-      padding: 0.75rem 1rem;
-      font-family: var(--font-mono);
-      font-size: 1rem;
-      outline: none;
-      transition: border-color 0.2s;
-      text-align: center;
-    }
-    .input-field:focus { border-color: var(--accent); }
-    [data-theme="kawaii"] .input-field {
-      border: 2.5px solid #000;
-      background: rgba(255,255,255,0.7);
-      color: #1a1a2e;
-      font-family: var(--font-mono);
-      border-radius: 10px;
-    }
-    [data-theme="kawaii"] .input-field:focus { border-color: var(--accent); box-shadow: 3px 3px 0px #000; }
+      /* ===================== INPUTS ===================== */
+      .input-field {
+        width: 100%;
+        background: var(--surface);
+        border: 1px solid var(--border2);
+        border-radius: 10px;
+        color: var(--text);
+        padding: 0.75rem 1rem;
+        font-family: var(--font-mono);
+        font-size: 1rem;
+        outline: none;
+        transition: border-color 0.2s;
+        text-align: center;
+      }
+      .input-field:focus {
+        border-color: var(--accent);
+      }
+      [data-theme='kawaii'] .input-field {
+        border: 2.5px solid #000;
+        background: rgba(255, 255, 255, 0.7);
+        color: #1a1a2e;
+        font-family: var(--font-mono);
+        border-radius: 10px;
+      }
+      [data-theme='kawaii'] .input-field:focus {
+        border-color: var(--accent);
+        box-shadow: 3px 3px 0px #000;
+      }
 
-    .field-label {
-      display: block;
-      font-size: 0.72rem;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-bottom: 6px;
-      text-align: center;
-      font-family: var(--font-body);
-    }
+      .field-label {
+        display: block;
+        font-size: 0.72rem;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        margin-bottom: 6px;
+        text-align: center;
+        font-family: var(--font-body);
+      }
 
-    /* ===================== SOUND ROW ===================== */
-    .sound-row {
-      display: flex; align-items: center; justify-content: center;
-      gap: 10px; margin: 1.25rem 0; flex-wrap: wrap;
-    }
-    .sound-row label { font-size: 0.8rem; color: var(--muted); font-family: var(--font-body); }
+      /* ===================== SOUND ROW ===================== */
+      .sound-row {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin: 1.25rem 0;
+        flex-wrap: wrap;
+      }
+      .sound-row label {
+        font-size: 0.8rem;
+        color: var(--muted);
+        font-family: var(--font-body);
+      }
 
-    .sound-select {
-      background: var(--surface);
-      border: 1px solid var(--border2);
-      border-radius: 8px;
-      color: var(--text);
-      padding: 6px 12px;
-      font-family: var(--font-body);
-      font-size: 0.85rem;
-      outline: none;
-      cursor: pointer;
-    }
-    [data-theme="kawaii"] .sound-select {
-      border: 2.5px solid #000;
-      background: rgba(255,255,255,0.7);
-      color: #1a1a2e;
-      border-radius: 8px;
-    }
+      .sound-select {
+        background: var(--surface);
+        border: 1px solid var(--border2);
+        border-radius: 8px;
+        color: var(--text);
+        padding: 6px 12px;
+        font-family: var(--font-body);
+        font-size: 0.85rem;
+        outline: none;
+        cursor: pointer;
+      }
+      [data-theme='kawaii'] .sound-select {
+        border: 2.5px solid #000;
+        background: rgba(255, 255, 255, 0.7);
+        color: #1a1a2e;
+        border-radius: 8px;
+      }
 
-    .btn-test {
-      padding: 6px 14px;
-      border-radius: 8px;
-      border: 1px solid var(--border2);
-      background: transparent;
-      color: var(--muted);
-      font-size: 0.8rem;
-      cursor: pointer;
-      font-family: var(--font-body);
-      transition: all 0.15s;
-    }
-    .btn-test:hover { border-color: var(--accent); color: var(--accent); }
-    [data-theme="kawaii"] .btn-test {
-      border: 2.5px solid #000;
-      color: #000;
-      background: rgba(255,255,255,0.5);
-      border-radius: 8px;
-      font-weight: 700;
-    }
-    [data-theme="kawaii"] .btn-test:hover { background: var(--accent); box-shadow: 2px 2px 0px #000; }
+      .btn-test {
+        padding: 6px 14px;
+        border-radius: 8px;
+        border: 1px solid var(--border2);
+        background: transparent;
+        color: var(--muted);
+        font-size: 0.8rem;
+        cursor: pointer;
+        font-family: var(--font-body);
+        transition: all 0.15s;
+      }
+      .btn-test:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+      [data-theme='kawaii'] .btn-test {
+        border: 2.5px solid #000;
+        color: #000;
+        background: rgba(255, 255, 255, 0.5);
+        border-radius: 8px;
+        font-weight: 700;
+      }
+      [data-theme='kawaii'] .btn-test:hover {
+        background: var(--accent);
+        box-shadow: 2px 2px 0px #000;
+      }
 
-    /* ===================== CHIPS ===================== */
-    .chips { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 1.5rem; }
-    .chip {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 100px;
-      padding: 5px 16px;
-      font-size: 0.82rem;
-      color: var(--muted);
-      cursor: pointer;
-      font-family: var(--font-mono);
-      transition: all 0.15s;
-    }
-    .chip:hover { border-color: var(--accent); color: var(--accent); }
-    [data-theme="kawaii"] .chip {
-      background: rgba(255,255,255,0.7);
-      border: 2.5px solid #000;
-      border-radius: 10px;
-      color: #000;
-      font-weight: 700;
-      box-shadow: 2px 2px 0px #000;
-    }
-    [data-theme="kawaii"] .chip:hover {
-      background: var(--accent);
-      transform: translate(-1px, -1px);
-      box-shadow: 3px 3px 0px #000;
-      color: #000;
-    }
+      /* ===================== CHIPS ===================== */
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: center;
+        margin-bottom: 1.5rem;
+      }
+      .chip {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 100px;
+        padding: 5px 16px;
+        font-size: 0.82rem;
+        color: var(--muted);
+        cursor: pointer;
+        font-family: var(--font-mono);
+        transition: all 0.15s;
+      }
+      .chip:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+      [data-theme='kawaii'] .chip {
+        background: rgba(255, 255, 255, 0.7);
+        border: 2.5px solid #000;
+        border-radius: 10px;
+        color: #000;
+        font-weight: 700;
+        box-shadow: 2px 2px 0px #000;
+      }
+      [data-theme='kawaii'] .chip:hover {
+        background: var(--accent);
+        transform: translate(-1px, -1px);
+        box-shadow: 3px 3px 0px #000;
+        color: #000;
+      }
 
-    /* ===================== GLASS CARDS ===================== */
-    .glass {
-      border-radius: 16px;
-      transition: background 0.2s, border-color 0.2s;
-    }
-    [data-theme="dark"] .glass {
-      background: var(--glass-bg);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid var(--glass-border);
-    }
-    [data-theme="dark"] .glass:hover { background: rgba(255,255,255,0.09); }
-    [data-theme="kawaii"] .glass {
-      background: rgba(255,255,255,0.75);
-      backdrop-filter: none;
-      -webkit-backdrop-filter: none;
-      border: 2.5px solid #000;
-      box-shadow: 3px 3px 0px #000;
-      border-radius: 16px;
-    }
-    [data-theme="kawaii"] .glass:hover {
-      background: rgba(255,255,255,0.95);
-      transform: translate(-1px, -1px);
-      box-shadow: 4px 4px 0px #000;
-    }
+      /* ===================== GLASS CARDS ===================== */
+      .glass {
+        border-radius: 16px;
+        transition:
+          background 0.2s,
+          border-color 0.2s;
+      }
+      [data-theme='dark'] .glass {
+        background: var(--glass-bg);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid var(--glass-border);
+      }
+      [data-theme='dark'] .glass:hover {
+        background: rgba(255, 255, 255, 0.09);
+      }
+      [data-theme='kawaii'] .glass {
+        background: rgba(255, 255, 255, 0.75);
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        border: 2.5px solid #000;
+        box-shadow: 3px 3px 0px #000;
+        border-radius: 16px;
+      }
+      [data-theme='kawaii'] .glass:hover {
+        background: rgba(255, 255, 255, 0.95);
+        transform: translate(-1px, -1px);
+        box-shadow: 4px 4px 0px #000;
+      }
 
-    /* ===================== MISC ===================== */
-    .controls { display: flex; gap: 10px; justify-content: center; margin-top: 1.5rem; flex-wrap: wrap; }
-    .divider { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
-    .section-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--hint); margin-bottom: 1rem; font-family: var(--font-body); }
+      /* ===================== MISC ===================== */
+      .controls {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        margin-top: 1.5rem;
+        flex-wrap: wrap;
+      }
+      .divider {
+        border: none;
+        border-top: 1px solid var(--border);
+        margin: 2rem 0;
+      }
+      .section-label {
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--hint);
+        margin-bottom: 1rem;
+        font-family: var(--font-body);
+      }
 
-    /* ===================== FOOTER ===================== */
-    footer {
-      position: relative; z-index: 1;
-      text-align: center;
-      padding: 1.5rem;
-      font-size: 0.78rem;
-      color: var(--hint);
-      border-top: 1px solid var(--border);
-      font-family: var(--font-body);
-    }
-    footer a { color: var(--hint); text-decoration: none; }
-    footer a:hover { color: var(--accent); }
+      /* ===================== FOOTER ===================== */
+      footer {
+        position: relative;
+        z-index: 1;
+        text-align: center;
+        padding: 1.5rem;
+        font-size: 0.78rem;
+        color: var(--hint);
+        border-top: 1px solid var(--border);
+        font-family: var(--font-body);
+      }
+      footer a {
+        color: var(--hint);
+        text-decoration: none;
+      }
+      footer a:hover {
+        color: var(--accent);
+      }
 
-    /* ===================== RESPONSIVE ===================== */
-    * { max-width: 100%; }
-    body { overflow-x: hidden; }
+      /* ===================== RESPONSIVE ===================== */
+      * {
+        max-width: 100%;
+      }
+      body {
+        overflow-x: hidden;
+      }
 
-    /* ---- More dropdown ---- */
-    .more-wrap { position: relative; }
-    .more-btn {
-      display: flex; align-items: center; gap: 5px;
-      color: var(--muted); padding: 6px 13px; border-radius: 100px;
-      font-size: 0.85rem; border: 1px solid transparent;
-      background: none; cursor: pointer; font-family: var(--font-body);
-      transition: all 0.2s; white-space: nowrap;
-    }
-    [data-theme="dark"] .more-btn:hover, [data-theme="dark"] .more-btn.is-open {
-      color: var(--text); background: var(--glass-bg); border-color: var(--border2);
-    }
-    [data-theme="kawaii"] .more-btn:hover, [data-theme="kawaii"] .more-btn.is-open {
-      color: var(--text); background: rgba(255,255,255,0.85); border: 1px solid #000; box-shadow: 2px 2px 0px #000;
-    }
-    .more-btn svg { transition: transform 0.2s; }
-    .more-btn.is-open svg { transform: rotate(180deg); }
+      /* ---- More dropdown ---- */
+      .more-wrap {
+        position: relative;
+      }
+      .more-btn {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        color: var(--muted);
+        padding: 6px 13px;
+        border-radius: 100px;
+        font-size: 0.85rem;
+        border: 1px solid transparent;
+        background: none;
+        cursor: pointer;
+        font-family: var(--font-body);
+        transition: all 0.2s;
+        white-space: nowrap;
+      }
+      [data-theme='dark'] .more-btn:hover,
+      [data-theme='dark'] .more-btn.is-open {
+        color: var(--text);
+        background: var(--glass-bg);
+        border-color: var(--border2);
+      }
+      [data-theme='kawaii'] .more-btn:hover,
+      [data-theme='kawaii'] .more-btn.is-open {
+        color: var(--text);
+        background: rgba(255, 255, 255, 0.85);
+        border: 1px solid #000;
+        box-shadow: 2px 2px 0px #000;
+      }
+      .more-btn svg {
+        transition: transform 0.2s;
+      }
+      .more-btn.is-open svg {
+        transform: rotate(180deg);
+      }
 
-    .more-dropdown {
-      display: none; position: absolute; top: calc(100% + 8px); right: 0;
-      background: var(--surface); border: 1px solid var(--border2);
-      border-radius: 14px; padding: 8px; min-width: 190px;
-      z-index: 200; box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-    }
-    [data-theme="kawaii"] .more-dropdown { border: 3px solid #000; box-shadow: 4px 4px 0px #000; }
-    .more-dropdown.is-open { display: block; }
-    .more-dropdown a {
-      display: flex; align-items: center; gap: 10px;
-      padding: 9px 12px; border-radius: 8px; color: var(--text);
-      text-decoration: none; font-size: 0.85rem; font-family: var(--font-body); transition: background 0.15s;
-    }
-    .more-dropdown a:hover { background: var(--surface2); }
-    [data-theme="kawaii"] .more-dropdown a:hover { background: rgba(232,96,44,0.1); }
-    .more-dropdown a.active { color: var(--accent); font-weight: 700; }
+      .more-dropdown {
+        display: none;
+        position: absolute;
+        top: calc(100% + 8px);
+        right: 0;
+        background: var(--surface);
+        border: 1px solid var(--border2);
+        border-radius: 14px;
+        padding: 8px;
+        min-width: 190px;
+        z-index: 200;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      }
+      [data-theme='kawaii'] .more-dropdown {
+        border: 3px solid #000;
+        box-shadow: 4px 4px 0px #000;
+      }
+      .more-dropdown.is-open {
+        display: block;
+      }
+      .more-dropdown a {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 9px 12px;
+        border-radius: 8px;
+        color: var(--text);
+        text-decoration: none;
+        font-size: 0.85rem;
+        font-family: var(--font-body);
+        transition: background 0.15s;
+      }
+      .more-dropdown a:hover {
+        background: var(--surface2);
+      }
+      [data-theme='kawaii'] .more-dropdown a:hover {
+        background: rgba(232, 96, 44, 0.1);
+      }
+      .more-dropdown a.active {
+        color: var(--accent);
+        font-weight: 700;
+      }
 
-    /* ---- Hamburger ---- */
-    .hamburger {
-      display: none; flex-direction: column; justify-content: center;
-      align-items: center; gap: 5px; width: 38px; height: 38px;
-      cursor: pointer; background: none; border: 1px solid var(--border2);
-      border-radius: 10px; padding: 6px; transition: all 0.2s; flex-shrink: 0;
-    }
-    [data-theme="kawaii"] .hamburger { border: 2.5px solid #000; box-shadow: 2px 2px 0px #000; background: rgba(255,255,255,0.7); }
-    .hamburger:hover { border-color: var(--accent); }
-    .hamburger span { display: block; width: 18px; height: 2px; background: var(--text); border-radius: 2px; transition: all 0.25s; }
-    .hamburger.is-open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-    .hamburger.is-open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
-    .hamburger.is-open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+      /* ---- Hamburger ---- */
+      .hamburger {
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 5px;
+        width: 38px;
+        height: 38px;
+        cursor: pointer;
+        background: none;
+        border: 1px solid var(--border2);
+        border-radius: 10px;
+        padding: 6px;
+        transition: all 0.2s;
+        flex-shrink: 0;
+      }
+      [data-theme='kawaii'] .hamburger {
+        border: 2.5px solid #000;
+        box-shadow: 2px 2px 0px #000;
+        background: rgba(255, 255, 255, 0.7);
+      }
+      .hamburger:hover {
+        border-color: var(--accent);
+      }
+      .hamburger span {
+        display: block;
+        width: 18px;
+        height: 2px;
+        background: var(--text);
+        border-radius: 2px;
+        transition: all 0.25s;
+      }
+      .hamburger.is-open span:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
+      }
+      .hamburger.is-open span:nth-child(2) {
+        opacity: 0;
+        transform: scaleX(0);
+      }
+      .hamburger.is-open span:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);
+      }
 
-    /* ---- Mobile drawer ---- */
-    .mobile-drawer {
-      display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-      z-index: 90; background: var(--bg);
-      flex-direction: column; padding-top: 72px; overflow-y: auto;
-    }
-    [data-theme="dark"] .mobile-drawer { backdrop-filter: blur(24px); }
-    .mobile-drawer.is-open { display: flex; }
-    .mob-inner { padding: 1.25rem 1.25rem 3rem; display: flex; flex-direction: column; gap: 4px; }
-    .mob-section { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--hint); font-family: var(--font-body); padding: 0.9rem 12px 0.3rem; }
-    .mobile-drawer a {
-      display: flex; align-items: center; gap: 10px;
-      padding: 11px 14px; border-radius: 12px; color: var(--text);
-      text-decoration: none; font-size: 0.95rem; font-family: var(--font-body); transition: background 0.15s;
-    }
-    .mobile-drawer a:hover, .mobile-drawer a.active { background: var(--surface2); }
-    .mobile-drawer a.active { color: var(--accent); font-weight: 600; }
-    [data-theme="kawaii"] .mobile-drawer a:hover, [data-theme="kawaii"] .mobile-drawer a.active { background: rgba(232,96,44,0.08); }
-    .mob-divider { height: 1px; background: var(--border); margin: 0.6rem 12px; }
-    .mob-style-row { display: flex; gap: 8px; padding: 0.6rem 14px; }
-    .mob-style-btn {
-      flex: 1; padding: 9px; border-radius: 10px; border: 1px solid var(--border2);
-      background: var(--surface); color: var(--text); font-family: var(--font-body);
-      font-size: 0.82rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 7px; transition: all 0.15s;
-    }
-    .mob-style-btn:hover { border-color: var(--accent); }
-    .mob-style-btn.active { border-color: var(--accent); color: var(--accent); font-weight: 600; }
-    [data-theme="kawaii"] .mob-style-btn { border: 2.5px solid #000; box-shadow: 2px 2px 0px #000; background: rgba(255,255,255,0.7); }
-    [data-theme="kawaii"] .mob-style-btn.active { background: var(--accent); color: #000; }
+      /* ---- Mobile drawer ---- */
+      .mobile-drawer {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 90;
+        background: var(--bg);
+        flex-direction: column;
+        padding-top: 72px;
+        overflow-y: auto;
+      }
+      [data-theme='dark'] .mobile-drawer {
+        backdrop-filter: blur(24px);
+      }
+      .mobile-drawer.is-open {
+        display: flex;
+      }
+      .mob-inner {
+        padding: 1.25rem 1.25rem 3rem;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      .mob-section {
+        font-size: 0.65rem;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: var(--hint);
+        font-family: var(--font-body);
+        padding: 0.9rem 12px 0.3rem;
+      }
+      .mobile-drawer a {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 11px 14px;
+        border-radius: 12px;
+        color: var(--text);
+        text-decoration: none;
+        font-size: 0.95rem;
+        font-family: var(--font-body);
+        transition: background 0.15s;
+      }
+      .mobile-drawer a:hover,
+      .mobile-drawer a.active {
+        background: var(--surface2);
+      }
+      .mobile-drawer a.active {
+        color: var(--accent);
+        font-weight: 600;
+      }
+      [data-theme='kawaii'] .mobile-drawer a:hover,
+      [data-theme='kawaii'] .mobile-drawer a.active {
+        background: rgba(232, 96, 44, 0.08);
+      }
+      .mob-divider {
+        height: 1px;
+        background: var(--border);
+        margin: 0.6rem 12px;
+      }
+      .mob-style-row {
+        display: flex;
+        gap: 8px;
+        padding: 0.6rem 14px;
+      }
+      .mob-style-btn {
+        flex: 1;
+        padding: 9px;
+        border-radius: 10px;
+        border: 1px solid var(--border2);
+        background: var(--surface);
+        color: var(--text);
+        font-family: var(--font-body);
+        font-size: 0.82rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        transition: all 0.15s;
+      }
+      .mob-style-btn:hover {
+        border-color: var(--accent);
+      }
+      .mob-style-btn.active {
+        border-color: var(--accent);
+        color: var(--accent);
+        font-weight: 600;
+      }
+      [data-theme='kawaii'] .mob-style-btn {
+        border: 2.5px solid #000;
+        box-shadow: 2px 2px 0px #000;
+        background: rgba(255, 255, 255, 0.7);
+      }
+      [data-theme='kawaii'] .mob-style-btn.active {
+        background: var(--accent);
+        color: #000;
+      }
 
-    /* ---- Responsive breakpoints ---- */
-    @media (min-width: 901px) { .hamburger { display: none; } .mobile-drawer { display: none !important; } }
-    @media (max-width: 900px) { nav { display: none; } .hamburger { display: flex; } header { padding: 0.85rem 1.25rem; } }
-    @media (max-width: 600px) {
-      .desktop-only { display: none; }
-      main { padding: 2rem 1rem 3rem; }
-      .page-title { font-size: 1.8rem; }
-      .controls { gap: 8px; }
-      .btn { padding: 0.8rem 1.4rem; font-size: 0.95rem; min-width: 100px; }
-      .tool-grid { grid-template-columns: repeat(3, 1fr) !important; }
-    }
-    @media (max-width: 380px) { .tool-grid { grid-template-columns: repeat(2, 1fr) !important; } }
-  </style>
-</head>
-<body>
-  <header>
-    <a href="/" class="logo">Timerr<span>app</span></a>
+      /* ---- Responsive breakpoints ---- */
+      @media (min-width: 901px) {
+        .hamburger {
+          display: none;
+        }
+        .mobile-drawer {
+          display: none !important;
+        }
+      }
+      @media (max-width: 900px) {
+        nav {
+          display: none;
+        }
+        .hamburger {
+          display: flex;
+        }
+        header {
+          padding: 0.85rem 1.25rem;
+        }
+      }
+      @media (max-width: 600px) {
+        .desktop-only {
+          display: none;
+        }
+        main {
+          padding: 2rem 1rem 3rem;
+        }
+        .page-title {
+          font-size: 1.8rem;
+        }
+        .controls {
+          gap: 8px;
+        }
+        .btn {
+          padding: 0.8rem 1.4rem;
+          font-size: 0.95rem;
+          min-width: 100px;
+        }
+        .tool-grid {
+          grid-template-columns: repeat(3, 1fr) !important;
+        }
+      }
+      @media (max-width: 380px) {
+        .tool-grid {
+          grid-template-columns: repeat(2, 1fr) !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <a href="/" class="logo">Timerr<span>app</span></a>
 
-    <!-- Desktop nav -->
-    <nav>
-      <a href="/" >Clock</a>
-      <a href="/alarm/" >Alarm</a>
-      <a href="/timer/" >Timer</a>
-      <a href="/stopwatch/" >Stopwatch</a>
-      <a href="/world-clock/" >World Clock</a>
+      <!-- Desktop nav -->
+      <nav>
+        <a href="/">Clock</a>
+        <a href="/alarm/">Alarm</a>
+        <a href="/timer/">Timer</a>
+        <a href="/stopwatch/">Stopwatch</a>
+        <a href="/world-clock/">World Clock</a>
 
-      <!-- More dropdown -->
-      <div class="more-wrap">
-        <button class="more-btn "
-          id="moreBtn" onclick="toggleMore()">
-          More
-          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="2,4 6,8 10,4"/></svg>
-        </button>
-        <div class="more-dropdown "
-          id="moreDropdown">
-          <a href="/pomodoro/" >Pomodoro</a>
-          <a href="/adhd-clock/" >ADHD Clock</a>
-          <a href="/chess-clock/" >Chess Clock</a>
-          <a href="/binary-clock/" >Binary Clock</a>
-        </div>
-      </div>
-
-      <!-- Style switcher -->
-      <div style="position:relative;">
-        <button class="skin-btn" onclick="toggleSkinMenu()" id="skinBtn">
-          <i class="ph-fill ph-checkerboard" style="font-size:16px;color:var(--accent);"></i>
-          <span>Style</span>
-        </button>
-        <div class="skin-menu" id="skinMenu">
-          <button class="skin-option" onclick="setSkin('kawaii')" id="opt-kawaii">
-            <span class="skin-swatch" style="background:#e8e0f5;border-color:#b0a5cc;"></span>
-            Style 1
-            <i class="ph-bold ph-check check"></i>
+        <!-- More dropdown -->
+        <div class="more-wrap">
+          <button class="more-btn" id="moreBtn" onclick="toggleMore()">
+            More
+            <svg
+              width="12"
+              height="12"
+              viewBox="0 0 12 12"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+            >
+              <polyline points="2,4 6,8 10,4" />
+            </svg>
           </button>
-          <button class="skin-option" onclick="setSkin('dark')" id="opt-dark">
-            <span class="skin-swatch" style="background:#0a0a0f;"></span>
-            Style 2
-            <i class="ph-bold ph-check check"></i>
+          <div class="more-dropdown" id="moreDropdown">
+            <a href="/pomodoro/">Pomodoro</a>
+            <a href="/adhd-clock/">ADHD Clock</a>
+            <a href="/chess-clock/">Chess Clock</a>
+            <a href="/binary-clock/">Binary Clock</a>
+          </div>
+        </div>
+
+        <!-- Style switcher -->
+        <div style="position: relative">
+          <button class="skin-btn" onclick="toggleSkinMenu()" id="skinBtn">
+            <i
+              class="ph-fill ph-checkerboard"
+              style="font-size: 16px; color: var(--accent)"
+            ></i>
+            <span>Style</span>
+          </button>
+          <div class="skin-menu" id="skinMenu">
+            <button
+              class="skin-option"
+              onclick="setSkin('kawaii')"
+              id="opt-kawaii"
+            >
+              <span
+                class="skin-swatch"
+                style="background: #e8e0f5; border-color: #b0a5cc"
+              ></span>
+              Style 1
+              <i class="ph-bold ph-check check"></i>
+            </button>
+            <button class="skin-option" onclick="setSkin('dark')" id="opt-dark">
+              <span class="skin-swatch" style="background: #0a0a0f"></span>
+              Style 2
+              <i class="ph-bold ph-check check"></i>
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Hamburger (mobile) -->
+      <button
+        class="hamburger"
+        id="hamburger"
+        onclick="toggleDrawer()"
+        aria-label="Open menu"
+      >
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <!-- Mobile drawer -->
+    <div class="mobile-drawer" id="mobileDrawer">
+      <div class="mob-inner">
+        <div class="mob-section">Core Tools</div>
+        <a href="/" onclick="closeDrawer()">Clock</a>
+        <a href="/alarm/" onclick="closeDrawer()">Alarm</a>
+        <a href="/timer/" onclick="closeDrawer()">Timer</a>
+        <a href="/stopwatch/" onclick="closeDrawer()">Stopwatch</a>
+        <a href="/world-clock/" onclick="closeDrawer()">World Clock</a>
+        <div class="mob-divider"></div>
+        <div class="mob-section">Specialty Clocks</div>
+        <a href="/pomodoro/" onclick="closeDrawer()">Pomodoro</a>
+        <a href="/adhd-clock/" onclick="closeDrawer()">ADHD Clock</a>
+        <a href="/chess-clock/" onclick="closeDrawer()">Chess Clock</a>
+        <a href="/binary-clock/" onclick="closeDrawer()">Binary Clock</a>
+        <div class="mob-divider"></div>
+        <div class="mob-section">Style</div>
+        <div class="mob-style-row">
+          <button
+            class="mob-style-btn"
+            id="mob-opt-kawaii"
+            onclick="setSkin('kawaii')"
+          >
+            <span
+              style="
+                width: 13px;
+                height: 13px;
+                border-radius: 50%;
+                background: #e8e0f5;
+                border: 2px solid #b0a5cc;
+                display: inline-block;
+                flex-shrink: 0;
+              "
+            ></span
+            >Style 1
+          </button>
+          <button
+            class="mob-style-btn"
+            id="mob-opt-dark"
+            onclick="setSkin('dark')"
+          >
+            <span
+              style="
+                width: 13px;
+                height: 13px;
+                border-radius: 50%;
+                background: #0a0a0f;
+                border: 2px solid #444;
+                display: inline-block;
+                flex-shrink: 0;
+              "
+            ></span
+            >Style 2
           </button>
         </div>
-      </div>
-    </nav>
-
-    <!-- Hamburger (mobile) -->
-    <button class="hamburger" id="hamburger" onclick="toggleDrawer()" aria-label="Open menu">
-      <span></span><span></span><span></span>
-    </button>
-  </header>
-
-  <!-- Mobile drawer -->
-  <div class="mobile-drawer" id="mobileDrawer">
-    <div class="mob-inner">
-      <div class="mob-section">Core Tools</div>
-      <a href="/"  onclick="closeDrawer()">Clock</a>
-      <a href="/alarm/"  onclick="closeDrawer()">Alarm</a>
-      <a href="/timer/"  onclick="closeDrawer()">Timer</a>
-      <a href="/stopwatch/"  onclick="closeDrawer()">Stopwatch</a>
-      <a href="/world-clock/"  onclick="closeDrawer()">World Clock</a>
-      <div class="mob-divider"></div>
-      <div class="mob-section">Specialty Clocks</div>
-      <a href="/pomodoro/"  onclick="closeDrawer()">Pomodoro</a>
-      <a href="/adhd-clock/"  onclick="closeDrawer()">ADHD Clock</a>
-      <a href="/chess-clock/"  onclick="closeDrawer()">Chess Clock</a>
-      <a href="/binary-clock/"  onclick="closeDrawer()">Binary Clock</a>
-      <div class="mob-divider"></div>
-      <div class="mob-section">Style</div>
-      <div class="mob-style-row">
-        <button class="mob-style-btn" id="mob-opt-kawaii" onclick="setSkin('kawaii')">
-          <span style="width:13px;height:13px;border-radius:50%;background:#e8e0f5;border:2px solid #b0a5cc;display:inline-block;flex-shrink:0;"></span>Style 1
-        </button>
-        <button class="mob-style-btn" id="mob-opt-dark" onclick="setSkin('dark')">
-          <span style="width:13px;height:13px;border-radius:50%;background:#0a0a0f;border:2px solid #444;display:inline-block;flex-shrink:0;"></span>Style 2
-        </button>
       </div>
     </div>
-  </div>
 
-  <main>
-    
-<style>
-  .prose {
-    text-align: left;
-    color: var(--muted);
-    font-family: var(--font-body);
-    font-size: 0.95rem;
-    line-height: 1.8;
-  }
-  .prose h2 {
-    font-family: var(--font-heading);
-    font-size: 1.4rem;
-    font-weight: 400;
-    color: var(--text);
-    margin: 2rem 0 0.75rem;
-  }
-  [data-theme="kawaii"] .prose h2 { font-weight: 800; }
-  .prose h3 {
-    font-family: var(--font-body);
-    font-size: 1.05rem;
-    font-weight: 600;
-    color: var(--text);
-    margin: 1.5rem 0 0.5rem;
-  }
-  .prose p { margin-bottom: 1rem; }
-  .prose a { color: var(--accent); text-decoration: none; }
-  .prose a:hover { text-decoration: underline; }
-  .prose table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 1.5rem 0;
-    font-size: 0.88rem;
-  }
-  .prose th {
-    background: var(--surface2);
-    color: var(--text);
-    font-weight: 600;
-    padding: 10px 14px;
-    text-align: left;
-    border: 1px solid var(--border2);
-    font-family: var(--font-body);
-  }
-  .prose td {
-    padding: 9px 14px;
-    border: 1px solid var(--border);
-    color: var(--muted);
-    font-family: var(--font-body);
-    vertical-align: top;
-  }
-  .prose tr:nth-child(even) td { background: var(--surface); }
-  [data-theme="kawaii"] .prose table { border: 2.5px solid #000; }
-  [data-theme="kawaii"] .prose th { border: 1px solid #000; background: rgba(232,96,44,0.1); }
-  [data-theme="kawaii"] .prose td { border: 1px solid #000; }
-  .reading-time {
-    font-size: 0.75rem;
-    color: var(--hint);
-    font-family: var(--font-body);
-    margin-bottom: 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-  }
-  .blog-cta {
-    margin-top: 3rem;
-    padding: 1.5rem;
-    border-radius: 16px;
-    text-align: center;
-  }
-  .blog-cta p {
-    color: var(--muted);
-    font-size: 0.88rem;
-    margin-bottom: 1rem;
-    font-family: var(--font-body);
-  }
-  .related-tools {
-    margin-top: 3rem;
-    padding-top: 2rem;
-    border-top: 1px solid var(--border);
-    text-align: left;
-  }
-  .related-tools h3 {
-    font-size: 0.72rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--hint);
-    margin-bottom: 1rem;
-    font-family: var(--font-body);
-  }
-  .related-tools-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-</style>
+    <main>
+      <style>
+        .prose {
+          text-align: left;
+          color: var(--muted);
+          font-family: var(--font-body);
+          font-size: 0.95rem;
+          line-height: 1.8;
+        }
+        .prose h2 {
+          font-family: var(--font-heading);
+          font-size: 1.4rem;
+          font-weight: 400;
+          color: var(--text);
+          margin: 2rem 0 0.75rem;
+        }
+        [data-theme='kawaii'] .prose h2 {
+          font-weight: 800;
+        }
+        .prose h3 {
+          font-family: var(--font-body);
+          font-size: 1.05rem;
+          font-weight: 600;
+          color: var(--text);
+          margin: 1.5rem 0 0.5rem;
+        }
+        .prose p {
+          margin-bottom: 1rem;
+        }
+        .prose a {
+          color: var(--accent);
+          text-decoration: none;
+        }
+        .prose a:hover {
+          text-decoration: underline;
+        }
+        .prose table {
+          width: 100%;
+          border-collapse: collapse;
+          margin: 1.5rem 0;
+          font-size: 0.88rem;
+        }
+        .prose th {
+          background: var(--surface2);
+          color: var(--text);
+          font-weight: 600;
+          padding: 10px 14px;
+          text-align: left;
+          border: 1px solid var(--border2);
+          font-family: var(--font-body);
+        }
+        .prose td {
+          padding: 9px 14px;
+          border: 1px solid var(--border);
+          color: var(--muted);
+          font-family: var(--font-body);
+          vertical-align: top;
+        }
+        .prose tr:nth-child(even) td {
+          background: var(--surface);
+        }
+        [data-theme='kawaii'] .prose table {
+          border: 2.5px solid #000;
+        }
+        [data-theme='kawaii'] .prose th {
+          border: 1px solid #000;
+          background: rgba(232, 96, 44, 0.1);
+        }
+        [data-theme='kawaii'] .prose td {
+          border: 1px solid #000;
+        }
+        .reading-time {
+          font-size: 0.75rem;
+          color: var(--hint);
+          font-family: var(--font-body);
+          margin-bottom: 2rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+        }
+        .blog-cta {
+          margin-top: 3rem;
+          padding: 1.5rem;
+          border-radius: 16px;
+          text-align: center;
+        }
+        .blog-cta p {
+          color: var(--muted);
+          font-size: 0.88rem;
+          margin-bottom: 1rem;
+          font-family: var(--font-body);
+        }
+        .related-tools {
+          margin-top: 3rem;
+          padding-top: 2rem;
+          border-top: 1px solid var(--border);
+          text-align: left;
+        }
+        .related-tools h3 {
+          font-size: 0.72rem;
+          text-transform: uppercase;
+          letter-spacing: 0.1em;
+          color: var(--hint);
+          margin-bottom: 1rem;
+          font-family: var(--font-body);
+        }
+        .related-tools-grid {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 8px;
+        }
+      </style>
 
-<article>
-  <h1 class="page-title">How Does Your Computer Know What Time It Is?</h1>
-  <p class="page-subtitle">NTP, atomic clocks, leap seconds, and why your computer&#39;s clock is almost certainly accurate to within a fraction of a second — explained simply.</p>
-  <div class="reading-time">
-    <span>📖</span>
-    <span>6 min read</span>
-    <span>·</span>
-    <span>Timekeeping</span>
-  </div>
+      <article>
+        <h1 class="page-title">How Does Your Computer Know What Time It Is?</h1>
+        <p class="page-subtitle">
+          NTP, atomic clocks, leap seconds, and why your computer&#39;s clock is
+          almost certainly accurate to within a fraction of a second — explained
+          simply.
+        </p>
+        <div class="reading-time">
+          <span>📖</span>
+          <span>6 min read</span>
+          <span>·</span>
+          <span>Timekeeping</span>
+        </div>
 
-  <div class="prose">
-    
-<!-- ============================================================
+        <div class="prose">
+          <!-- ============================================================
   CONTENT PLACEHOLDER — Replace everything between these comments
   with your finished article. Target: 600–800 words of genuine prose.
 
@@ -816,159 +1220,272 @@
   CS educators, and science writers. Keep it accurate and interesting.
   ============================================================ -->
 
-<h2>Your Computer Has No Internal Sense of Time</h2>
+          <p>
+            Your computer knows what time it is right now, to the millisecond,
+            even if you've never set it manually. It knows this when you restart
+            it, when you change time zones, and after a power outage. The
+            mechanism behind this is more interesting than most people expect —
+            and it explains why the time on your device is almost always correct
+            while the clock on your microwave probably isn't.
+          </p>
 
-<p>[PLACEHOLDER — Explain that computers don't innately know the time. They have a hardware clock (CMOS clock) that ticks while powered off, but it drifts. Without synchronization, computers lose or gain seconds every day, which becomes a significant problem over time.]</p>
+          <h2>The hardware clock that never stops</h2>
 
-<h2>NTP: The Internet's Time Synchronization Protocol</h2>
+          <p>
+            Inside almost every computer and phone is a small, separate chip
+            called a real-time clock (RTC). It has its own power supply —
+            typically a tiny coin cell battery — that keeps it running even when
+            the main device is completely off. The RTC oscillates at a fixed
+            frequency, counts those oscillations, and maintains a running tally
+            of the current date and time. When you start your computer, one of
+            the first things the operating system does is read the current time
+            from the RTC.
+          </p>
 
-<p>[PLACEHOLDER — Explain what NTP (Network Time Protocol) is: a protocol that allows devices to synchronize their clocks with internet time servers. Explain how it works at a high level — a device asks a time server what time it is, the server responds with a timestamp, and the device adjusts its clock accounting for network latency.]</p>
+          <p>
+            The problem with the hardware clock is that it drifts. The
+            oscillator isn't perfectly precise, and temperature changes affect
+            it. Over days and weeks, a hardware clock running in isolation will
+            drift by seconds, then minutes. For a microwave, this is fine. For a
+            computer coordinating with servers and other devices worldwide, it
+            isn't.
+          </p>
 
-<h2>The Time Server Hierarchy</h2>
+          <h2>The Network Time Protocol</h2>
 
-<p>[PLACEHOLDER — Describe the stratum hierarchy: Stratum 0 devices are atomic clocks and GPS receivers — the source of truth. Stratum 1 servers are directly connected to Stratum 0. Stratum 2 servers (like pool.ntp.org) sync from Stratum 1 and serve most of the internet. Your computer or phone syncs to a Stratum 2 or 3 server.]</p>
+          <p>
+            The solution is the Network Time Protocol, or NTP. Developed by
+            David Mills in the 1980s, NTP is a system that synchronizes clocks
+            across a network by querying servers that maintain extremely
+            accurate time references. When your device connects to the internet,
+            NTP runs quietly in the background, comparing your system clock to a
+            time server and making tiny adjustments to keep them aligned.
+          </p>
 
-<h2>How Accurate Is Your Clock?</h2>
+          <p>
+            The time servers at the top of the NTP hierarchy — called stratum 0
+            servers — are connected directly to atomic clocks or GPS receivers,
+            which are among the most accurate time sources available. Your
+            device likely synchronizes with a stratum 2 or stratum 3 server,
+            meaning it's two or three steps removed from the primary source. The
+            accuracy at this distance is typically within a few milliseconds —
+            imperceptibly close to perfect for any practical purpose.
+          </p>
 
-<p>[PLACEHOLDER — Explain that a typical device synced via NTP is accurate to within a few milliseconds. Mention that the clock displayed on this page reads from your device's system time, which NTP keeps synchronized. Contrast this with pre-NTP computers, which could drift by minutes per day.]</p>
+          <h2>Atomic clocks and why they're so accurate</h2>
 
-<h2>Clock Drift and What Happens Without Sync</h2>
+          <p>
+            Atomic clocks measure time based on the oscillations of atoms —
+            typically cesium-133. These oscillations are extraordinarily
+            regular: one second is defined as exactly 9,192,631,770 oscillations
+            of a cesium atom. An atomic clock accurate to this standard would
+            gain or lose less than one second in 300 million years.
+          </p>
 
-<p>[PLACEHOLDER — Explain clock drift: crystal oscillators in hardware clocks aren't perfectly precise. They run slightly fast or slow, accumulating error over time. Describe what used to happen before NTP was widespread — servers with timestamps hours apart, log files that made no sense, financial records with incorrect times.]</p>
+          <p>
+            The international time standard, UTC (Coordinated Universal Time),
+            is maintained by averaging the output of several hundred atomic
+            clocks distributed across the world. When your phone displays the
+            correct time, that time traces back through NTP servers to these
+            clocks.
+          </p>
 
-<h2>Leap Seconds: The Edge Case That Breaks Things</h2>
+          <h2>GPS as a time source</h2>
 
-<p>[PLACEHOLDER — Explain what a leap second is and why it exists: the Earth's rotation is slightly irregular, so occasionally an extra second is inserted into UTC to keep it aligned with astronomical time. Discuss why this causes software problems — systems that expect time to always move forward by exactly one second can crash or behave unpredictably. Note that major tech companies have pushed to abolish the leap second.]</p>
+          <p>
+            GPS satellites are, at their core, precision time systems. Each
+            satellite carries multiple atomic clocks and broadcasts a time
+            signal continuously. GPS receivers on the ground — including the one
+            in your smartphone — use these signals primarily to calculate
+            position, but they also receive an extremely precise timestamp in
+            the process. Many time servers use GPS as their primary time source
+            because it provides atomic-clock accuracy without needing a physical
+            connection to a clock.
+          </p>
 
-  </div>
+          <h2>Why your phone is more accurate than your microwave</h2>
 
-  
-  <div class="blog-cta glass">
-    <p>See the current time tracked to the second in your browser.</p>
-    <a href="/" class="btn btn-primary" style="text-decoration:none;">Open Clock →</a>
-  </div>
-  
+          <p>
+            Your microwave has a simple oscillator and no connection to any time
+            server. It drifts, and nobody corrects it. Your phone has NTP
+            running automatically, continuously, comparing its clock to multiple
+            servers and correcting for any drift before it becomes noticeable.
+            The clock you see on your phone's home screen reflects a consensus
+            of atomic clocks maintained by institutions around the world,
+            delivered to your device over the internet several times per day.
+          </p>
 
-  
-  <aside class="related-tools">
-    <h3>Related tools</h3>
-    <div class="related-tools-grid">
-      
-      <a href="/" class="chip" style="text-decoration:none;">Online Clock</a>
-      
-      <a href="/world-clock/" class="chip" style="text-decoration:none;">World Clock</a>
-      
-      <a href="/world-clock/london/" class="chip" style="text-decoration:none;">Current Time in London</a>
-      
-    </div>
-  </aside>
-  
-</article>
+          <p>
+            The next time you wonder what time it is, you can check the
+            <a href="https://timerrapp.com/">online clock</a> — which itself
+            reads the current time from your device's system clock, which got it
+            from NTP, which got it from an atomic clock somewhere in the world.
+            The chain from cesium atom to your screen takes milliseconds and
+            happens without you thinking about it at all.
+          </p>
+        </div>
 
-  </main>
+        <div class="blog-cta glass">
+          <p>See the current time tracked to the second in your browser.</p>
+          <a href="/" class="btn btn-primary" style="text-decoration: none"
+            >Open Clock →</a
+          >
+        </div>
 
-  <footer>
-    <p>© 2026 Timerrapp.com &nbsp;·&nbsp; <a href="/about/">About</a></p>
-  </footer>
+        <aside class="related-tools">
+          <h3>Related tools</h3>
+          <div class="related-tools-grid">
+            <a href="/" class="chip" style="text-decoration: none"
+              >Online Clock</a
+            >
 
-  <script>
-    /* ---- More dropdown ---- */
-    function toggleMore() {
-      const btn = document.getElementById('moreBtn');
-      const drop = document.getElementById('moreDropdown');
-      const open = drop.classList.contains('is-open');
-      closeAllMenus();
-      if (!open) { btn.classList.add('is-open'); drop.classList.add('is-open'); }
-    }
+            <a href="/world-clock/" class="chip" style="text-decoration: none"
+              >World Clock</a
+            >
 
-    /* ---- Skin switcher ---- */
-    function toggleSkinMenu() {
-      const menu = document.getElementById('skinMenu');
-      const open = menu.classList.contains('open');
-      closeAllMenus();
-      if (!open) menu.classList.add('open');
-    }
+            <a
+              href="/world-clock/london/"
+              class="chip"
+              style="text-decoration: none"
+              >Current Time in London</a
+            >
+          </div>
+        </aside>
+      </article>
+    </main>
 
-    function closeAllMenus() {
-      document.getElementById('moreDropdown')?.classList.remove('is-open');
-      document.getElementById('moreBtn')?.classList.remove('is-open');
-      document.getElementById('skinMenu')?.classList.remove('open');
-    }
+    <footer>
+      <p>© 2026 Timerrapp.com &nbsp;·&nbsp; <a href="/about/">About</a></p>
+    </footer>
 
-    document.addEventListener('click', function(e) {
-      if (!e.target.closest('.more-wrap') && !e.target.closest('.skin-btn') && !e.target.closest('.skin-menu')) {
+    <script>
+      /* ---- More dropdown ---- */
+      function toggleMore() {
+        const btn = document.getElementById('moreBtn');
+        const drop = document.getElementById('moreDropdown');
+        const open = drop.classList.contains('is-open');
         closeAllMenus();
-      }
-    });
-
-    function setSkin(theme) {
-      document.documentElement.setAttribute('data-theme', theme);
-      localStorage.setItem('timerr_theme', theme);
-      closeAllMenus();
-      updateSkinUI(theme);
-    }
-
-    function updateSkinUI(theme) {
-      document.querySelectorAll('.skin-option').forEach(o => o.classList.remove('active'));
-      document.querySelectorAll('.mob-style-btn').forEach(o => o.classList.remove('active'));
-      var opt = document.getElementById('opt-' + theme);
-      if (opt) opt.classList.add('active');
-      var mobOpt = document.getElementById('mob-opt-' + theme);
-      if (mobOpt) mobOpt.classList.add('active');
-    }
-
-    var currentTheme = localStorage.getItem('timerr_theme') || 'dark';
-    updateSkinUI(currentTheme);
-
-    /* ---- Hamburger / drawer ---- */
-    function toggleDrawer() {
-      const drawer = document.getElementById('mobileDrawer');
-      const ham    = document.getElementById('hamburger');
-      if (drawer.classList.contains('is-open')) { closeDrawer(); }
-      else { drawer.classList.add('is-open'); ham.classList.add('is-open'); document.body.style.overflow = 'hidden'; }
-    }
-    function closeDrawer() {
-      document.getElementById('mobileDrawer')?.classList.remove('is-open');
-      document.getElementById('hamburger')?.classList.remove('is-open');
-      document.body.style.overflow = '';
-    }
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') { closeDrawer(); closeAllMenus(); }
-    });
-
-    /* ---- Sound engine ---- */
-    function playSound(type) {
-      try {
-        const ctx = new (window.AudioContext || window.webkitAudioContext)();
-        const t = ctx.currentTime;
-        if (type === 'beep') {
-          tone(ctx, 880, t, 0.5, 'sine');
-        } else if (type === 'digital') {
-          tone(ctx, 1047, t, 0.15, 'square');
-          tone(ctx, 1047, t+0.2, 0.15, 'square');
-          tone(ctx, 1047, t+0.4, 0.15, 'square');
-        } else if (type === 'bells') {
-          tone(ctx, 1318, t, 0.6, 'sine');
-          tone(ctx, 1568, t+0.15, 0.6, 'sine');
-          tone(ctx, 2093, t+0.3, 0.8, 'sine');
-        } else if (type === 'chime') {
-          [523, 659, 784, 1047].forEach((f, i) => tone(ctx, f, t + i*0.18, 0.5, 'sine'));
-        } else if (type === 'alarm') {
-          for (let i = 0; i < 6; i++) {
-            tone(ctx, i%2===0 ? 880 : 1100, t + i*0.18, 0.16, 'sawtooth');
-          }
+        if (!open) {
+          btn.classList.add('is-open');
+          drop.classList.add('is-open');
         }
-      } catch(e) {}
-    }
-    function tone(ctx, freq, start, dur, type) {
-      const o = ctx.createOscillator();
-      const g = ctx.createGain();
-      o.connect(g); g.connect(ctx.destination);
-      o.frequency.value = freq; o.type = type;
-      g.gain.setValueAtTime(0.25, start);
-      g.gain.exponentialRampToValueAtTime(0.001, start + dur);
-      o.start(start); o.stop(start + dur);
-    }
-  </script>
-</body>
+      }
+
+      /* ---- Skin switcher ---- */
+      function toggleSkinMenu() {
+        const menu = document.getElementById('skinMenu');
+        const open = menu.classList.contains('open');
+        closeAllMenus();
+        if (!open) menu.classList.add('open');
+      }
+
+      function closeAllMenus() {
+        document.getElementById('moreDropdown')?.classList.remove('is-open');
+        document.getElementById('moreBtn')?.classList.remove('is-open');
+        document.getElementById('skinMenu')?.classList.remove('open');
+      }
+
+      document.addEventListener('click', function (e) {
+        if (
+          !e.target.closest('.more-wrap') &&
+          !e.target.closest('.skin-btn') &&
+          !e.target.closest('.skin-menu')
+        ) {
+          closeAllMenus();
+        }
+      });
+
+      function setSkin(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem('timerr_theme', theme);
+        closeAllMenus();
+        updateSkinUI(theme);
+      }
+
+      function updateSkinUI(theme) {
+        document
+          .querySelectorAll('.skin-option')
+          .forEach((o) => o.classList.remove('active'));
+        document
+          .querySelectorAll('.mob-style-btn')
+          .forEach((o) => o.classList.remove('active'));
+        var opt = document.getElementById('opt-' + theme);
+        if (opt) opt.classList.add('active');
+        var mobOpt = document.getElementById('mob-opt-' + theme);
+        if (mobOpt) mobOpt.classList.add('active');
+      }
+
+      var currentTheme = localStorage.getItem('timerr_theme') || 'dark';
+      updateSkinUI(currentTheme);
+
+      /* ---- Hamburger / drawer ---- */
+      function toggleDrawer() {
+        const drawer = document.getElementById('mobileDrawer');
+        const ham = document.getElementById('hamburger');
+        if (drawer.classList.contains('is-open')) {
+          closeDrawer();
+        } else {
+          drawer.classList.add('is-open');
+          ham.classList.add('is-open');
+          document.body.style.overflow = 'hidden';
+        }
+      }
+      function closeDrawer() {
+        document.getElementById('mobileDrawer')?.classList.remove('is-open');
+        document.getElementById('hamburger')?.classList.remove('is-open');
+        document.body.style.overflow = '';
+      }
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') {
+          closeDrawer();
+          closeAllMenus();
+        }
+      });
+
+      /* ---- Sound engine ---- */
+      function playSound(type) {
+        try {
+          const ctx = new (window.AudioContext || window.webkitAudioContext)();
+          const t = ctx.currentTime;
+          if (type === 'beep') {
+            tone(ctx, 880, t, 0.5, 'sine');
+          } else if (type === 'digital') {
+            tone(ctx, 1047, t, 0.15, 'square');
+            tone(ctx, 1047, t + 0.2, 0.15, 'square');
+            tone(ctx, 1047, t + 0.4, 0.15, 'square');
+          } else if (type === 'bells') {
+            tone(ctx, 1318, t, 0.6, 'sine');
+            tone(ctx, 1568, t + 0.15, 0.6, 'sine');
+            tone(ctx, 2093, t + 0.3, 0.8, 'sine');
+          } else if (type === 'chime') {
+            [523, 659, 784, 1047].forEach((f, i) =>
+              tone(ctx, f, t + i * 0.18, 0.5, 'sine')
+            );
+          } else if (type === 'alarm') {
+            for (let i = 0; i < 6; i++) {
+              tone(
+                ctx,
+                i % 2 === 0 ? 880 : 1100,
+                t + i * 0.18,
+                0.16,
+                'sawtooth'
+              );
+            }
+          }
+        } catch (e) {}
+      }
+      function tone(ctx, freq, start, dur, type) {
+        const o = ctx.createOscillator();
+        const g = ctx.createGain();
+        o.connect(g);
+        g.connect(ctx.destination);
+        o.frequency.value = freq;
+        o.type = type;
+        g.gain.setValueAtTime(0.25, start);
+        g.gain.exponentialRampToValueAtTime(0.001, start + dur);
+        o.start(start);
+        o.stop(start + dur);
+      }
+    </script>
+  </body>
 </html>
